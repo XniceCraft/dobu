@@ -43,7 +43,7 @@ export function MobileNavigation() {
             className={cn(
               'size-18 flex-col text-xs rounded-xl relative',
               currentUrl === urlFor(route.route)
-                ? 'text-white bg-sky-400 hover:bg-sky-500 hover:text-white'
+                ? 'text-white bg-sky-400 hover:bg-sky-400 hover:text-white'
                 : 'text-gray-500'
             )}
             asChild

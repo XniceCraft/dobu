@@ -139,4 +139,16 @@ export interface Registry {
       errorResponse: unknown
     }
   }
+  'setting': {
+    methods: ["GET","HEAD"]
+    pattern: '/setting'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
 }

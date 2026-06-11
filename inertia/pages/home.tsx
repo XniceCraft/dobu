@@ -1,3 +1,4 @@
+import { Link } from '@adonisjs/inertia/react'
 import { Navbar } from '@/components/layout/navbar'
 import { MobileNavigation } from '@/components/layout/mobile-navigation'
 import { CharacterBackground } from '@/components/background/character-background'
@@ -34,7 +35,9 @@ export default function Home({ user }: InertiaProps) {
             Lanjutkan streak 19 minum air terpenuhi
           </p>
           <div className="flex gap-3">
-            <DualStyleButton className="flex-1/2 h-auto">Catat Minum</DualStyleButton>
+            <DualStyleButton className="flex-1/2 h-auto" asChild>
+              <Link route="drink">Catat Minum</Link>
+            </DualStyleButton>
             <div className="flex-1/2 bg-white rounded-full px-4 py-1 inline-flex gap-2 justify-center items-center shadow">
               <ClockIcon className="size-8 text-sky-400" weight="fill" />
               <span className="text-3xl font-bold">20</span>

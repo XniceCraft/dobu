@@ -30,5 +30,6 @@ router
     router.on('/tracking').renderInertia('tracking', {}).as('tracking')
     router.on('/drink').renderInertia('drink', {}).as('drink')
     router.on('/dress').renderInertia('dress', {}).as('dress')
+    router.on('/setting').renderInertia('setting', {}).as('setting')
   })
   .use(middleware.auth())

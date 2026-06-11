@@ -15,6 +15,7 @@ export type ScannedRoutes = {
     'tracking': { paramsTuple?: []; params?: {} }
     'drink': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
+    'setting': { paramsTuple?: []; params?: {} }
   }
   GET: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
@@ -25,6 +26,7 @@ export type ScannedRoutes = {
     'tracking': { paramsTuple?: []; params?: {} }
     'drink': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
+    'setting': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
@@ -35,6 +37,7 @@ export type ScannedRoutes = {
     'tracking': { paramsTuple?: []; params?: {} }
     'drink': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
+    'setting': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'auth.signup.store': { paramsTuple?: []; params?: {} }

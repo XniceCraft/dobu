@@ -5,7 +5,7 @@ import reactHooks from 'eslint-plugin-react-hooks'
 
 const frontendConfig = {
   name: 'Inertia Frontend',
-  files: ['inertia/**/*.{ts,tsx}'],
+  files: ['./inertia/**/*.{ts,tsx}'],
   ...eslint.configs.recommended,
   ...react.configs.flat.recommended,
   ...reactHooks.configs.flat.recommended,
