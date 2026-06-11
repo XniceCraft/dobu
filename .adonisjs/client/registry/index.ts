@@ -12,6 +12,36 @@ const routes = {
     tokens: [{"old":"/uploads/*","type":0,"val":"uploads","end":""},{"old":"/uploads/*","type":2,"val":"*","end":""}],
     types: placeholder as Registry['drive.fs.serve']['types'],
   },
+  'auth.signup': {
+    methods: ["GET","HEAD"],
+    pattern: '/signup',
+    tokens: [{"old":"/signup","type":0,"val":"signup","end":""}],
+    types: placeholder as Registry['auth.signup']['types'],
+  },
+  'auth.signup.store': {
+    methods: ["POST"],
+    pattern: '/signup',
+    tokens: [{"old":"/signup","type":0,"val":"signup","end":""}],
+    types: placeholder as Registry['auth.signup.store']['types'],
+  },
+  'auth.login': {
+    methods: ["GET","HEAD"],
+    pattern: '/login',
+    tokens: [{"old":"/login","type":0,"val":"login","end":""}],
+    types: placeholder as Registry['auth.login']['types'],
+  },
+  'auth.login.store': {
+    methods: ["POST"],
+    pattern: '/login',
+    tokens: [{"old":"/login","type":0,"val":"login","end":""}],
+    types: placeholder as Registry['auth.login.store']['types'],
+  },
+  'auth.logout': {
+    methods: ["POST"],
+    pattern: '/logout',
+    tokens: [{"old":"/logout","type":0,"val":"logout","end":""}],
+    types: placeholder as Registry['auth.logout']['types'],
+  },
   'home': {
     methods: ["GET","HEAD"],
     pattern: '/',
@@ -24,35 +54,23 @@ const routes = {
     tokens: [{"old":"/device","type":0,"val":"device","end":""}],
     types: placeholder as Registry['device']['types'],
   },
-  'sign_up.create': {
+  'tracking': {
     methods: ["GET","HEAD"],
-    pattern: '/signup',
-    tokens: [{"old":"/signup","type":0,"val":"signup","end":""}],
-    types: placeholder as Registry['sign_up.create']['types'],
+    pattern: '/tracking',
+    tokens: [{"old":"/tracking","type":0,"val":"tracking","end":""}],
+    types: placeholder as Registry['tracking']['types'],
   },
-  'sign_up.store': {
-    methods: ["POST"],
-    pattern: '/signup',
-    tokens: [{"old":"/signup","type":0,"val":"signup","end":""}],
-    types: placeholder as Registry['sign_up.store']['types'],
-  },
-  'session.create': {
+  'drink': {
     methods: ["GET","HEAD"],
-    pattern: '/login',
-    tokens: [{"old":"/login","type":0,"val":"login","end":""}],
-    types: placeholder as Registry['session.create']['types'],
+    pattern: '/drink',
+    tokens: [{"old":"/drink","type":0,"val":"drink","end":""}],
+    types: placeholder as Registry['drink']['types'],
   },
-  'session.store': {
-    methods: ["POST"],
-    pattern: '/login',
-    tokens: [{"old":"/login","type":0,"val":"login","end":""}],
-    types: placeholder as Registry['session.store']['types'],
-  },
-  'session.destroy': {
-    methods: ["POST"],
-    pattern: '/logout',
-    tokens: [{"old":"/logout","type":0,"val":"logout","end":""}],
-    types: placeholder as Registry['session.destroy']['types'],
+  'dress': {
+    methods: ["GET","HEAD"],
+    pattern: '/dress',
+    tokens: [{"old":"/dress","type":0,"val":"dress","end":""}],
+    types: placeholder as Registry['dress']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>
 

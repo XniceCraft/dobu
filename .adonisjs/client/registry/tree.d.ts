@@ -7,15 +7,18 @@ export interface ApiDefinition {
       serve: typeof routes['drive.fs.serve']
     }
   }
+  auth: {
+    signup: typeof routes['auth.signup'] & {
+      store: typeof routes['auth.signup.store']
+    }
+    login: typeof routes['auth.login'] & {
+      store: typeof routes['auth.login.store']
+    }
+    logout: typeof routes['auth.logout']
+  }
   home: typeof routes['home']
   device: typeof routes['device']
-  signUp: {
-    create: typeof routes['sign_up.create']
-    store: typeof routes['sign_up.store']
-  }
-  session: {
-    create: typeof routes['session.create']
-    store: typeof routes['session.store']
-    destroy: typeof routes['session.destroy']
-  }
+  tracking: typeof routes['tracking']
+  drink: typeof routes['drink']
+  dress: typeof routes['dress']
 }

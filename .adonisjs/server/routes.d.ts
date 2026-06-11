@@ -5,32 +5,41 @@ type ParamValue = string | number | bigint | boolean
 export type ScannedRoutes = {
   ALL: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
+    'auth.signup': { paramsTuple?: []; params?: {} }
+    'auth.signup.store': { paramsTuple?: []; params?: {} }
+    'auth.login': { paramsTuple?: []; params?: {} }
+    'auth.login.store': { paramsTuple?: []; params?: {} }
+    'auth.logout': { paramsTuple?: []; params?: {} }
     'home': { paramsTuple?: []; params?: {} }
     'device': { paramsTuple?: []; params?: {} }
-    'sign_up.create': { paramsTuple?: []; params?: {} }
-    'sign_up.store': { paramsTuple?: []; params?: {} }
-    'session.create': { paramsTuple?: []; params?: {} }
-    'session.store': { paramsTuple?: []; params?: {} }
-    'session.destroy': { paramsTuple?: []; params?: {} }
+    'tracking': { paramsTuple?: []; params?: {} }
+    'drink': { paramsTuple?: []; params?: {} }
+    'dress': { paramsTuple?: []; params?: {} }
   }
   GET: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
+    'auth.signup': { paramsTuple?: []; params?: {} }
+    'auth.login': { paramsTuple?: []; params?: {} }
     'home': { paramsTuple?: []; params?: {} }
     'device': { paramsTuple?: []; params?: {} }
-    'sign_up.create': { paramsTuple?: []; params?: {} }
-    'session.create': { paramsTuple?: []; params?: {} }
+    'tracking': { paramsTuple?: []; params?: {} }
+    'drink': { paramsTuple?: []; params?: {} }
+    'dress': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
+    'auth.signup': { paramsTuple?: []; params?: {} }
+    'auth.login': { paramsTuple?: []; params?: {} }
     'home': { paramsTuple?: []; params?: {} }
     'device': { paramsTuple?: []; params?: {} }
-    'sign_up.create': { paramsTuple?: []; params?: {} }
-    'session.create': { paramsTuple?: []; params?: {} }
+    'tracking': { paramsTuple?: []; params?: {} }
+    'drink': { paramsTuple?: []; params?: {} }
+    'dress': { paramsTuple?: []; params?: {} }
   }
   POST: {
-    'sign_up.store': { paramsTuple?: []; params?: {} }
-    'session.store': { paramsTuple?: []; params?: {} }
-    'session.destroy': { paramsTuple?: []; params?: {} }
+    'auth.signup.store': { paramsTuple?: []; params?: {} }
+    'auth.login.store': { paramsTuple?: []; params?: {} }
+    'auth.logout': { paramsTuple?: []; params?: {} }
   }
 }
 declare module '@adonisjs/core/types/http' {

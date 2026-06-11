@@ -15,6 +15,13 @@ const inertiaConfig = defineConfig({
      */
     entrypoint: 'inertia/ssr.tsx',
   },
+  rootView: (ctx) => {
+    if (ctx.request.matchesRoute(['auth.login', 'auth.signup'])) {
+      return 'auth_layout'
+    }
+
+    return 'inertia_layout'
+  },
 })
 
 export default inertiaConfig

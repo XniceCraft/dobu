@@ -4,6 +4,9 @@
  */
 
 export const controllers = {
-  Session: () => import('#controllers/session_controller'),
-  SignUp: () => import('#controllers/sign_up_controller'),
+  auth: {
+    Session: () => import('#controllers/auth/session_controller'),
+    SignUp: () => import('#controllers/auth/sign_up_controller'),
+  },
+  Page: () => import('#controllers/page_controller'),
 }

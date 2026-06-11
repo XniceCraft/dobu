@@ -1,7 +1,7 @@
 import { Navbar } from '@/components/layout/navbar'
 import { MobileNavigation } from '@/components/layout/mobile-navigation'
 import { CharacterBackground } from '@/components/background/character-background'
-import { Button } from '@/components/ui/button'
+import { DualStyleButton } from '@/components/ui/button'
 
 export default function Home() {
   return (
@@ -37,7 +37,7 @@ export default function Home() {
           <p className="font-semibold text-gray-700 text-center">
             Lanjutkan streak 19 minum air terpenuhi
           </p>
-          <Button>Catat Minum</Button>
+          <DualStyleButton className="w-full">Catat Minum</DualStyleButton>
         </section>
       </main>
 

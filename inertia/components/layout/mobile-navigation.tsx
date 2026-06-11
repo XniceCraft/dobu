@@ -24,7 +24,7 @@ const routes: {
     icon: HouseIcon,
   },
   {
-    route: 'home',
+    route: 'dress',
     label: 'Pakaian',
     icon: TShirtIcon,
   },
@@ -41,7 +41,7 @@ export function MobileNavigation() {
             key={route.label}
             variant="ghost"
             className={cn(
-              'size-18 flex-col text-xs rounded-xl',
+              'size-18 flex-col text-xs rounded-xl relative',
               currentUrl === urlFor(route.route)
                 ? 'text-white bg-sky-400 hover:bg-sky-500 hover:text-white'
                 : 'text-gray-500'
@@ -49,8 +49,18 @@ export function MobileNavigation() {
             asChild
           >
             <Link route={route.route}>
-              <route.icon weight="fill" className="size-8" />
-              {route.label}
+              {currentUrl === urlFor(route.route) && (
+                <img
+                  className="absolute w-20 top-0 left-1/2 z-1 -translate-1/2"
+                  src="/assets/image/droplet.webp"
+                  alt="Droplet"
+                />
+              )}
+              <route.icon
+                weight="fill"
+                className={cn('size-8', currentUrl === urlFor(route.route) && 'z-1')}
+              />
+              <span className={cn(currentUrl === urlFor(route.route) && 'z-1')}>{route.label}</span>
             </Link>
           </Button>
         ))}

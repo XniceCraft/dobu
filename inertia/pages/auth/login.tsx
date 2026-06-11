@@ -1,44 +1,94 @@
-import { useForm } from 'react-hook-form'
+import { useCallback } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { LoadingButton } from '@/components/ui/button'
+import { Field, FieldError, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { Link, useRouter } from '@adonisjs/inertia/react'
+import { PasswordField } from '@/components/field/password-field'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod/mini'
-import { useCallback } from 'react'
 
 const loginSchema = z.object({
-  avatar: z.file(),
-  birtdayDate: z.date(),
-  name: z
-    .string()
-    .check(z.minLength(3, 'Nama minimal 3 karakter'))
-    .check(z.maxLength(255, 'Nama maksimal 255 karakter')),
   email: z.email().check(z.maxLength(255, 'Email maksimal 255 karakter')),
-  password: z
-    .string()
-    .check(z.minLength(8, 'Password minimal 8 karakter'))
-    .check(z.maxLength(255, 'Password maksimal 255 karakter')),
-  weight: z
-    .number()
-    .check(z.lte(1, 'Berat badan minimal 1 kg'))
-    .check(z.gte(1000, 'Berat badan maksimal 1000 kg')),
-  dayStart: z.iso.time(),
-  dayEnd: z.iso.time(),
-  workType: z.enum(['indoor', 'semi-outdoor', 'outdoor']),
+  password: z.string().check(z.maxLength(255, 'Password maksimal 255 karakter')),
 })
 
 export default function Login() {
+  const router = useRouter()
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
-    defaultValues: {},
   })
 
   const onSubmit = useCallback((data: z.infer<typeof loginSchema>) => {
-    console.log(data)
+    router.visit(
+      {
+        route: 'auth.login.store',
+      },
+      {
+        method: 'post',
+        data,
+        preserveState: true,
+        onError: (errors) => {
+          console.log(errors)
+          Object.entries(errors).forEach(([field, message]) => {
+            form.setError(field as keyof z.infer<typeof loginSchema>, {
+              message,
+            })
+          })
+        },
+      }
+    )
   }, [])
 
   return (
-    <main className="max-w-96 mx-auto w-full">
-      <img src="/assets/image/home-character.webp" className="h-20 object-cover" alt="Character" />
-      <h1 className="font-bold text-xl">Login</h1>
-      <p>Masukkan detail akun anda untuk login</p>
+    <main className="max-w-96 mx-auto w-full py-12 px-4">
+      <img
+        src="/assets/image/home-character.webp"
+        className="block h-28 object-cover mx-auto"
+        alt="Character"
+      />
+      <section className="bg-white p-6 rounded-2xl ">
+        <h1 className="font-bold text-xl text-center mb-1">Masuk</h1>
+        <p className="text-muted-foreground text-sm text-center mb-6">
+          Masukkan data anda untuk masuk
+        </p>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <Controller
+            control={form.control}
+            name="email"
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                <Input
+                  {...field}
+                  id={field.name}
+                  aria-invalid={fieldState.invalid}
+                  type="email"
+                  placeholder="Masukkan email anda"
+                  required
+                />
+
+                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              </Field>
+            )}
+          />
+          <PasswordField
+            control={form.control}
+            name="password"
+            label="Kata Sandi"
+            placeholder="Masukkan kata sandi"
+          />
+          <LoadingButton type="submit" className="w-full" loading={form.formState.isSubmitting}>
+            Masuk
+          </LoadingButton>
+          <p className="text-center text-sm">
+            Belum memiliki akun?{' '}
+            <Link route="auth.signup" className="font-medium text-sky-600">
+              Daftar
+            </Link>
+          </p>
+        </form>
+      </section>
     </main>
   )
 }

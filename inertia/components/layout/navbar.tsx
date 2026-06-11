@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { Link } from '@adonisjs/inertia/react'
 import { LogOutIcon, Share2Icon } from 'lucide-react'
 
 const calendar = [
@@ -49,8 +50,10 @@ export function Navbar({ showCalendar = false }: NavabarProps) {
           <p className="font-bold">Selamat Datang!</p>
         </div>
         <div>
-          <Button variant="ghost" size="icon">
-            <LogOutIcon />
+          <Button variant="ghost" size="icon" asChild>
+            <Link route="auth.logout">
+              <LogOutIcon />
+            </Link>
           </Button>
           <Button variant="ghost" size="icon">
             <Share2Icon />
