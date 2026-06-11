@@ -151,4 +151,28 @@ export interface Registry {
       errorResponse: unknown
     }
   }
+  'setting.account': {
+    methods: ["GET","HEAD"]
+    pattern: '/setting/account'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/account_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/account_controller').default['show']>>>
+    }
+  }
+  'setting.account.update': {
+    methods: ["POST"]
+    pattern: '/setting/account'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/account_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/account_controller').default['update']>>>
+    }
+  }
 }

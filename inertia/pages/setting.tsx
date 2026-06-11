@@ -10,6 +10,7 @@ import {
   type LucideIcon,
   XIcon,
 } from 'lucide-react'
+
 import type { urlFor } from '@/client'
 
 const menu: { label: string; icon: LucideIcon; route: Parameters<typeof urlFor>[0] }[] = [
@@ -20,7 +21,7 @@ const menu: { label: string; icon: LucideIcon; route: Parameters<typeof urlFor>[
   },
   {
     label: 'Pengaturan Akun',
-    route: 'home',
+    route: 'setting.account',
     icon: CircleUserIcon,
   },
   {

@@ -21,5 +21,9 @@ export interface ApiDefinition {
   tracking: typeof routes['tracking']
   drink: typeof routes['drink']
   dress: typeof routes['dress']
-  setting: typeof routes['setting']
+  setting: typeof routes['setting'] & {
+    account: typeof routes['setting.account'] & {
+      update: typeof routes['setting.account.update']
+    }
+  }
 }

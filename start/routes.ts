@@ -30,6 +30,13 @@ router
     router.on('/tracking').renderInertia('tracking', {}).as('tracking')
     router.on('/drink').renderInertia('drink', {}).as('drink')
     router.on('/dress').renderInertia('dress', {}).as('dress')
-    router.on('/setting').renderInertia('setting', {}).as('setting')
+
+    router
+      .group(() => {
+        router.on('/').renderInertia('setting', {}).as('setting')
+        router.get('/account', [controllers.Account, 'show']).as('setting.account')
+        router.post('/account', [controllers.Account, 'update']).as('setting.account.update')
+      })
+      .prefix('/setting')
   })
   .use(middleware.auth())

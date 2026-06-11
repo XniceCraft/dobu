@@ -9,4 +9,5 @@ export const controllers = {
     SignUp: () => import('#controllers/auth/sign_up_controller'),
   },
   Page: () => import('#controllers/page_controller'),
+  Account: () => import('#controllers/account_controller'),
 }
