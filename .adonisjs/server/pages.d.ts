@@ -22,9 +22,11 @@ declare module '@adonisjs/inertia/types' {
     'home': ExtractProps<(typeof import('../../inertia/pages/home.tsx'))['default']>
     'setting': ExtractProps<(typeof import('../../inertia/pages/setting.tsx'))['default']>
     'setting/account': ExtractProps<(typeof import('../../inertia/pages/setting/account.tsx'))['default']>
-    'tracking': ExtractProps<(typeof import('../../inertia/pages/tracking.tsx'))['default']>
-    'setting/work-type': ExtractProps<(typeof import('../../inertia/pages/setting/work-type.tsx'))['default']>
+    'setting/birthdate': ExtractProps<(typeof import('../../inertia/pages/setting/birthdate.tsx'))['default']>
     'setting/days': ExtractProps<(typeof import('../../inertia/pages/setting/days.tsx'))['default']>
     'setting/weight': ExtractProps<(typeof import('../../inertia/pages/setting/weight.tsx'))['default']>
+    'setting/work-type': ExtractProps<(typeof import('../../inertia/pages/setting/work-type.tsx'))['default']>
+    'tracking': ExtractProps<(typeof import('../../inertia/pages/tracking.tsx'))['default']>
+    'setting/_components/form/birthdate-form': ExtractProps<(typeof import(../../inertia/pages/setting/_components/form/birthdate-form.jssx'))['default']>
   }
 }

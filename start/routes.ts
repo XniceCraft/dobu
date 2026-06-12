@@ -42,6 +42,7 @@ router
         router.on('/').renderInertia('setting', {}).as('setting')
 
         router.get('/account', [controllers.Account, 'show']).as('setting.account')
+        router.get('/birthdate', [controllers.Account, 'showBirthdate']).as('setting.birthdate')
         router.get('/weight', [controllers.Account, 'showWeight']).as('setting.weight')
         router.get('/days', [controllers.Account, 'showDays']).as('setting.days')
         router.get('/work-type', [controllers.Account, 'showWorkType']).as('setting.work-type')

@@ -90,6 +90,12 @@ const routes = {
     tokens: [{"old":"/setting/account","type":0,"val":"setting","end":""},{"old":"/setting/account","type":0,"val":"account","end":""}],
     types: placeholder as Registry['setting.account']['types'],
   },
+  'setting.birthdate': {
+    methods: ["GET","HEAD"],
+    pattern: '/setting/birthdate',
+    tokens: [{"old":"/setting/birthdate","type":0,"val":"setting","end":""},{"old":"/setting/birthdate","type":0,"val":"birthdate","end":""}],
+    types: placeholder as Registry['setting.birthdate']['types'],
+  },
   'setting.weight': {
     methods: ["GET","HEAD"],
     pattern: '/setting/weight',

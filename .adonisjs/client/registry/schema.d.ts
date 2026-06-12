@@ -175,6 +175,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/account_controller').default['show']>>>
     }
   }
+  'setting.birthdate': {
+    methods: ["GET","HEAD"]
+    pattern: '/setting/birthdate'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/account_controller').default['showBirthdate']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/account_controller').default['showBirthdate']>>>
+    }
+  }
   'setting.weight': {
     methods: ["GET","HEAD"]
     pattern: '/setting/weight'

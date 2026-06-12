@@ -18,6 +18,7 @@ export type ScannedRoutes = {
     'drink.store': { paramsTuple?: []; params?: {} }
     'setting': { paramsTuple?: []; params?: {} }
     'setting.account': { paramsTuple?: []; params?: {} }
+    'setting.birthdate': { paramsTuple?: []; params?: {} }
     'setting.weight': { paramsTuple?: []; params?: {} }
     'setting.days': { paramsTuple?: []; params?: {} }
     'setting.work-type': { paramsTuple?: []; params?: {} }
@@ -34,6 +35,7 @@ export type ScannedRoutes = {
     'drink.create': { paramsTuple?: []; params?: {} }
     'setting': { paramsTuple?: []; params?: {} }
     'setting.account': { paramsTuple?: []; params?: {} }
+    'setting.birthdate': { paramsTuple?: []; params?: {} }
     'setting.weight': { paramsTuple?: []; params?: {} }
     'setting.days': { paramsTuple?: []; params?: {} }
     'setting.work-type': { paramsTuple?: []; params?: {} }
@@ -49,6 +51,7 @@ export type ScannedRoutes = {
     'drink.create': { paramsTuple?: []; params?: {} }
     'setting': { paramsTuple?: []; params?: {} }
     'setting.account': { paramsTuple?: []; params?: {} }
+    'setting.birthdate': { paramsTuple?: []; params?: {} }
     'setting.weight': { paramsTuple?: []; params?: {} }
     'setting.days': { paramsTuple?: []; params?: {} }
     'setting.work-type': { paramsTuple?: []; params?: {} }

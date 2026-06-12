@@ -28,7 +28,7 @@ const accountSettingLinks: {
 }[] = [
   {
     icon: CalendarIcon,
-    route: 'home',
+    route: 'setting.birthdate',
     value: (user: Data.User.Variants['detailed']) => user.birthdate && formatDate(user.birthdate),
   },
   {

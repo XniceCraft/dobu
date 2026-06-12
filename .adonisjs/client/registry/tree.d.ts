@@ -28,6 +28,7 @@ export interface ApiDefinition {
     account: typeof routes['setting.account'] & {
       update: typeof routes['setting.account.update']
     }
+    birthdate: typeof routes['setting.birthdate']
     weight: typeof routes['setting.weight']
     days: typeof routes['setting.days']
     workType: typeof routes['setting.work-type']

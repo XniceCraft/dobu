@@ -11,6 +11,14 @@ export default class AccountController {
     })
   }
 
+  async showBirthdate({ inertia, auth }: HttpContext) {
+    const user = auth.use('web').user!
+
+    return inertia.render('setting/birthdate', {
+      user: UserTransformer.transform(user).useVariant('detailed'),
+    })
+  }
+
   async showWeight({ inertia, auth }: HttpContext) {
     const user = auth.use('web').user!
 
