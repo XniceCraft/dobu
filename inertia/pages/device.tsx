@@ -1,9 +1,17 @@
+import { Link } from '@adonisjs/inertia/react'
 import { Navbar } from '@/components/layout/navbar'
 import { MobileNavigation } from '@/components/layout/mobile-navigation'
 import { CharacterBackground } from '@/components/background/character-background'
 import { DualStyleButton } from '@/components/ui/button'
 
-export default function Home() {
+import type { InertiaProps } from '@/types'
+import type { Data } from '@generated/data'
+
+type PageProps = InertiaProps & {
+  drink: Data.Drink
+}
+
+export default function Device({ user, drink }: PageProps) {
   return (
     <div className="h-screen flex flex-col relative overflow-hidden">
       <CharacterBackground />
@@ -26,18 +34,23 @@ export default function Home() {
         <section className="max-w-88 w-full space-y-3">
           <div className="w-full max-w-xl bg-white rounded-full relative py-2 px-2">
             <p className="relative z-1 text-center text-sm text-gray-900 font-semibold">
-              890/2100 ML
+              {`${drink.milliliter}/${user!.milliliterTarget} ML`}
             </p>
             <div className="absolute top-0 left-0 w-full h-full p-1">
               <div className="bg-gray-100 rounded-full w-full h-full overflow-hidden">
-                <div className="bg-sky-400 rounded-full w-full h-full scale-x-50 origin-left" />
+                <div
+                  className="bg-sky-400 rounded-full w-full h-full origin-left"
+                  style={{ transform: `scaleX(${drink.milliliter / user!.milliliterTarget})` }}
+                />
               </div>
             </div>
           </div>
           <p className="font-semibold text-gray-700 text-center">
             Lanjutkan streak 19 minum air terpenuhi
           </p>
-          <DualStyleButton className="w-full">Catat Minum</DualStyleButton>
+          <DualStyleButton className="w-full h-12" asChild>
+            <Link route="drink.create">Catat Minum</Link>
+          </DualStyleButton>
         </section>
       </main>
 

@@ -25,18 +25,18 @@ export class BottleSchema extends BaseModel {
 }
 
 export class DrinkLogSchema extends BaseModel {
-  static $columns = ['amountMl', 'createdAt', 'id', 'updatedAt', 'userId'] as const
+  static $columns = ['amountMl', 'createdAt', 'drinkId', 'id', 'updatedAt'] as const
   $columns = DrinkLogSchema.$columns
   @column()
   declare amountMl: number | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
+  @column()
+  declare drinkId: number
   @column({ isPrimary: true })
   declare id: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
-  @column()
-  declare userId: number
 }
 
 export class DrinkSchema extends BaseModel {

@@ -25,11 +25,17 @@ router
   .group(() => {
     router.post('logout', [controllers.auth.Session, 'destroy']).as('auth.logout')
 
-    router.on('/').renderInertia('home', {}).as('home')
-    router.on('/device').renderInertia('device', {}).as('device')
+    router.get('/', [controllers.Page, 'home']).as('home')
+    router.get('/device', [controllers.Page, 'device']).as('device')
     router.on('/tracking').renderInertia('tracking', {}).as('tracking')
-    router.on('/drink').renderInertia('drink', {}).as('drink')
     router.on('/dress').renderInertia('dress', {}).as('dress')
+
+    router
+      .group(() => {
+        router.get('/', [controllers.Drink, 'create']).as('drink.create')
+        router.post('/', [controllers.Drink, 'store']).as('drink.store')
+      })
+      .prefix('/drink')
 
     router
       .group(() => {

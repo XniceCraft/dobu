@@ -60,17 +60,23 @@ const routes = {
     tokens: [{"old":"/tracking","type":0,"val":"tracking","end":""}],
     types: placeholder as Registry['tracking']['types'],
   },
-  'drink': {
-    methods: ["GET","HEAD"],
-    pattern: '/drink',
-    tokens: [{"old":"/drink","type":0,"val":"drink","end":""}],
-    types: placeholder as Registry['drink']['types'],
-  },
   'dress': {
     methods: ["GET","HEAD"],
     pattern: '/dress',
     tokens: [{"old":"/dress","type":0,"val":"dress","end":""}],
     types: placeholder as Registry['dress']['types'],
+  },
+  'drink.create': {
+    methods: ["GET","HEAD"],
+    pattern: '/drink',
+    tokens: [{"old":"/drink","type":0,"val":"drink","end":""}],
+    types: placeholder as Registry['drink.create']['types'],
+  },
+  'drink.store': {
+    methods: ["POST"],
+    pattern: '/drink',
+    tokens: [{"old":"/drink","type":0,"val":"drink","end":""}],
+    types: placeholder as Registry['drink.store']['types'],
   },
   'setting': {
     methods: ["GET","HEAD"],

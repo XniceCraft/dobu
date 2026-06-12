@@ -7,6 +7,7 @@ import {
   ChartAreaIcon,
   ChevronRightIcon,
   CircleUserIcon,
+  LogOutIcon,
   type LucideIcon,
   XIcon,
 } from 'lucide-react'
@@ -34,6 +35,11 @@ const menu: { label: string; icon: LucideIcon; route: Parameters<typeof urlFor>[
     route: 'home',
     icon: BugIcon,
   },
+  {
+    label: 'Keluar',
+    route: 'auth.logout',
+    icon: LogOutIcon,
+  },
 ]
 
 export default function Setting() {
@@ -51,7 +57,7 @@ export default function Setting() {
 
         <section className="bg-white p-8 rounded-xl shadow space-y-4 text-gray-600">
           {menu.map((item) => (
-            <Link route={item.route} key={item.label} className="flex gap-2 items-center">
+            <Link route={item.route} key={item.label} className="flex gap-2 items-center w-full">
               <item.icon className="size-4" />
               <div className="w-full border-b flex items-center justify-between py-2">
                 <p className="text-sm font-medium">{item.label}</p>

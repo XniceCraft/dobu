@@ -1,39 +1,114 @@
-import { useForm } from 'react-hook-form'
+import { useRouter } from '@adonisjs/inertia/react'
+import { useCallback } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { Navbar } from '@/components/layout/navbar'
-import { MobileNavigation } from '@/components/layout/mobile-navigation'
 import { CharacterBackground } from '@/components/background/character-background'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { DualStyleButton } from '@/components/ui/button'
+import { LoadingButton } from '@/components/ui/button'
+import { Field } from '@/components/ui/field'
+import { MobileNavigation } from '@/components/layout/mobile-navigation'
+import { WheelPicker, WheelPickerWrapper } from '@/components/field/wheel-picker'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { toast } from 'react-hot-toast'
 import { z } from 'zod/mini'
 
+import type { WheelPickerOption } from '@/components/field/wheel-picker'
+
+function generateAmounts(min: number = 50, max: number = 2000, step: number = 50): number[] {
+  const amounts: number[] = []
+  for (let i = min; i <= max; i += step) {
+    amounts.push(i)
+  }
+  return amounts
+}
+
+const amounts: WheelPickerOption[] = generateAmounts().map((amount) => ({
+  value: amount.toString(),
+  label: `${amount} ml`,
+}))
+
 const drinkSchema = z.object({
-  amount: z
-    .number()
+  amount: z.coerce
+    .number<number>()
     .check(z.gte(50, 'Jumlah minimal adalah 50 ml'), z.lte(2000, 'Jumlah maksimal adalah 2000 ml')),
 })
 
 export default function Drink() {
+  const router = useRouter()
   const form = useForm<z.infer<typeof drinkSchema>>({
     resolver: zodResolver(drinkSchema),
+    defaultValues: {
+      amount: 200,
+    },
   })
+
+  const onSubmit = useCallback((data: z.infer<typeof drinkSchema>) => {
+    router.visit(
+      {
+        route: 'drink.store',
+      },
+      {
+        method: 'post',
+        data,
+        preserveState: true,
+        onError: (errors) => {
+          console.log(errors)
+          Object.entries(errors).forEach(([field, message]) => {
+            form.setError(field as keyof z.infer<typeof drinkSchema>, {
+              message,
+            })
+          })
+        },
+        onSuccess: () => {
+          toast.success('Berhasil mencatat')
+        },
+      }
+    )
+  }, [])
 
   return (
     <div className="relative flex h-screen flex-col overflow-hidden">
       <CharacterBackground />
       <Navbar showCalendar />
 
-      <main className="flex flex-1 flex-col items-center justify-between py-5">
-        <Card className="w-full max-w-72 max-h-lg! h-full rounded-3xl">
-          <CardHeader className="pb-0 pt-6">
+      <main className="min-h-0 mx-auto max-w-72 w-full flex flex-1 flex-col gap-3 items-center py-5">
+        <Card className="w-full h-full max-h-96 gap-0 rounded-3xl">
+          <CardHeader className="py-4">
             <CardTitle className="text-center text-xl font-bold text-slate-800">
               Catat Minum Mu!
             </CardTitle>
           </CardHeader>
-          <CardContent className="px-4 pb-6 pt-2 h-full"></CardContent>
+          <CardContent>
+            <form id="drink-form" onSubmit={form.handleSubmit(onSubmit)}>
+              <Controller
+                control={form.control}
+                name="amount"
+                render={({ field }) => (
+                  <WheelPickerWrapper>
+                    <WheelPicker
+                      options={amounts}
+                      value={String(field.value)}
+                      onValueChange={field.onChange}
+                      infinite
+                      scrollSensitivity={8}
+                    />
+                  </WheelPickerWrapper>
+                )}
+              />
+            </form>
+          </CardContent>
         </Card>
 
-        <DualStyleButton size="lg">Catat!</DualStyleButton>
+        <Field>
+          <LoadingButton
+            variant="gradient"
+            size="lg"
+            form="drink-form"
+            loading={form.formState.isSubmitting}
+          >
+            Catat!
+          </LoadingButton>
+        </Field>
       </main>
 
       <MobileNavigation />

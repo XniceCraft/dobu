@@ -87,8 +87,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: unknown
-      errorResponse: unknown
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/page_controller').default['home']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/page_controller').default['home']>>>
     }
   }
   'device': {
@@ -99,25 +99,13 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: unknown
-      errorResponse: unknown
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/page_controller').default['device']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/page_controller').default['device']>>>
     }
   }
   'tracking': {
     methods: ["GET","HEAD"]
     pattern: '/tracking'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: unknown
-      errorResponse: unknown
-    }
-  }
-  'drink': {
-    methods: ["GET","HEAD"]
-    pattern: '/drink'
     types: {
       body: {}
       paramsTuple: []
@@ -137,6 +125,30 @@ export interface Registry {
       query: {}
       response: unknown
       errorResponse: unknown
+    }
+  }
+  'drink.create': {
+    methods: ["GET","HEAD"]
+    pattern: '/drink'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/drink_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/drink_controller').default['create']>>>
+    }
+  }
+  'drink.store': {
+    methods: ["POST"]
+    pattern: '/drink'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/drink').insertDrinkValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/drink').insertDrinkValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/drink_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/drink_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'setting': {
@@ -167,12 +179,12 @@ export interface Registry {
     methods: ["POST"]
     pattern: '/setting/account'
     types: {
-      body: {}
+      body: ExtractBody<InferInput<(typeof import('#validators/user').updateUserValidator)>>
       paramsTuple: []
       params: {}
-      query: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/user').updateUserValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/account_controller').default['update']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/account_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/account_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
 }
