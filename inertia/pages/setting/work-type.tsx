@@ -32,35 +32,38 @@ const workTypeSchema = z.pick(z.object(signUpSchema.shape), { workType: true })
 
 export default function WorkTypeSetting({ user }: PageProps) {
   const router = useRouter()
-  const form = useForm<z.infer<typeof workTypeSchema>>({
+  const { control, setError, handleSubmit, formState } = useForm<z.infer<typeof workTypeSchema>>({
     resolver: zodResolver(workTypeSchema),
     defaultValues: {
       workType: user.workType,
     },
   })
 
-  const onSubmit = useCallback((data: z.infer<typeof workTypeSchema>) => {
-    router.visit(
-      {
-        route: 'setting.account.update',
-      },
-      {
-        method: 'post',
-        data,
-        preserveState: true,
-        onError: (errors) => {
-          Object.entries(errors).forEach(([field, message]) => {
-            form.setError(field as keyof z.infer<typeof workTypeSchema>, {
-              message,
+  const onSubmit = useCallback(
+    (data: z.infer<typeof workTypeSchema>) => {
+      router.visit(
+        {
+          route: 'setting.account.update',
+        },
+        {
+          method: 'post',
+          data,
+          preserveState: true,
+          onError: (errors) => {
+            Object.entries(errors).forEach(([field, message]) => {
+              setError(field as keyof z.infer<typeof workTypeSchema>, {
+                message,
+              })
             })
-          })
-        },
-        onSuccess: () => {
-          toast.success('Jenis pekerjaan berhasil diperbarui')
-        },
-      }
-    )
-  }, [])
+          },
+          onSuccess: () => {
+            toast.success('Jenis pekerjaan berhasil diperbarui')
+          },
+        }
+      )
+    },
+    [router, setError]
+  )
 
   return (
     <div className="h-screen flex flex-col relative overflow-hidden">
@@ -84,9 +87,9 @@ export default function WorkTypeSetting({ user }: PageProps) {
             <p className="font-semibold truncate">{user.name}</p>
           </div>
 
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <Controller
-              control={form.control}
+              control={control}
               name="workType"
               render={({ field }) => (
                 <WheelPickerWrapper>
@@ -100,7 +103,7 @@ export default function WorkTypeSetting({ user }: PageProps) {
               )}
             />
             <Field>
-              <LoadingButton variant="gradient" loading={form.formState.isSubmitting} type="submit">
+              <LoadingButton variant="gradient" loading={formState.isSubmitting} type="submit">
                 Simpan
               </LoadingButton>
             </Field>

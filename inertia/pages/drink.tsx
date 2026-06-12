@@ -28,35 +28,38 @@ const drinkSchema = z.object({
 
 export default function Drink() {
   const router = useRouter()
-  const form = useForm<z.infer<typeof drinkSchema>>({
+  const { control, setError, handleSubmit, formState } = useForm<z.infer<typeof drinkSchema>>({
     resolver: zodResolver(drinkSchema),
     defaultValues: {
       amount: 200,
     },
   })
 
-  const onSubmit = useCallback((data: z.infer<typeof drinkSchema>) => {
-    router.visit(
-      {
-        route: 'drink.store',
-      },
-      {
-        method: 'post',
-        data,
-        preserveState: true,
-        onError: (errors) => {
-          Object.entries(errors).forEach(([field, message]) => {
-            form.setError(field as keyof z.infer<typeof drinkSchema>, {
-              message,
+  const onSubmit = useCallback(
+    (data: z.infer<typeof drinkSchema>) => {
+      router.visit(
+        {
+          route: 'drink.store',
+        },
+        {
+          method: 'post',
+          data,
+          preserveState: true,
+          onError: (errors) => {
+            Object.entries(errors).forEach(([field, message]) => {
+              setError(field as keyof z.infer<typeof drinkSchema>, {
+                message,
+              })
             })
-          })
-        },
-        onSuccess: () => {
-          toast.success('Berhasil mencatat')
-        },
-      }
-    )
-  }, [])
+          },
+          onSuccess: () => {
+            toast.success('Berhasil mencatat')
+          },
+        }
+      )
+    },
+    [router, setError]
+  )
 
   return (
     <div className="relative flex h-screen flex-col overflow-hidden">
@@ -71,9 +74,9 @@ export default function Drink() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <form id="drink-form" onSubmit={form.handleSubmit(onSubmit)}>
+            <form id="drink-form" onSubmit={handleSubmit(onSubmit)}>
               <Controller
-                control={form.control}
+                control={control}
                 name="amount"
                 render={({ field }) => (
                   <WheelPickerWrapper>
@@ -96,7 +99,7 @@ export default function Drink() {
             variant="gradient"
             size="lg"
             form="drink-form"
-            loading={form.formState.isSubmitting}
+            loading={formState.isSubmitting}
           >
             Catat!
           </LoadingButton>

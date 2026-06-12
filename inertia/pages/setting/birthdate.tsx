@@ -84,7 +84,9 @@ export default function BirthDateSetting({ user }: PageProps) {
     }
   }
 
-  const form = useForm<z.infer<typeof birthdateFormSchema>>({
+  const { control, handleSubmit, setError, formState } = useForm<
+    z.infer<typeof birthdateFormSchema>
+  >({
     resolver: zodResolver(birthdateFormSchema),
     defaultValues: getDefaultValues(),
   })
@@ -103,7 +105,7 @@ export default function BirthDateSetting({ user }: PageProps) {
           preserveState: true,
           onError: (errors) => {
             Object.entries(errors).forEach(([field, message]) => {
-              form.setError(field as any, { message })
+              setError(field as keyof z.infer<typeof birthdateFormSchema>, { message })
             })
           },
           onSuccess: () => {
@@ -112,7 +114,7 @@ export default function BirthDateSetting({ user }: PageProps) {
         }
       )
     },
-    [router]
+    [router, setError]
   )
 
   return (
@@ -137,10 +139,10 @@ export default function BirthDateSetting({ user }: PageProps) {
             <p className="font-semibold truncate">{user.name}</p>
           </div>
 
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <BirthdateForm control={form.control} />
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <BirthdateForm control={control} />
             <Field>
-              <LoadingButton variant="gradient" loading={form.formState.isSubmitting} type="submit">
+              <LoadingButton variant="gradient" loading={formState.isSubmitting} type="submit">
                 Simpan
               </LoadingButton>
             </Field>

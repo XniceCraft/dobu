@@ -48,29 +48,32 @@ const signUpSchema = z
 
 export default function SignUp() {
   const router = useRouter()
-  const form = useForm<z.infer<typeof signUpSchema>>({
+  const { control, handleSubmit, setError, formState } = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
   })
 
-  const onSubmit = useCallback((data: z.infer<typeof signUpSchema>) => {
-    router.visit(
-      {
-        route: 'auth.signup.store',
-      },
-      {
-        method: 'post',
-        data,
-        preserveState: true,
-        onError: (errors) => {
-          Object.entries(errors).forEach(([field, message]) => {
-            form.setError(field as keyof z.infer<typeof signUpSchema>, {
-              message,
-            })
-          })
+  const onSubmit = useCallback(
+    (data: z.infer<typeof signUpSchema>) => {
+      router.visit(
+        {
+          route: 'auth.signup.store',
         },
-      }
-    )
-  }, [])
+        {
+          method: 'post',
+          data,
+          preserveState: true,
+          onError: (errors) => {
+            Object.entries(errors).forEach(([field, message]) => {
+              setError(field as keyof z.infer<typeof signUpSchema>, {
+                message,
+              })
+            })
+          },
+        }
+      )
+    },
+    [router, setError]
+  )
 
   return (
     <main className="max-w-96 mx-auto w-full py-12 px-4">
@@ -84,9 +87,9 @@ export default function SignUp() {
         <p className="text-muted-foreground text-sm text-center mb-6">
           Lengkapi data anda untuk memulai
         </p>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <Controller
-            control={form.control}
+            control={control}
             name="name"
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
@@ -105,7 +108,7 @@ export default function SignUp() {
             )}
           />
           <Controller
-            control={form.control}
+            control={control}
             name="email"
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
@@ -124,19 +127,19 @@ export default function SignUp() {
             )}
           />
           <PasswordField
-            control={form.control}
+            control={control}
             name="password"
             label="Kata Sandi"
             placeholder="Masukkan kata sandi baru"
           />
           <PasswordField
-            control={form.control}
+            control={control}
             name="passwordConfirmation"
             label="Konfirmasi Kata Sandi"
             placeholder="Masukkan ulang kata sandi"
           />
           <Controller
-            control={form.control}
+            control={control}
             name="birthdate"
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
@@ -158,7 +161,7 @@ export default function SignUp() {
             )}
           />
           <Controller
-            control={form.control}
+            control={control}
             name="weight"
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
@@ -179,7 +182,7 @@ export default function SignUp() {
             )}
           />
           <Controller
-            control={form.control}
+            control={control}
             name="dayStart"
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
@@ -197,7 +200,7 @@ export default function SignUp() {
             )}
           />
           <Controller
-            control={form.control}
+            control={control}
             name="dayEnd"
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
@@ -215,7 +218,7 @@ export default function SignUp() {
             )}
           />
           <Controller
-            control={form.control}
+            control={control}
             name="workType"
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
@@ -234,7 +237,7 @@ export default function SignUp() {
               </Field>
             )}
           />
-          <LoadingButton type="submit" className="w-full" loading={form.formState.isSubmitting}>
+          <LoadingButton type="submit" className="w-full" loading={formState.isSubmitting}>
             Daftar
           </LoadingButton>
           <p className="text-center text-sm">

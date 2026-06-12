@@ -30,35 +30,38 @@ const weightSchema = z.pick(z.object(signUpSchema.shape), { weight: true })
 
 export default function WeightSetting({ user }: PageProps) {
   const router = useRouter()
-  const form = useForm<z.infer<typeof weightSchema>>({
+  const { control, handleSubmit, setError, formState } = useForm<z.infer<typeof weightSchema>>({
     resolver: zodResolver(weightSchema),
     defaultValues: {
       weight: user.weight,
     },
   })
 
-  const onSubmit = useCallback((data: z.infer<typeof weightSchema>) => {
-    router.visit(
-      {
-        route: 'setting.account.update',
-      },
-      {
-        method: 'post',
-        data,
-        preserveState: true,
-        onError: (errors) => {
-          Object.entries(errors).forEach(([field, message]) => {
-            form.setError(field as keyof z.infer<typeof weightSchema>, {
-              message,
+  const onSubmit = useCallback(
+    (data: z.infer<typeof weightSchema>) => {
+      router.visit(
+        {
+          route: 'setting.account.update',
+        },
+        {
+          method: 'post',
+          data,
+          preserveState: true,
+          onError: (errors) => {
+            Object.entries(errors).forEach(([field, message]) => {
+              setError(field as keyof z.infer<typeof weightSchema>, {
+                message,
+              })
             })
-          })
-        },
-        onSuccess: () => {
-          toast.success('Berat badan berhasil diperbarui')
-        },
-      }
-    )
-  }, [])
+          },
+          onSuccess: () => {
+            toast.success('Berat badan berhasil diperbarui')
+          },
+        }
+      )
+    },
+    [router, setError]
+  )
 
   return (
     <div className="h-screen flex flex-col relative overflow-hidden">
@@ -82,9 +85,9 @@ export default function WeightSetting({ user }: PageProps) {
             <p className="font-semibold truncate">{user.name}</p>
           </div>
 
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <Controller
-              control={form.control}
+              control={control}
               name="weight"
               render={({ field }) => (
                 <WheelPickerWrapper>
@@ -98,7 +101,7 @@ export default function WeightSetting({ user }: PageProps) {
               )}
             />
             <Field>
-              <LoadingButton variant="gradient" loading={form.formState.isSubmitting} type="submit">
+              <LoadingButton variant="gradient" loading={formState.isSubmitting} type="submit">
                 Simpan
               </LoadingButton>
             </Field>

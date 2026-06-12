@@ -1,15 +1,28 @@
-import { configApp, RULES_LIST } from '@adonisjs/eslint-config'
+import { configApp, PLUGINS_LIST, RULES_LIST } from '@adonisjs/eslint-config'
 import eslint from '@eslint/js'
 import react from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
+import globals from 'globals'
 
 const frontendConfig = {
   name: 'Inertia Frontend',
   files: ['./inertia/**/*.{ts,tsx}'],
-  languageOptions: react.configs.flat['jsx-runtime'].languageOptions,
+  languageOptions: {
+    globals: {
+      ...globals.browser,
+      React: 'readonly',
+    },
+    ...react.configs.flat['jsx-runtime'].languageOptions,
+  },
   plugins: {
+    ...PLUGINS_LIST,
     ...react.configs.flat['jsx-runtime'].plugins,
     ...reactHooks.configs.flat.recommended.plugins,
+  },
+  settings: {
+    react: {
+      version: 'detect',
+    },
   },
   rules: {
     ...RULES_LIST,

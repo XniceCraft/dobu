@@ -15,29 +15,32 @@ const loginSchema = z.object({
 
 export default function Login() {
   const router = useRouter()
-  const form = useForm<z.infer<typeof loginSchema>>({
+  const { control, handleSubmit, setError, formState } = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
   })
 
-  const onSubmit = useCallback((data: z.infer<typeof loginSchema>) => {
-    router.visit(
-      {
-        route: 'auth.login.store',
-      },
-      {
-        method: 'post',
-        data,
-        preserveState: true,
-        onError: (errors) => {
-          Object.entries(errors).forEach(([field, message]) => {
-            form.setError(field as keyof z.infer<typeof loginSchema>, {
-              message,
-            })
-          })
+  const onSubmit = useCallback(
+    (data: z.infer<typeof loginSchema>) => {
+      router.visit(
+        {
+          route: 'auth.login.store',
         },
-      }
-    )
-  }, [])
+        {
+          method: 'post',
+          data,
+          preserveState: true,
+          onError: (errors) => {
+            Object.entries(errors).forEach(([field, message]) => {
+              setError(field as keyof z.infer<typeof loginSchema>, {
+                message,
+              })
+            })
+          },
+        }
+      )
+    },
+    [router, setError]
+  )
 
   return (
     <main className="max-w-96 mx-auto w-full py-12 px-4">
@@ -51,9 +54,9 @@ export default function Login() {
         <p className="text-muted-foreground text-sm text-center mb-6">
           Masukkan data anda untuk masuk
         </p>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <Controller
-            control={form.control}
+            control={control}
             name="email"
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
@@ -72,12 +75,12 @@ export default function Login() {
             )}
           />
           <PasswordField
-            control={form.control}
+            control={control}
             name="password"
             label="Kata Sandi"
             placeholder="Masukkan kata sandi"
           />
-          <LoadingButton type="submit" className="w-full" loading={form.formState.isSubmitting}>
+          <LoadingButton type="submit" className="w-full" loading={formState.isSubmitting}>
             Masuk
           </LoadingButton>
           <p className="text-center text-sm">
