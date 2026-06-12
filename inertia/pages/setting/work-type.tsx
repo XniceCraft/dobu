@@ -1,0 +1,114 @@
+import { useCallback } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { Link, useRouter } from '@adonisjs/inertia/react'
+import { MobileNavigation } from '@/components/layout/mobile-navigation'
+import { Button, LoadingButton } from '@/components/ui/button'
+import { Field } from '@/components/ui/field'
+import {
+  WheelPicker,
+  WheelPickerWrapper,
+  type WheelPickerOption,
+} from '@/components/field/wheel-picker'
+import { ChevronLeftIcon } from 'lucide-react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod/mini'
+import { signUpSchema } from '@/lib/validations/user'
+import toast from 'react-hot-toast'
+
+import type { InertiaProps } from '@/types'
+import type { Data } from '@generated/data'
+
+type PageProps = InertiaProps<{
+  user: Data.User.Variants['detailed']
+}>
+
+const workTypeOptions: WheelPickerOption[] = [
+  { value: 'indoor', label: 'Indoor' },
+  { value: 'semi-outdoor', label: 'Semi Outdoor' },
+  { value: 'outdoor', label: 'Outdoor' },
+]
+
+const workTypeSchema = z.pick(z.object(signUpSchema.shape), { workType: true })
+
+export default function WorkTypeSetting({ user }: PageProps) {
+  const router = useRouter()
+  const form = useForm<z.infer<typeof workTypeSchema>>({
+    resolver: zodResolver(workTypeSchema),
+    defaultValues: {
+      workType: user.workType,
+    },
+  })
+
+  const onSubmit = useCallback((data: z.infer<typeof workTypeSchema>) => {
+    router.visit(
+      {
+        route: 'setting.account.update',
+      },
+      {
+        method: 'post',
+        data,
+        preserveState: true,
+        onError: (errors) => {
+          Object.entries(errors).forEach(([field, message]) => {
+            form.setError(field as keyof z.infer<typeof workTypeSchema>, {
+              message,
+            })
+          })
+        },
+        onSuccess: () => {
+          toast.success('Jenis pekerjaan berhasil diperbarui')
+        },
+      }
+    )
+  }, [])
+
+  return (
+    <div className="h-screen flex flex-col relative overflow-hidden">
+      <main className="flex-1 flex flex-col py-5 mx-auto w-full max-w-96">
+        <section className="flex gap-3 items-center mb-5">
+          <Button variant="ghost" size="icon" asChild>
+            <Link route="setting.account">
+              <ChevronLeftIcon />
+            </Link>
+          </Button>
+          <h1 className="text-lg">Pengaturan Jenis Pekerjaan</h1>
+        </section>
+
+        <section className="bg-white p-8 rounded-xl shadow space-y-4 text-gray-600">
+          <div className="flex items-center flex-nowrap gap-3">
+            <img
+              src="https://placehold.co/100x100/webp"
+              alt="Avatar"
+              className="w-8 h-8 rounded-full object-cover"
+            />
+            <p className="font-semibold truncate">{user.name}</p>
+          </div>
+
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <Controller
+              control={form.control}
+              name="workType"
+              render={({ field }) => (
+                <WheelPickerWrapper>
+                  <WheelPicker
+                    options={workTypeOptions}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    scrollSensitivity={8}
+                  />
+                </WheelPickerWrapper>
+              )}
+            />
+            <Field>
+              <LoadingButton variant="gradient" loading={form.formState.isSubmitting} type="submit">
+                Simpan
+              </LoadingButton>
+            </Field>
+          </form>
+        </section>
+      </main>
+
+      <MobileNavigation />
+    </div>
+  )
+}

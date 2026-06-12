@@ -29,7 +29,6 @@ export default function Login() {
         data,
         preserveState: true,
         onError: (errors) => {
-          console.log(errors)
           Object.entries(errors).forEach(([field, message]) => {
             form.setError(field as keyof z.infer<typeof loginSchema>, {
               message,

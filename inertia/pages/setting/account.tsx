@@ -11,10 +11,10 @@ import {
   TargetIcon,
   WeightIcon,
 } from 'lucide-react'
+import { formatDate } from '@/lib/utils/date'
 
 import type { InertiaProps } from '@/types'
 import type { Data } from '@generated/data'
-import { formatDate } from '@/lib/utils/date'
 import type { urlFor } from '@/client'
 
 type PageProps = InertiaProps<{
@@ -33,18 +33,18 @@ const accountSettingLinks: {
   },
   {
     icon: WeightIcon,
-    route: 'home',
+    route: 'setting.weight',
     value: (user: Data.User.Variants['detailed']) => `${user.weight} kg`,
   },
   {
     icon: Clock2Icon,
-    route: 'home',
+    route: 'setting.days',
     value: (user: Data.User.Variants['detailed']) =>
       `${user.dayStart.slice(0, 5)}—${user.dayEnd.slice(0, 5)}`,
   },
   {
     icon: BriefcaseBusinessIcon,
-    route: 'home',
+    route: 'setting.work-type',
     value: (user: Data.User.Variants['detailed']) =>
       ({
         'indoor': 'Indoor',

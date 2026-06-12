@@ -42,11 +42,3 @@ export const signUpSchema = z
       path: ['passwordConfirmation'],
     })
   )
-export const updateUserSchema = z.object({
-  birthdate,
-  name,
-  weight,
-  dayStart,
-  dayEnd,
-  workType,
-})

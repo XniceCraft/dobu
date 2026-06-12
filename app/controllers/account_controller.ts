@@ -11,6 +11,30 @@ export default class AccountController {
     })
   }
 
+  async showWeight({ inertia, auth }: HttpContext) {
+    const user = auth.use('web').user!
+
+    return inertia.render('setting/weight', {
+      user: UserTransformer.transform(user).useVariant('detailed'),
+    })
+  }
+
+  async showDays({ inertia, auth }: HttpContext) {
+    const user = auth.use('web').user!
+
+    return inertia.render('setting/days', {
+      user: UserTransformer.transform(user).useVariant('detailed'),
+    })
+  }
+
+  async showWorkType({ inertia, auth }: HttpContext) {
+    const user = auth.use('web').user!
+
+    return inertia.render('setting/work-type', {
+      user: UserTransformer.transform(user).useVariant('detailed'),
+    })
+  }
+
   async update({ request, response, auth }: HttpContext) {
     const user = auth.use('web').user!
     const data = await request.validateUsing(updateUserValidator)

@@ -62,7 +62,6 @@ export default function SignUp() {
         data,
         preserveState: true,
         onError: (errors) => {
-          console.log(errors)
           Object.entries(errors).forEach(([field, message]) => {
             form.setError(field as keyof z.infer<typeof signUpSchema>, {
               message,
@@ -85,7 +84,7 @@ export default function SignUp() {
         <p className="text-muted-foreground text-sm text-center mb-6">
           Lengkapi data anda untuk memulai
         </p>
-        <form onSubmit={form.handleSubmit(onSubmit, (e) => console.log(e))} className="space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <Controller
             control={form.control}
             name="name"

@@ -18,6 +18,9 @@ export type ScannedRoutes = {
     'drink.store': { paramsTuple?: []; params?: {} }
     'setting': { paramsTuple?: []; params?: {} }
     'setting.account': { paramsTuple?: []; params?: {} }
+    'setting.weight': { paramsTuple?: []; params?: {} }
+    'setting.days': { paramsTuple?: []; params?: {} }
+    'setting.work-type': { paramsTuple?: []; params?: {} }
     'setting.account.update': { paramsTuple?: []; params?: {} }
   }
   GET: {
@@ -31,6 +34,9 @@ export type ScannedRoutes = {
     'drink.create': { paramsTuple?: []; params?: {} }
     'setting': { paramsTuple?: []; params?: {} }
     'setting.account': { paramsTuple?: []; params?: {} }
+    'setting.weight': { paramsTuple?: []; params?: {} }
+    'setting.days': { paramsTuple?: []; params?: {} }
+    'setting.work-type': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
@@ -43,6 +49,9 @@ export type ScannedRoutes = {
     'drink.create': { paramsTuple?: []; params?: {} }
     'setting': { paramsTuple?: []; params?: {} }
     'setting.account': { paramsTuple?: []; params?: {} }
+    'setting.weight': { paramsTuple?: []; params?: {} }
+    'setting.days': { paramsTuple?: []; params?: {} }
+    'setting.work-type': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'auth.signup.store': { paramsTuple?: []; params?: {} }

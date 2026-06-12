@@ -17,7 +17,7 @@ createInertiaApp({
     createRoot(el).render(
       <TuyauProvider client={client}>
         <App {...props} />
-        <Toaster />
+        <Toaster position="top-right" />
       </TuyauProvider>
     )
   },

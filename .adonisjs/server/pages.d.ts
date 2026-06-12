@@ -23,5 +23,8 @@ declare module '@adonisjs/inertia/types' {
     'setting': ExtractProps<(typeof import('../../inertia/pages/setting.tsx'))['default']>
     'setting/account': ExtractProps<(typeof import('../../inertia/pages/setting/account.tsx'))['default']>
     'tracking': ExtractProps<(typeof import('../../inertia/pages/tracking.tsx'))['default']>
+    'setting/work-type': ExtractProps<(typeof import('../../inertia/pages/setting/work-type.tsx'))['default']>
+    'setting/days': ExtractProps<(typeof import('../../inertia/pages/setting/days.tsx'))['default']>
+    'setting/weight': ExtractProps<(typeof import('../../inertia/pages/setting/weight.tsx'))['default']>
   }
 }

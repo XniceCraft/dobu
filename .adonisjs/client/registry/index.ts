@@ -90,6 +90,24 @@ const routes = {
     tokens: [{"old":"/setting/account","type":0,"val":"setting","end":""},{"old":"/setting/account","type":0,"val":"account","end":""}],
     types: placeholder as Registry['setting.account']['types'],
   },
+  'setting.weight': {
+    methods: ["GET","HEAD"],
+    pattern: '/setting/weight',
+    tokens: [{"old":"/setting/weight","type":0,"val":"setting","end":""},{"old":"/setting/weight","type":0,"val":"weight","end":""}],
+    types: placeholder as Registry['setting.weight']['types'],
+  },
+  'setting.days': {
+    methods: ["GET","HEAD"],
+    pattern: '/setting/days',
+    tokens: [{"old":"/setting/days","type":0,"val":"setting","end":""},{"old":"/setting/days","type":0,"val":"days","end":""}],
+    types: placeholder as Registry['setting.days']['types'],
+  },
+  'setting.work-type': {
+    methods: ["GET","HEAD"],
+    pattern: '/setting/work-type',
+    tokens: [{"old":"/setting/work-type","type":0,"val":"setting","end":""},{"old":"/setting/work-type","type":0,"val":"work-type","end":""}],
+    types: placeholder as Registry['setting.work-type']['types'],
+  },
   'setting.account.update': {
     methods: ["POST"],
     pattern: '/setting/account',

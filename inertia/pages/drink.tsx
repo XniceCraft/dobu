@@ -11,18 +11,11 @@ import { WheelPicker, WheelPickerWrapper } from '@/components/field/wheel-picker
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'react-hot-toast'
 import { z } from 'zod/mini'
+import { generateValues } from '@/lib/utils/array'
 
 import type { WheelPickerOption } from '@/components/field/wheel-picker'
 
-function generateAmounts(min: number = 50, max: number = 2000, step: number = 50): number[] {
-  const amounts: number[] = []
-  for (let i = min; i <= max; i += step) {
-    amounts.push(i)
-  }
-  return amounts
-}
-
-const amounts: WheelPickerOption[] = generateAmounts().map((amount) => ({
+const amounts: WheelPickerOption[] = generateValues(50, 2000, 50).map((amount) => ({
   value: amount.toString(),
   label: `${amount} ml`,
 }))
@@ -52,7 +45,6 @@ export default function Drink() {
         data,
         preserveState: true,
         onError: (errors) => {
-          console.log(errors)
           Object.entries(errors).forEach(([field, message]) => {
             form.setError(field as keyof z.infer<typeof drinkSchema>, {
               message,

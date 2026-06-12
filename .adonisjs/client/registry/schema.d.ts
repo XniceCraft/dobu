@@ -175,6 +175,42 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/account_controller').default['show']>>>
     }
   }
+  'setting.weight': {
+    methods: ["GET","HEAD"]
+    pattern: '/setting/weight'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/account_controller').default['showWeight']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/account_controller').default['showWeight']>>>
+    }
+  }
+  'setting.days': {
+    methods: ["GET","HEAD"]
+    pattern: '/setting/days'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/account_controller').default['showDays']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/account_controller').default['showDays']>>>
+    }
+  }
+  'setting.work-type': {
+    methods: ["GET","HEAD"]
+    pattern: '/setting/work-type'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/account_controller').default['showWorkType']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/account_controller').default['showWorkType']>>>
+    }
+  }
   'setting.account.update': {
     methods: ["POST"]
     pattern: '/setting/account'
