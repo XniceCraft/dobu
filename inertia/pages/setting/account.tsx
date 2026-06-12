@@ -1,14 +1,62 @@
 import { Link } from '@adonisjs/inertia/react'
 import { MobileNavigation } from '@/components/layout/mobile-navigation'
 import { Button } from '@/components/ui/button'
-import { XIcon } from 'lucide-react'
+import {
+  BriefcaseBusinessIcon,
+  CalendarIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  Clock2Icon,
+  type LucideIcon,
+  TargetIcon,
+  WeightIcon,
+} from 'lucide-react'
 
 import type { InertiaProps } from '@/types'
 import type { Data } from '@generated/data'
+import { formatDate } from '@/lib/utils/date'
+import type { urlFor } from '@/client'
 
 type PageProps = InertiaProps<{
   user: Data.User.Variants['detailed']
 }>
+
+const accountSettingLinks: {
+  icon: LucideIcon
+  route?: Parameters<typeof urlFor>[0]
+  value: (user: Data.User.Variants['detailed']) => string | null
+}[] = [
+  {
+    icon: CalendarIcon,
+    route: 'home',
+    value: (user: Data.User.Variants['detailed']) => user.birthdate && formatDate(user.birthdate),
+  },
+  {
+    icon: WeightIcon,
+    route: 'home',
+    value: (user: Data.User.Variants['detailed']) => `${user.weight} kg`,
+  },
+  {
+    icon: Clock2Icon,
+    route: 'home',
+    value: (user: Data.User.Variants['detailed']) =>
+      `${user.dayStart.slice(0, 5)}—${user.dayEnd.slice(0, 5)}`,
+  },
+  {
+    icon: BriefcaseBusinessIcon,
+    route: 'home',
+    value: (user: Data.User.Variants['detailed']) =>
+      ({
+        'indoor': 'Indoor',
+        'semi-outdoor': 'Semi Outdoor',
+        'outdoor': 'Outdoor',
+      })[user.workType],
+  },
+  {
+    icon: TargetIcon,
+    value: (user: Data.User.Variants['detailed']) => `${user.milliliterTarget} ml`,
+  },
+]
 
 export default function AccountSetting({ user }: PageProps) {
   return (
@@ -16,11 +64,11 @@ export default function AccountSetting({ user }: PageProps) {
       <main className="flex-1 flex flex-col py-5 mx-auto w-full max-w-96">
         <section className="flex gap-3 items-center mb-5">
           <Button variant="ghost" size="icon" asChild>
-            <Link route="home">
-              <XIcon />
+            <Link route="setting">
+              <ChevronLeftIcon />
             </Link>
           </Button>
-          <h1 className="text-lg">Pengaturan</h1>
+          <h1 className="text-lg">Pengaturan Akun</h1>
         </section>
 
         <section className="bg-white p-8 rounded-xl shadow space-y-4 text-gray-600">
@@ -32,6 +80,22 @@ export default function AccountSetting({ user }: PageProps) {
             />
             <p className="font-semibold truncate">{user.name}</p>
           </div>
+          {accountSettingLinks.map((accountSettingLink, index) => {
+            const Parent = accountSettingLink.route ? Link : 'div'
+            return (
+              <Parent
+                key={index}
+                {...(accountSettingLink.route && { route: accountSettingLink.route })}
+                className="flex gap-2 items-center w-full"
+              >
+                <accountSettingLink.icon className="size-4" />
+                <div className="w-full border-b flex items-center justify-between py-2">
+                  <p className="text-sm font-medium">{accountSettingLink.value(user)}</p>
+                  {accountSettingLink.route && <ChevronRightIcon className="size-4" />}
+                </div>
+              </Parent>
+            )
+          })}
         </section>
       </main>
 
