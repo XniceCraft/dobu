@@ -1,4 +1,3 @@
 import { BottleSchema } from '#database/schema'
 
-export default class Bottle extends BottleSchema {
-}
+export default class Bottle extends BottleSchema {}

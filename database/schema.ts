@@ -8,7 +8,14 @@ import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
 export class BottleSchema extends BaseModel {
-  static $columns = ['createdAt', 'id', 'remainingPercent', 'updatedAt', 'userId', 'volumeMl'] as const
+  static $columns = [
+    'createdAt',
+    'id',
+    'remainingPercent',
+    'updatedAt',
+    'userId',
+    'volumeMl',
+  ] as const
   $columns = BottleSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
@@ -91,7 +98,21 @@ export class RememberMeTokenSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['avatar', 'birthdate', 'createdAt', 'dayEnd', 'dayStart', 'email', 'id', 'milliliterTarget', 'name', 'password', 'updatedAt', 'weight', 'workType'] as const
+  static $columns = [
+    'avatar',
+    'birthdate',
+    'createdAt',
+    'dayEnd',
+    'dayStart',
+    'email',
+    'id',
+    'milliliterTarget',
+    'name',
+    'password',
+    'updatedAt',
+    'weight',
+    'workType',
+  ] as const
   $columns = UserSchema.$columns
   @column()
   declare avatar: any | null
