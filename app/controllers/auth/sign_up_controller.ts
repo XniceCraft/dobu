@@ -1,5 +1,6 @@
 import User from '#models/user'
 import { signupValidator } from '#validators/user'
+import { attachmentManager } from '@jrmc/adonis-attachment'
 
 import type { HttpContext } from '@adonisjs/core/http'
 
@@ -20,10 +21,15 @@ export default class SignUpController {
   }
 
   async store({ request, response }: HttpContext) {
-    const payload = await request.validateUsing(signupValidator)
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { avatar: _, ...data } = await request.validateUsing(signupValidator)
+    const avatar = request.file('avatar')!
+    const attachment = await attachmentManager.createFromFile(avatar)
+
     await User.create({
-      ...payload,
-      milliliterTarget: calculateWaterIntake(payload.weight, payload.workType),
+      ...data,
+      avatar: attachment,
+      milliliterTarget: calculateWaterIntake(data.weight, data.workType),
     })
 
     response.redirect().toRoute('auth.login')

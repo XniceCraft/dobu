@@ -1,5 +1,9 @@
 import { z } from 'zod/mini'
 
+const avatar = z
+  .file()
+  .check(z.maxSize(5 * 1024 * 1024), z.mime(['image/jpeg', 'image/png', 'image/webp']))
+
 const birthdate = z
   .date()
   .check(z.minimum(new Date('1900-01-01'), { error: 'Terlalu tua!' }))
@@ -23,9 +27,10 @@ const workType = z.enum(['indoor', 'semi-outdoor', 'outdoor'])
 
 export const signUpSchema = z
   .object({
-    birthdate: birthdate,
-    name: name,
-    email: email,
+    avatar,
+    birthdate,
+    name,
+    email,
     password: z
       .string()
       .check(z.minLength(8, 'Password minimal 8 karakter'))

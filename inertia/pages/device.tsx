@@ -1,8 +1,8 @@
 import { Link } from '@adonisjs/inertia/react'
 import { Navbar } from '@/components/layout/navbar'
 import { MobileNavigation } from '@/components/layout/mobile-navigation'
+import { Button } from '@/components/ui/button'
 import { CharacterBackground } from '@/components/background/character-background'
-import { DualStyleButton } from '@/components/ui/button'
 
 import type { InertiaProps } from '@/types'
 import type { Data } from '@generated/data'
@@ -48,9 +48,9 @@ export default function Device({ user, drink }: PageProps) {
           <p className="font-semibold text-gray-700 text-center">
             Lanjutkan streak 19 minum air terpenuhi
           </p>
-          <DualStyleButton className="w-full h-12" asChild>
+          <Button variant="gradient" className="w-full h-12" asChild>
             <Link route="drink.create">Catat Minum</Link>
-          </DualStyleButton>
+          </Button>
         </section>
       </main>
 

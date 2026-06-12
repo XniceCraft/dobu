@@ -1,8 +1,8 @@
 import { Link } from '@adonisjs/inertia/react'
 import { Navbar } from '@/components/layout/navbar'
-import { MobileNavigation } from '@/components/layout/mobile-navigation'
+import { Button } from '@/components/ui/button'
 import { CharacterBackground } from '@/components/background/character-background'
-import { DualStyleButton } from '@/components/ui/button'
+import { MobileNavigation } from '@/components/layout/mobile-navigation'
 import { Separator } from '@/components/ui/separator'
 import { ClockIcon } from '@phosphor-icons/react'
 
@@ -43,9 +43,9 @@ export default function Home({ user, drink }: PageProps) {
             Lanjutkan streak 19 minum air terpenuhi
           </p>
           <div className="flex gap-3">
-            <DualStyleButton className="flex-1/2 h-auto" asChild>
+            <Button variant="gradient" className="flex-1/2 h-auto" asChild>
               <Link route="drink.create">Catat Minum</Link>
-            </DualStyleButton>
+            </Button>
             <div className="flex-1/2 bg-white rounded-full px-4 py-1 inline-flex gap-2 justify-center items-center shadow">
               <ClockIcon className="size-8 text-sky-400" weight="fill" />
               <span className="text-3xl font-bold">20</span>

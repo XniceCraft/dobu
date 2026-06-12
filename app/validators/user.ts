@@ -1,8 +1,6 @@
 import vine from '@vinejs/vine'
 
-/**
- * Shared rules for email and password.
- */
+const avatar = () => vine.file({ size: '5mb', extnames: ['jpg', 'png', 'webp'] })
 const name = () => vine.string().minLength(2).maxLength(255)
 const email = () => vine.string().email().maxLength(255)
 const password = () => vine.string().minLength(8).maxLength(32)
@@ -21,6 +19,7 @@ const workType = () => vine.enum(['indoor', 'semi-outdoor', 'outdoor'])
  * Validator to use when performing self-signup
  */
 export const signupValidator = vine.create({
+  avatar: avatar(),
   name: name(),
   email: email().unique({ table: 'users', column: 'email' }),
   password: password().confirmed({
@@ -41,6 +40,6 @@ export const loginValidator = vine.create({
 
 export const updateUserValidator = vine.create(
   signupValidator.schema
-    .partial(['name', 'birthdate', 'weight', 'dayStart', 'dayEnd', 'workType'])
+    .partial(['name', 'birthdate', 'weight', 'dayStart', 'dayEnd', 'workType', 'avatar'])
     .omit(['email', 'password'])
 )

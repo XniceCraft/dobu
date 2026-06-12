@@ -82,16 +82,4 @@ function LoadingButton({
   )
 }
 
-function DualStyleButton({ className, ...props }: React.ComponentProps<typeof Button>) {
-  return (
-    <Button
-      {...props}
-      className={cn(
-        'inset-ring-5 inset-ring-white bg-linear-180 from-[#61caf8] to-[#31a8f2] hover:opacity-90',
-        className
-      )}
-    />
-  )
-}
-
-export { Button, buttonVariants, LoadingButton, DualStyleButton }
+export { Button, buttonVariants, LoadingButton }

@@ -132,9 +132,9 @@ export default function BirthDateSetting({ user }: PageProps) {
         <section className="bg-white p-8 rounded-xl shadow space-y-4 text-gray-600">
           <div className="flex items-center flex-nowrap gap-3">
             <img
-              src="https://placehold.co/100x100/webp"
+              src={user?.avatar ?? 'https://placehold.co/100x100/webp'}
               alt="Avatar"
-              className="w-8 h-8 rounded-full object-cover"
+              className="w-8 h-8 rounded-full object-cover border"
             />
             <p className="font-semibold truncate">{user.name}</p>
           </div>

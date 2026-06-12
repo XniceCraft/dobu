@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { LoadingButton } from '@/components/ui/button'
+import { Button, LoadingButton } from '@/components/ui/button'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Link, useRouter } from '@adonisjs/inertia/react'
@@ -13,38 +13,20 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod/mini'
+import { signUpSchema } from '@/lib/validations/user'
 
-const signUpSchema = z
-  .object({
-    birthdate: z
-      .date()
-      .check(z.minimum(new Date('1900-01-01'), { error: 'Terlalu tua!' }))
-      .check(z.maximum(new Date(), { error: 'Terlalu muda!' })),
-    name: z
-      .string()
-      .check(z.minLength(3, 'Nama minimal 3 karakter'))
-      .check(z.maxLength(255, 'Nama maksimal 255 karakter')),
-    email: z.email().check(z.maxLength(255, 'Email maksimal 255 karakter')),
-    password: z
-      .string()
-      .check(z.minLength(8, 'Password minimal 8 karakter'))
-      .check(z.maxLength(32, 'Password maksimal 255 karakter')),
-    passwordConfirmation: z.string(),
-    weight: z.coerce
-      .number<number>()
-      .check(z.gte(1, 'Berat badan minimal 1 kg'))
-      .check(z.lte(1000, 'Berat badan maksimal 1000 kg')),
-    dayStart: z.iso.time(),
-    dayEnd: z.iso.time(),
-    workType: z.enum(['indoor', 'semi-outdoor', 'outdoor']),
-  })
-  .check(
-    z.refine((data) => data.password === data.passwordConfirmation, {
-      error: 'Konfirmasi password salah',
-      path: ['passwordConfirmation'],
-    })
-  )
+import type { z } from 'zod/mini'
+import {
+  FileUpload,
+  FileUploadDropzone,
+  FileUploadItem,
+  FileUploadItemDelete,
+  FileUploadItemMetadata,
+  FileUploadItemPreview,
+  FileUploadList,
+  FileUploadTrigger,
+} from '@/components/ui/file-upload'
+import { CloudUploadIcon, XIcon } from 'lucide-react'
 
 export default function SignUp() {
   const router = useRouter()
@@ -62,6 +44,7 @@ export default function SignUp() {
           method: 'post',
           data,
           preserveState: true,
+          forceFormData: true,
           onError: (errors) => {
             Object.entries(errors).forEach(([field, message]) => {
               setError(field as keyof z.infer<typeof signUpSchema>, {
@@ -88,6 +71,55 @@ export default function SignUp() {
           Lengkapi data anda untuk memulai
         </p>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <Controller
+            control={control}
+            name="avatar"
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={field.name}>Foto Profil</FieldLabel>
+                <FileUpload
+                  value={field.value ? [field.value] : []}
+                  onValueChange={(files) => {
+                    field.onChange(files[0])
+                  }}
+                  accept="image/jpeg, image/png, image/webp"
+                  maxFiles={1}
+                  maxSize={5 * 1024 * 1024}
+                  onFileReject={(_, message) => {
+                    setError('avatar', {
+                      message,
+                    })
+                  }}
+                >
+                  <FileUploadDropzone className="flex-row flex-wrap border-dotted text-center">
+                    <CloudUploadIcon className="size-4" />
+                    Drag and drop or
+                    <FileUploadTrigger asChild>
+                      <Button variant="link" size="sm" className="p-0">
+                        choose files
+                      </Button>
+                    </FileUploadTrigger>
+                    to upload
+                  </FileUploadDropzone>
+                  <FileUploadList>
+                    {field.value && (
+                      <FileUploadItem value={field.value}>
+                        <FileUploadItemPreview />
+                        <FileUploadItemMetadata />
+                        <FileUploadItemDelete asChild>
+                          <Button variant="ghost" size="icon" className="size-7">
+                            <XIcon />
+                            <span className="sr-only">Delete</span>
+                          </Button>
+                        </FileUploadItemDelete>
+                      </FileUploadItem>
+                    )}
+                  </FileUploadList>
+                </FileUpload>
+                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              </Field>
+            )}
+          />
           <Controller
             control={control}
             name="name"
