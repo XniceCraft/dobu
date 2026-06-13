@@ -27,7 +27,7 @@ const menu: { label: string; icon: LucideIcon; route: Parameters<typeof urlFor>[
   },
   {
     label: 'Leaderboard Keluarga',
-    route: 'tracking',
+    route: 'family',
     icon: AwardIcon,
   },
   {

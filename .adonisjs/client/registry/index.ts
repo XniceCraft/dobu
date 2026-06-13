@@ -48,17 +48,17 @@ const routes = {
     tokens: [{"old":"/","type":0,"val":"/","end":""}],
     types: placeholder as Registry['home']['types'],
   },
+  'family': {
+    methods: ["GET","HEAD"],
+    pattern: '/family',
+    tokens: [{"old":"/family","type":0,"val":"family","end":""}],
+    types: placeholder as Registry['family']['types'],
+  },
   'device': {
     methods: ["GET","HEAD"],
     pattern: '/device',
     tokens: [{"old":"/device","type":0,"val":"device","end":""}],
     types: placeholder as Registry['device']['types'],
-  },
-  'tracking': {
-    methods: ["GET","HEAD"],
-    pattern: '/tracking',
-    tokens: [{"old":"/tracking","type":0,"val":"tracking","end":""}],
-    types: placeholder as Registry['tracking']['types'],
   },
   'dress': {
     methods: ["GET","HEAD"],

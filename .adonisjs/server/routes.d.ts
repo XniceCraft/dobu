@@ -11,8 +11,8 @@ export type ScannedRoutes = {
     'auth.login.store': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
     'home': { paramsTuple?: []; params?: {} }
+    'family': { paramsTuple?: []; params?: {} }
     'device': { paramsTuple?: []; params?: {} }
-    'tracking': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
     'drink.create': { paramsTuple?: []; params?: {} }
     'drink.store': { paramsTuple?: []; params?: {} }
@@ -29,8 +29,8 @@ export type ScannedRoutes = {
     'auth.signup': { paramsTuple?: []; params?: {} }
     'auth.login': { paramsTuple?: []; params?: {} }
     'home': { paramsTuple?: []; params?: {} }
+    'family': { paramsTuple?: []; params?: {} }
     'device': { paramsTuple?: []; params?: {} }
-    'tracking': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
     'drink.create': { paramsTuple?: []; params?: {} }
     'setting': { paramsTuple?: []; params?: {} }
@@ -45,8 +45,8 @@ export type ScannedRoutes = {
     'auth.signup': { paramsTuple?: []; params?: {} }
     'auth.login': { paramsTuple?: []; params?: {} }
     'home': { paramsTuple?: []; params?: {} }
+    'family': { paramsTuple?: []; params?: {} }
     'device': { paramsTuple?: []; params?: {} }
-    'tracking': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
     'drink.create': { paramsTuple?: []; params?: {} }
     'setting': { paramsTuple?: []; params?: {} }

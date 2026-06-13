@@ -56,6 +56,32 @@ export class DrinkSchema extends BaseModel {
   declare userId: number
 }
 
+export class FamilySchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'updatedAt'] as const
+  $columns = FamilySchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class FamilyMemberSchema extends BaseModel {
+  static $columns = ['createdAt', 'familyId', 'id', 'updatedAt', 'userId'] as const
+  $columns = FamilyMemberSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column()
+  declare familyId: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
 export class IssueSchema extends BaseModel {
   static $columns = ['createdAt', 'id', 'report', 'status', 'updatedAt', 'userId'] as const
   $columns = IssueSchema.$columns

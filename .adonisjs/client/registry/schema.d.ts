@@ -91,6 +91,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/page_controller').default['home']>>>
     }
   }
+  'family': {
+    methods: ["GET","HEAD"]
+    pattern: '/family'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/family_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/family_controller').default['show']>>>
+    }
+  }
   'device': {
     methods: ["GET","HEAD"]
     pattern: '/device'
@@ -101,18 +113,6 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/page_controller').default['device']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/page_controller').default['device']>>>
-    }
-  }
-  'tracking': {
-    methods: ["GET","HEAD"]
-    pattern: '/tracking'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: unknown
-      errorResponse: unknown
     }
   }
   'dress': {

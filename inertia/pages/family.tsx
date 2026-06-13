@@ -3,6 +3,15 @@ import { MobileNavigation } from '@/components/layout/mobile-navigation'
 import { CharacterBackground } from '@/components/background/character-background'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
+import type { Data } from '@generated/data'
+import type { InertiaProps } from '@/types'
+
+type PageProps = InertiaProps & {
+  drink: {
+    daily: Data.User.Variants['toRanked'][]
+  }
+}
+
 const members = [
   {
     avatar: 'https://placehold.co/100x100/webp',
@@ -31,7 +40,7 @@ const members = [
   },
 ]
 
-export default function Tracking() {
+export default function Family({ drink: { daily } }: PageProps) {
   return (
     <div className="h-screen flex flex-col relative overflow-hidden">
       <CharacterBackground />
@@ -50,21 +59,23 @@ export default function Tracking() {
             </TabsList>
             <TabsContent value="daily">
               <div className="space-y-5">
-                {members.map((member) => (
+                {daily.map((member) => (
                   <div
-                    key={member.targetDrink}
+                    key={member.id}
                     className="relative bg-gray-200 rounded-full h-8 flex items-center justify-center"
                   >
                     <img
-                      src={member.avatar}
+                      src={member.avatar ?? ''}
                       alt="Avatar"
                       className="absolute top-1/2 left-0 -translate-1/2 w-10 h-10 rounded-full object-cover z-1"
                     />
                     <div
                       className="absolute bg-sky-400 top-0 left-0 w-full h-full origin-left rounded-full"
-                      style={{ transform: `scaleX(${member.currentDrink / member.targetDrink})` }}
+                      style={{
+                        transform: `scaleX(${member.milliliter / member.milliliterTarget})`,
+                      }}
                     />
-                    <p className="relative z-2 text-sm font-medium">{`${member.currentDrink}/${member.targetDrink} ML`}</p>
+                    <p className="relative z-2 text-sm font-medium">{`${member.milliliter}/${member.milliliterTarget} ML`}</p>
                   </div>
                 ))}
               </div>

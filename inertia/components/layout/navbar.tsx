@@ -58,7 +58,7 @@ export function Navbar({ showCalendar = false }: NavbarProps) {
         </div>
         <div>
           <Button variant="ghost" size="icon" asChild>
-            <Link route="tracking">
+            <Link route="family">
               <UsersRoundIcon />
             </Link>
           </Button>

@@ -26,4 +26,12 @@ export default class UserTransformer extends BaseTransformer<User> {
       avatar: this.resource.avatar ? await this.resource.avatar.getUrl('thumbnail') : null,
     }
   }
+
+  async toRanked() {
+    return {
+      ...this.pick(this.resource, ['id', 'name', 'milliliterTarget']),
+      avatar: this.resource.avatar ? await this.resource.avatar.getUrl('thumbnail') : null,
+      milliliter: this.resource?.drink?.milliliter ?? 0,
+    }
+  }
 }

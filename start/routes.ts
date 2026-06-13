@@ -26,8 +26,8 @@ router
     router.post('logout', [controllers.auth.Session, 'destroy']).as('auth.logout')
 
     router.get('/', [controllers.Page, 'home']).as('home')
+    router.get('/family', [controllers.Family, 'show']).as('family')
     router.get('/device', [controllers.Page, 'device']).as('device')
-    router.on('/tracking').renderInertia('tracking', {}).as('tracking')
     router.on('/dress').renderInertia('dress', {}).as('dress')
 
     router

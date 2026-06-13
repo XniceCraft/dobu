@@ -17,8 +17,8 @@ export interface ApiDefinition {
     logout: typeof routes['auth.logout']
   }
   home: typeof routes['home']
+  family: typeof routes['family']
   device: typeof routes['device']
-  tracking: typeof routes['tracking']
   dress: typeof routes['dress']
   drink: {
     create: typeof routes['drink.create']
