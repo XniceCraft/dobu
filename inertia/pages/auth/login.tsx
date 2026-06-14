@@ -7,10 +7,12 @@ import { Link, useRouter } from '@adonisjs/inertia/react'
 import { PasswordField } from '@/components/field/password-field'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod/mini'
+import { Checkbox } from '@/components/ui/checkbox'
 
 const loginSchema = z.object({
   email: z.email().check(z.maxLength(255, 'Email maksimal 255 karakter')),
   password: z.string().check(z.maxLength(255, 'Password maksimal 255 karakter')),
+  rememberMe: z.optional(z.boolean()),
 })
 
 export default function Login() {
@@ -79,6 +81,23 @@ export default function Login() {
             name="password"
             label="Kata Sandi"
             placeholder="Masukkan kata sandi"
+          />
+          <Controller
+            control={control}
+            name="rememberMe"
+            render={({ field: { onChange, onBlur, value, name, ref }, fieldState }) => (
+              <Field orientation="horizontal" data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={name}>Ingat Saya</FieldLabel>
+                <Checkbox
+                  ref={ref}
+                  id={name}
+                  checked={value}
+                  onCheckedChange={onChange}
+                  onBlur={onBlur}
+                  aria-invalid={fieldState.invalid}
+                />
+              </Field>
+            )}
           />
           <LoadingButton type="submit" className="w-full" loading={formState.isSubmitting}>
             Masuk

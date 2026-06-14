@@ -24,6 +24,17 @@ export class BottleSchema extends BaseModel {
   declare volumeMl: number
 }
 
+export class CacheSchema extends BaseModel {
+  static $columns = ['expiresAt', 'key', 'value'] as const
+  $columns = CacheSchema.$columns
+  @column.dateTime()
+  declare expiresAt: DateTime | null
+  @column({ isPrimary: true })
+  declare key: string
+  @column()
+  declare value: string | null
+}
+
 export class DrinkLogSchema extends BaseModel {
   static $columns = ['amountMl', 'createdAt', 'drinkId', 'id', 'updatedAt'] as const
   $columns = DrinkLogSchema.$columns

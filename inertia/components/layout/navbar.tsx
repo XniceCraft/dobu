@@ -4,43 +4,13 @@ import { Link } from '@adonisjs/inertia/react'
 import { UsersRoundIcon, Share2Icon } from 'lucide-react'
 
 import type { InertiaProps } from '@/types'
-
-const calendar = [
-  {
-    day: 'S',
-    date: '1',
-  },
-  {
-    day: 'S',
-    date: '2',
-  },
-  {
-    day: 'R',
-    date: '3',
-  },
-  {
-    day: 'K',
-    date: '4',
-  },
-  {
-    day: 'J',
-    date: '5',
-  },
-  {
-    day: 'S',
-    date: '6',
-  },
-  {
-    day: 'M',
-    date: '7',
-  },
-]
+import { WeekCalendar } from './week-calendar'
 
 interface NavbarProps {
-  showCalendar?: boolean
+  calendar?: Record<string, boolean>
 }
 
-export function Navbar({ showCalendar = false }: NavbarProps) {
+export function Navbar({ calendar }: NavbarProps) {
   const { user } = usePage<InertiaProps>().props
 
   return (
@@ -67,7 +37,7 @@ export function Navbar({ showCalendar = false }: NavbarProps) {
           </Button>
         </div>
       </section>
-
+      {/* 
       {showCalendar && (
         <div className="bg-gray-200 flex justify-around gap-3 p-2 rounded-xl">
           {calendar.map((item) => (
@@ -79,7 +49,8 @@ export function Navbar({ showCalendar = false }: NavbarProps) {
             </div>
           ))}
         </div>
-      )}
+      )} */}
+      {calendar && <WeekCalendar logs={calendar} />}
     </nav>
   )
 }

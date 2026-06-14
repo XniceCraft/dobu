@@ -38,4 +38,6 @@ export default await Env.create(new URL('../', import.meta.url), {
   |----------------------------------------------------------
   */
   DRIVE_DISK: Env.schema.enum(['fs'] as const),
+
+  CACHE_STORE: Env.schema.enum(['memoryOnly', 'database', 'databaseOnly'] as const),
 })

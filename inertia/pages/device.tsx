@@ -9,14 +9,16 @@ import type { Data } from '@generated/data'
 
 type PageProps = InertiaProps & {
   drink: Data.Drink
+  streak: number
+  calendar: Record<string, boolean>
 }
 
-export default function Device({ user, drink }: PageProps) {
+export default function Device({ user, drink, streak, calendar }: PageProps) {
   return (
     <div className="h-screen flex flex-col relative overflow-hidden">
       <CharacterBackground />
 
-      <Navbar showCalendar />
+      <Navbar calendar={calendar} />
       <main className="flex-1 flex flex-col items-center justify-between py-5 gap-5">
         <section>
           <h2 className="text-center">Volume Botol</h2>
@@ -46,7 +48,7 @@ export default function Device({ user, drink }: PageProps) {
             </div>
           </div>
           <p className="font-semibold text-gray-700 text-center">
-            Lanjutkan streak 19 minum air terpenuhi
+            Lanjutkan streak {streak} minum air terpenuhi
           </p>
           <Button variant="gradient" className="w-full h-12" asChild>
             <Link route="drink.create">Catat Minum</Link>

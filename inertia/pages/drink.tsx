@@ -14,6 +14,16 @@ import { z } from 'zod/mini'
 import { generateValues } from '@/lib/utils/array'
 
 import type { WheelPickerOption } from '@/components/field/wheel-picker'
+import type { Data } from '@generated/data'
+import type { InertiaProps } from '@/types'
+
+type PageProps = InertiaProps & {
+  drink: {
+    daily: Data.User.Variants['toRanked'][]
+    weekly: Data.User.Variants['toRanked'][]
+  }
+  calendar: Record<string, boolean>
+}
 
 const amounts: WheelPickerOption[] = generateValues(50, 2000, 50).map((amount) => ({
   value: amount.toString(),
@@ -26,7 +36,7 @@ const drinkSchema = z.object({
     .check(z.gte(50, 'Jumlah minimal adalah 50 ml'), z.lte(2000, 'Jumlah maksimal adalah 2000 ml')),
 })
 
-export default function Drink() {
+export default function Drink({ calendar }: PageProps) {
   const router = useRouter()
   const { control, setError, handleSubmit, formState } = useForm<z.infer<typeof drinkSchema>>({
     resolver: zodResolver(drinkSchema),
@@ -64,7 +74,7 @@ export default function Drink() {
   return (
     <div className="relative flex h-screen flex-col overflow-hidden">
       <CharacterBackground />
-      <Navbar showCalendar />
+      <Navbar calendar={calendar} />
 
       <main className="min-h-0 mx-auto max-w-72 w-full flex flex-1 flex-col gap-3 items-center py-5">
         <Card className="w-full h-full max-h-96 gap-0 rounded-3xl">

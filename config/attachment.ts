@@ -88,32 +88,13 @@ const attachmentConfig = defineConfig({
        * video : @jrmc/adonis-attachment/converters/video_thumbnail_converter
        * create your custom converter : https://adonis-attachment.jrmc.dev/guide/advanced_usage/custom-converter
        */
-      // converter: () => import('@jrmc/adonis-attachment/converters/autodetect_converter'),
-
-      /**
-       *
-       * https://sharp.pixelplumbing.com/api-resize/
-       */
-      resize: 300,
-
-      // resize: { // https://sharp.pixelplumbing.com/api-resize
-      //   width: 400,
-      //   height: 400,
-      //   fit: sharp.fit.cover,
-      //   position: 'top'
-      // },
-
-      /**
-       *
-       * https://sharp.pixelplumbing.com/api-output/#toformat
-       */
-      // format: 'jpeg',
-      // format: {
-      //   format: 'jpeg',
-      //   options: {
-      //     quality: 80
-      //   }
-      // }
+      converter: () => import('@jrmc/adonis-attachment/converters/image_converter'),
+      resize: {
+        width: 300,
+        height: 300,
+        position: 'center',
+      },
+      format: 'webp',
 
       /**
        *

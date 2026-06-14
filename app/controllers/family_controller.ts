@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon'
+import { getWeekDrinkLogs } from '#utils/drink'
 import FamilyMember from '#models/family_member'
 import User from '#models/user'
 import UserTransformer from '#transformers/user_transformer'
@@ -46,12 +47,14 @@ export default class FamiliyController {
         return bMl - aMl
       })
     }
+    const calendar = await getWeekDrinkLogs(user.id)
 
     return inertia.render('family', {
       drink: {
         daily: UserTransformer.transform(daily).useVariant('toRanked') ?? [],
         weekly: UserTransformer.transform(weekly).useVariant('toRanked') ?? [],
       },
+      calendar,
     })
   }
 

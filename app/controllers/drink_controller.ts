@@ -1,13 +1,16 @@
 import Drink from '#models/drink'
 import DrinkLog from '#models/drink_log'
 import { DateTime } from 'luxon'
+import { getWeekDrinkLogs } from '#utils/drink'
 import { insertDrinkValidator } from '#validators/drink'
 
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class DrinksController {
-  async create({ inertia }: HttpContext) {
-    return inertia.render('drink', {})
+  async create({ inertia, auth }: HttpContext) {
+    const calendar = await getWeekDrinkLogs(auth.use('web').user!.id)
+
+    return inertia.render('drink', { calendar })
   }
 
   async store({ request, response, auth }: HttpContext) {

@@ -11,14 +11,15 @@ type PageProps = InertiaProps & {
     daily: Data.User.Variants['toRanked'][]
     weekly: Data.User.Variants['toRanked'][]
   }
+  calendar: Record<string, boolean>
 }
 
-export default function Family({ drink: { daily, weekly } }: PageProps) {
+export default function Family({ drink: { daily, weekly }, calendar }: PageProps) {
   return (
     <div className="h-screen flex flex-col relative overflow-hidden">
       <CharacterBackground />
 
-      <Navbar showCalendar />
+      <Navbar calendar={calendar} />
       <main className="flex-1 flex flex-col items-center justify-center py-5">
         <section className="bg-white rounded-3xl py-8 px-12 max-w-88 w-full">
           <Tabs defaultValue="daily">
