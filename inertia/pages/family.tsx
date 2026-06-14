@@ -9,38 +9,11 @@ import type { InertiaProps } from '@/types'
 type PageProps = InertiaProps & {
   drink: {
     daily: Data.User.Variants['toRanked'][]
+    weekly: Data.User.Variants['toRanked'][]
   }
 }
 
-const members = [
-  {
-    avatar: 'https://placehold.co/100x100/webp',
-    currentDrink: 1000,
-    targetDrink: 2500,
-  },
-  {
-    avatar: 'https://placehold.co/100x100/webp',
-    currentDrink: 890,
-    targetDrink: 2300,
-  },
-  {
-    avatar: 'https://placehold.co/100x100/webp',
-    currentDrink: 700,
-    targetDrink: 2100,
-  },
-  {
-    avatar: 'https://placehold.co/100x100/webp',
-    currentDrink: 600,
-    targetDrink: 2000,
-  },
-  {
-    avatar: 'https://placehold.co/100x100/webp',
-    currentDrink: 100,
-    targetDrink: 1700,
-  },
-]
-
-export default function Family({ drink: { daily } }: PageProps) {
+export default function Family({ drink: { daily, weekly } }: PageProps) {
   return (
     <div className="h-screen flex flex-col relative overflow-hidden">
       <CharacterBackground />
@@ -82,21 +55,23 @@ export default function Family({ drink: { daily } }: PageProps) {
             </TabsContent>
             <TabsContent value="weekly">
               <div className="space-y-5">
-                {members.map((member) => (
+                {weekly.map((member) => (
                   <div
-                    key={member.targetDrink}
+                    key={member.id}
                     className="relative bg-gray-200 rounded-full h-8 flex items-center justify-center"
                   >
                     <img
-                      src={member.avatar}
+                      src={member.avatar ?? ''}
                       alt="Avatar"
                       className="absolute top-1/2 left-0 -translate-1/2 w-10 h-10 rounded-full object-cover z-1"
                     />
                     <div
                       className="absolute bg-sky-400 top-0 left-0 w-full h-full origin-left rounded-full"
-                      style={{ transform: `scaleX(${member.currentDrink / member.targetDrink})` }}
+                      style={{
+                        transform: `scaleX(${member.milliliter / (member.milliliterTarget * 7)})`,
+                      }}
                     />
-                    <p className="relative z-2 text-sm font-medium">{`${member.currentDrink}/${member.targetDrink} ML`}</p>
+                    <p className="relative z-2 text-sm font-medium">{`${member.milliliter}/${member.milliliterTarget * 7} ML`}</p>
                   </div>
                 ))}
               </div>

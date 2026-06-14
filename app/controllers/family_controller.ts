@@ -10,27 +10,50 @@ export default class FamiliyController {
     const user = auth.use('web').user!
 
     const family = await FamilyMember.findBy('user_id', user.id)
-    let members: User[] = []
+    let daily: User[] = []
+    let weekly: User[] = []
 
     if (family) {
-      const today = DateTime.now().toSQLDate()
-
-      members = await User.query()
+      daily = await User.query()
         .whereIn('id', FamilyMember.query().select('user_id').where('family_id', family.familyId))
         .preload('drink', (query) => {
-          query.where('drink_date', today)
+          query.select('milliliter')
         })
 
-      members.sort((a, b) => {
+      weekly = await User.query()
+        .whereIn('id', FamilyMember.query().select('user_id').where('family_id', family.familyId))
+        .withAggregate('drinks', (query) => {
+          query
+            .sum('milliliter')
+            .as('total_milliliter')
+            .whereBetween('drink_date', [
+              DateTime.now().startOf('week').toSQLDate(),
+              DateTime.now().endOf('week').toSQLDate(),
+            ])
+        })
+
+      daily.sort((a, b) => {
         const aMl = a.drink?.milliliter ?? 0
         const bMl = b.drink?.milliliter ?? 0
+
+        return bMl - aMl
+      })
+
+      weekly.sort((a, b) => {
+        const aMl = Number(a.$extras?.total_milliliter ?? 0)
+        const bMl = Number(b.$extras?.total_milliliter ?? 0)
 
         return bMl - aMl
       })
     }
 
     return inertia.render('family', {
-      drink: { daily: UserTransformer.transform(members).useVariant('toRanked') ?? [], weekly: [] },
+      drink: {
+        daily: UserTransformer.transform(daily).useVariant('toRanked') ?? [],
+        weekly: UserTransformer.transform(weekly).useVariant('toRanked') ?? [],
+      },
     })
   }
+
+  async store() {}
 }

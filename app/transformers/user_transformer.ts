@@ -28,10 +28,13 @@ export default class UserTransformer extends BaseTransformer<User> {
   }
 
   async toRanked() {
+    const milliliter =
+      this.resource?.drink?.milliliter || Number(this.resource.$extras?.total_milliliter ?? 0)
+
     return {
       ...this.pick(this.resource, ['id', 'name', 'milliliterTarget']),
       avatar: this.resource.avatar ? await this.resource.avatar.getUrl('thumbnail') : null,
-      milliliter: this.resource?.drink?.milliliter ?? 0,
+      milliliter,
     }
   }
 }
