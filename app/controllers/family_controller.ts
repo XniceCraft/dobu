@@ -1,28 +1,29 @@
-import { DateTime } from 'luxon'
-import { getWeekDrinkLogs } from '#utils/drink'
-import FamilyMember from '#models/family_member'
+import Family from '#models/family'
 import User from '#models/user'
 import UserTransformer from '#transformers/user_transformer'
+import { DateTime } from 'luxon'
+import { getWeekDrinkLogs } from '#utils/drink'
+import { uuidv7 } from '#utils/uuidv7'
+import { joinFamilyValidator, showFamilyValidator } from '#validators/family'
 
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class FamiliyController {
-  async show({ inertia, auth }: HttpContext) {
+  async index({ inertia, auth }: HttpContext) {
     const user = auth.use('web').user!
 
-    const family = await FamilyMember.findBy('user_id', user.id)
     let daily: User[] = []
     let weekly: User[] = []
 
-    if (family) {
+    if (user.familyId) {
       daily = await User.query()
-        .whereIn('id', FamilyMember.query().select('user_id').where('family_id', family.familyId))
+        .where('familyId', user.familyId)
         .preload('drink', (query) => {
           query.select('milliliter')
         })
 
       weekly = await User.query()
-        .whereIn('id', FamilyMember.query().select('user_id').where('family_id', family.familyId))
+        .where('familyId', user.familyId)
         .withAggregate('drinks', (query) => {
           query
             .sum('milliliter')
@@ -49,14 +50,71 @@ export default class FamiliyController {
     }
     const calendar = await getWeekDrinkLogs(user.id)
 
-    return inertia.render('family', {
-      drink: {
-        daily: UserTransformer.transform(daily).useVariant('toRanked') ?? [],
-        weekly: UserTransformer.transform(weekly).useVariant('toRanked') ?? [],
-      },
+    return inertia.render('family/index', {
+      drink: user.familyId
+        ? {
+            daily: UserTransformer.transform(daily).useVariant('toRanked') ?? [],
+            weekly: UserTransformer.transform(weekly).useVariant('toRanked') ?? [],
+          }
+        : null,
       calendar,
     })
   }
 
-  async store() {}
+  async store({ auth, response }: HttpContext) {
+    const user = auth.use('web').user!
+
+    if (user.familyId) {
+      return response.forbidden()
+    }
+
+    const family = await Family.create({ ownerId: user.id, slug: uuidv7() })
+    await user.merge({ familyId: family.id }).save()
+
+    return response.redirect().toRoute('family.index')
+  }
+
+  async show({ request, inertia }: HttpContext) {
+    const { slug } = await request.validateUsing(showFamilyValidator)
+    const family = await Family.findBy('slug', slug)
+
+    return inertia.render('family/show', { family: family! })
+  }
+
+  async join({ auth, request, response }: HttpContext) {
+    const { slug } = await request.validateUsing(joinFamilyValidator)
+    const family = await Family.findBy('slug', slug)
+
+    const user = auth.use('web').user!
+    await user.merge({ familyId: family!.id }).save()
+
+    return response.redirect().toRoute('family.index')
+  }
+
+  async leave({ auth, response }: HttpContext) {
+    const user = auth.use('web').user!
+    await user.load('family')
+
+    if (!user.familyId) {
+      return response.forbidden()
+    }
+
+    if (user.family.ownerId !== user.id) {
+      await user.merge({ familyId: null }).save()
+      return response.redirect().back()
+    }
+
+    const members = await User.query().where('familyId', user.familyId).count('* as total')
+    await user.merge({ familyId: null }).save()
+
+    if (Number(members[0].$extras.total) <= 1) {
+      await user.family.delete()
+      return response.redirect().back()
+    }
+
+    const firstMember = await User.query().where('familyId', user.familyId).first()
+    await user.family.merge({ ownerId: firstMember!.id }).save()
+
+    return response.redirect().back()
+  }
 }

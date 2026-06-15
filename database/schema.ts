@@ -35,6 +35,19 @@ export class CacheSchema extends BaseModel {
   declare value: string | null
 }
 
+export class CharacterSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'image', 'updatedAt'] as const
+  $columns = CharacterSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare image: any | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class DrinkLogSchema extends BaseModel {
   static $columns = ['amountMl', 'createdAt', 'drinkId', 'id', 'updatedAt'] as const
   $columns = DrinkLogSchema.$columns
@@ -68,29 +81,18 @@ export class DrinkSchema extends BaseModel {
 }
 
 export class FamilySchema extends BaseModel {
-  static $columns = ['createdAt', 'id', 'updatedAt'] as const
+  static $columns = ['createdAt', 'id', 'ownerId', 'slug', 'updatedAt'] as const
   $columns = FamilySchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
   @column({ isPrimary: true })
   declare id: number
+  @column()
+  declare ownerId: number
+  @column()
+  declare slug: string | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
-}
-
-export class FamilyMemberSchema extends BaseModel {
-  static $columns = ['createdAt', 'familyId', 'id', 'updatedAt', 'userId'] as const
-  $columns = FamilyMemberSchema.$columns
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime | null
-  @column()
-  declare familyId: number
-  @column({ isPrimary: true })
-  declare id: number
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime | null
-  @column()
-  declare userId: number
 }
 
 export class IssueSchema extends BaseModel {
@@ -128,12 +130,14 @@ export class RememberMeTokenSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['avatar', 'birthdate', 'createdAt', 'dayEnd', 'dayStart', 'email', 'id', 'milliliterTarget', 'name', 'password', 'updatedAt', 'weight', 'workType'] as const
+  static $columns = ['avatar', 'birthdate', 'characterId', 'createdAt', 'dayEnd', 'dayStart', 'email', 'familyId', 'id', 'milliliterTarget', 'name', 'password', 'updatedAt', 'weight', 'workType'] as const
   $columns = UserSchema.$columns
   @column()
   declare avatar: any | null
   @column.date()
   declare birthdate: DateTime
+  @column()
+  declare characterId: number | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column()
@@ -142,6 +146,8 @@ export class UserSchema extends BaseModel {
   declare dayStart: string
   @column()
   declare email: string
+  @column()
+  declare familyId: number | null
   @column({ isPrimary: true })
   declare id: number
   @column()

@@ -26,7 +26,11 @@ router
     router.post('logout', [controllers.auth.Session, 'destroy']).as('auth.logout')
 
     router.get('/', [controllers.Page, 'home']).as('home')
-    router.get('/family', [controllers.Family, 'show']).as('family')
+    router.get('/family', [controllers.Family, 'index']).as('family.index')
+    router.post('/family', [controllers.Family, 'store']).as('family.store')
+    router.post('/family/leave', [controllers.Family, 'leave']).as('family.leave')
+    router.get('/family/:slug', [controllers.Family, 'show']).as('family.show')
+    router.post('/family/:slug', [controllers.Family, 'join']).as('family.join')
     router.get('/device', [controllers.Page, 'device']).as('device')
     router.on('/dress').renderInertia('dress', {}).as('dress')
 
@@ -52,3 +56,5 @@ router
       .prefix('/setting')
   })
   .use(middleware.auth())
+
+router.attachments()

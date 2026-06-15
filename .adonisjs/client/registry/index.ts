@@ -48,11 +48,35 @@ const routes = {
     tokens: [{"old":"/","type":0,"val":"/","end":""}],
     types: placeholder as Registry['home']['types'],
   },
-  'family': {
+  'family.index': {
     methods: ["GET","HEAD"],
     pattern: '/family',
     tokens: [{"old":"/family","type":0,"val":"family","end":""}],
-    types: placeholder as Registry['family']['types'],
+    types: placeholder as Registry['family.index']['types'],
+  },
+  'family.store': {
+    methods: ["POST"],
+    pattern: '/family',
+    tokens: [{"old":"/family","type":0,"val":"family","end":""}],
+    types: placeholder as Registry['family.store']['types'],
+  },
+  'family.leave': {
+    methods: ["POST"],
+    pattern: '/family/leave',
+    tokens: [{"old":"/family/leave","type":0,"val":"family","end":""},{"old":"/family/leave","type":0,"val":"leave","end":""}],
+    types: placeholder as Registry['family.leave']['types'],
+  },
+  'family.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/family/:slug',
+    tokens: [{"old":"/family/:slug","type":0,"val":"family","end":""},{"old":"/family/:slug","type":1,"val":"slug","end":""}],
+    types: placeholder as Registry['family.show']['types'],
+  },
+  'family.join': {
+    methods: ["POST"],
+    pattern: '/family/:slug',
+    tokens: [{"old":"/family/:slug","type":0,"val":"family","end":""},{"old":"/family/:slug","type":1,"val":"slug","end":""}],
+    types: placeholder as Registry['family.join']['types'],
   },
   'device': {
     methods: ["GET","HEAD"],
@@ -119,6 +143,12 @@ const routes = {
     pattern: '/setting/account',
     tokens: [{"old":"/setting/account","type":0,"val":"setting","end":""},{"old":"/setting/account","type":0,"val":"account","end":""}],
     types: placeholder as Registry['setting.account.update']['types'],
+  },
+  'attachments': {
+    methods: ["GET","HEAD"],
+    pattern: '/attachments/:key/:name?',
+    tokens: [{"old":"/attachments/:key/:name?","type":0,"val":"attachments","end":""},{"old":"/attachments/:key/:name?","type":1,"val":"key","end":""},{"old":"/attachments/:key/:name?","type":3,"val":"name","end":""}],
+    types: placeholder as Registry['attachments']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>
 

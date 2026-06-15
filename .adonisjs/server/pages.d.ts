@@ -19,7 +19,8 @@ declare module '@adonisjs/inertia/types' {
     'drink': ExtractProps<(typeof import('../../inertia/pages/drink.tsx'))['default']>
     'errors/not_found': ExtractProps<(typeof import('../../inertia/pages/errors/not_found.tsx'))['default']>
     'errors/server_error': ExtractProps<(typeof import('../../inertia/pages/errors/server_error.tsx'))['default']>
-    'family': ExtractProps<(typeof import('../../inertia/pages/family.tsx'))['default']>
+    'family/index': ExtractProps<(typeof import('../../inertia/pages/family/index.tsx'))['default']>
+    'family/show': ExtractProps<(typeof import('../../inertia/pages/family/show.tsx'))['default']>
     'home': ExtractProps<(typeof import('../../inertia/pages/home.tsx'))['default']>
     'setting': ExtractProps<(typeof import('../../inertia/pages/setting.tsx'))['default']>
     'setting/_components/form/birthdate-form': ExtractProps<(typeof import('../../inertia/pages/setting/_components/form/birthdate-form.tsx'))['default']>

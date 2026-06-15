@@ -2,9 +2,9 @@ import { usePage } from '@inertiajs/react'
 import { Button } from '@/components/ui/button'
 import { Link } from '@adonisjs/inertia/react'
 import { UsersRoundIcon, Share2Icon } from 'lucide-react'
+import { WeekCalendar } from './week-calendar'
 
 import type { InertiaProps } from '@/types'
-import { WeekCalendar } from './week-calendar'
 
 interface NavbarProps {
   calendar?: Record<string, boolean>
@@ -28,7 +28,7 @@ export function Navbar({ calendar }: NavbarProps) {
         </div>
         <div>
           <Button variant="ghost" size="icon" asChild>
-            <Link route="family">
+            <Link route="family.index">
               <UsersRoundIcon />
             </Link>
           </Button>
@@ -37,19 +37,6 @@ export function Navbar({ calendar }: NavbarProps) {
           </Button>
         </div>
       </section>
-      {/* 
-      {showCalendar && (
-        <div className="bg-gray-200 flex justify-around gap-3 p-2 rounded-xl">
-          {calendar.map((item) => (
-            <div key={item.date}>
-              <p className="font-bold text-xs text-gray-400 text-center mb-1">{item.day}</p>
-              <div className="bg-red-200 rounded-full text-center size-6 inline-block">
-                <p className="font-bold text-xs inline-block align-middle">{item.date}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      )} */}
       {calendar && <WeekCalendar logs={calendar} />}
     </nav>
   )

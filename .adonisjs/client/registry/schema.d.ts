@@ -91,7 +91,7 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/page_controller').default['home']>>>
     }
   }
-  'family': {
+  'family.index': {
     methods: ["GET","HEAD"]
     pattern: '/family'
     types: {
@@ -99,8 +99,56 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/family_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/family_controller').default['index']>>>
+    }
+  }
+  'family.store': {
+    methods: ["POST"]
+    pattern: '/family'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/family_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/family_controller').default['store']>>>
+    }
+  }
+  'family.leave': {
+    methods: ["POST"]
+    pattern: '/family/leave'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/family_controller').default['leave']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/family_controller').default['leave']>>>
+    }
+  }
+  'family.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/family/:slug'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { slug: ParamValue }
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/family').showFamilyValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/family_controller').default['show']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/family_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/family_controller').default['show']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'family.join': {
+    methods: ["POST"]
+    pattern: '/family/:slug'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/family').joinFamilyValidator)>>
+      paramsTuple: [ParamValue]
+      params: { slug: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/family').joinFamilyValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/family_controller').default['join']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/family_controller').default['join']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'device': {
@@ -233,6 +281,18 @@ export interface Registry {
       query: ExtractQuery<InferInput<(typeof import('#validators/user').updateUserValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/account_controller').default['update']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/account_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'attachments': {
+    methods: ["GET","HEAD"]
+    pattern: '/attachments/:key/:name?'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { key: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('@jrmc/adonis-attachment/controllers/attachments_controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('@jrmc/adonis-attachment/controllers/attachments_controller').default['handle']>>>
     }
   }
 }

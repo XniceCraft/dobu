@@ -11,7 +11,11 @@ export type ScannedRoutes = {
     'auth.login.store': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
     'home': { paramsTuple?: []; params?: {} }
-    'family': { paramsTuple?: []; params?: {} }
+    'family.index': { paramsTuple?: []; params?: {} }
+    'family.store': { paramsTuple?: []; params?: {} }
+    'family.leave': { paramsTuple?: []; params?: {} }
+    'family.show': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
+    'family.join': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'device': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
     'drink.create': { paramsTuple?: []; params?: {} }
@@ -23,13 +27,15 @@ export type ScannedRoutes = {
     'setting.days': { paramsTuple?: []; params?: {} }
     'setting.work-type': { paramsTuple?: []; params?: {} }
     'setting.account.update': { paramsTuple?: []; params?: {} }
+    'attachments': { paramsTuple: [ParamValue,ParamValue?]; params: {'key': ParamValue,'name'?: ParamValue} }
   }
   GET: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
     'auth.signup': { paramsTuple?: []; params?: {} }
     'auth.login': { paramsTuple?: []; params?: {} }
     'home': { paramsTuple?: []; params?: {} }
-    'family': { paramsTuple?: []; params?: {} }
+    'family.index': { paramsTuple?: []; params?: {} }
+    'family.show': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'device': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
     'drink.create': { paramsTuple?: []; params?: {} }
@@ -39,13 +45,15 @@ export type ScannedRoutes = {
     'setting.weight': { paramsTuple?: []; params?: {} }
     'setting.days': { paramsTuple?: []; params?: {} }
     'setting.work-type': { paramsTuple?: []; params?: {} }
+    'attachments': { paramsTuple: [ParamValue,ParamValue?]; params: {'key': ParamValue,'name'?: ParamValue} }
   }
   HEAD: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
     'auth.signup': { paramsTuple?: []; params?: {} }
     'auth.login': { paramsTuple?: []; params?: {} }
     'home': { paramsTuple?: []; params?: {} }
-    'family': { paramsTuple?: []; params?: {} }
+    'family.index': { paramsTuple?: []; params?: {} }
+    'family.show': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'device': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
     'drink.create': { paramsTuple?: []; params?: {} }
@@ -55,11 +63,15 @@ export type ScannedRoutes = {
     'setting.weight': { paramsTuple?: []; params?: {} }
     'setting.days': { paramsTuple?: []; params?: {} }
     'setting.work-type': { paramsTuple?: []; params?: {} }
+    'attachments': { paramsTuple: [ParamValue,ParamValue?]; params: {'key': ParamValue,'name'?: ParamValue} }
   }
   POST: {
     'auth.signup.store': { paramsTuple?: []; params?: {} }
     'auth.login.store': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
+    'family.store': { paramsTuple?: []; params?: {} }
+    'family.leave': { paramsTuple?: []; params?: {} }
+    'family.join': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'drink.store': { paramsTuple?: []; params?: {} }
     'setting.account.update': { paramsTuple?: []; params?: {} }
   }

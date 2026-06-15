@@ -17,7 +17,13 @@ export interface ApiDefinition {
     logout: typeof routes['auth.logout']
   }
   home: typeof routes['home']
-  family: typeof routes['family']
+  family: {
+    index: typeof routes['family.index']
+    store: typeof routes['family.store']
+    leave: typeof routes['family.leave']
+    show: typeof routes['family.show']
+    join: typeof routes['family.join']
+  }
   device: typeof routes['device']
   dress: typeof routes['dress']
   drink: {
@@ -33,4 +39,5 @@ export interface ApiDefinition {
     days: typeof routes['setting.days']
     workType: typeof routes['setting.work-type']
   }
+  attachments: typeof routes['attachments']
 }

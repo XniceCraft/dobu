@@ -9,6 +9,7 @@ import {
   CircleUserIcon,
   LogOutIcon,
   type LucideIcon,
+  UsersIcon,
   XIcon,
 } from 'lucide-react'
 
@@ -27,7 +28,7 @@ const menu: { label: string; icon: LucideIcon; route: Parameters<typeof urlFor>[
   },
   {
     label: 'Leaderboard Keluarga',
-    route: 'family',
+    route: 'family.index',
     icon: AwardIcon,
   },
   {
@@ -39,6 +40,11 @@ const menu: { label: string; icon: LucideIcon; route: Parameters<typeof urlFor>[
     label: 'Keluar',
     route: 'auth.logout',
     icon: LogOutIcon,
+  },
+  {
+    label: 'Keluar dari Grup Keluarga',
+    route: 'family.leave',
+    icon: UsersIcon,
   },
 ]
 

@@ -1,4 +1,5 @@
 import { BaseTransformer } from '@adonisjs/core/transformers'
+import CharacterTransformer from '#transformers/character_transformer'
 
 import type User from '#models/user'
 
@@ -34,6 +35,7 @@ export default class UserTransformer extends BaseTransformer<User> {
     return {
       ...this.pick(this.resource, ['id', 'name', 'milliliterTarget']),
       avatar: this.resource.avatar ? await this.resource.avatar.getUrl('thumbnail') : null,
+      character: CharacterTransformer.transform(this.whenLoaded(this.resource.character)),
       milliliter,
     }
   }

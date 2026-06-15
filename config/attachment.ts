@@ -79,15 +79,6 @@ const attachmentConfig = defineConfig({
    */
   converters: {
     thumbnail: {
-      /**
-       * optional converter
-       * default : @jrmc/adonis-attachment/converters/autodetect_converter
-       * image : @jrmc/adonis-attachment/converters/image_converter
-       * pdf : @jrmc/adonis-attachment/converters/pdf_thumbnail_converter
-       * document : @jrmc/adonis-attachment/converters/document_thumbnail_converter
-       * video : @jrmc/adonis-attachment/converters/video_thumbnail_converter
-       * create your custom converter : https://adonis-attachment.jrmc.dev/guide/advanced_usage/custom-converter
-       */
       converter: () => import('@jrmc/adonis-attachment/converters/image_converter'),
       resize: {
         width: 300,
@@ -95,18 +86,24 @@ const attachmentConfig = defineConfig({
         position: 'center',
       },
       format: 'webp',
-
-      /**
-       *
-       * https://sharp.pixelplumbing.com/api-operation/#autoorient
-       */
-      // autoOrient: false,
-
-      /**
-       * generation of blurhashes (default: true)
-       * https://blurha.sh/
-       */
-      // blurhash: true,
+    },
+    small: {
+      converter: () => import('@jrmc/adonis-attachment/converters/image_converter'),
+      resize: {
+        width: 500,
+        height: 500,
+        position: 'center',
+      },
+      format: 'webp',
+    },
+    medium: {
+      converter: () => import('@jrmc/adonis-attachment/converters/image_converter'),
+      resize: {
+        width: 800,
+        height: 800,
+        position: 'center',
+      },
+      format: 'webp',
     },
   },
 })
