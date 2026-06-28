@@ -1,12 +1,12 @@
 import './css/app.css'
 import { client } from './client'
-import { createRoot } from 'react-dom/client'
+import { hydrateRoot } from 'react-dom/client'
 import { createInertiaApp } from '@inertiajs/react'
 import { resolvePageComponent } from '@adonisjs/inertia/helpers'
 import { TuyauProvider } from '@adonisjs/inertia/react'
 import { Toaster } from 'react-hot-toast'
 
-const appName = import.meta.env.VITE_APP_NAME || 'AdonisJS'
+const appName = import.meta.env.VITE_APP_NAME
 
 createInertiaApp({
   title: (title) => (title ? `${title} - ${appName}` : appName),
@@ -14,7 +14,8 @@ createInertiaApp({
     return resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx'))
   },
   setup({ el, App, props }) {
-    createRoot(el).render(
+    hydrateRoot(
+      el,
       <TuyauProvider client={client}>
         <App {...props} />
         <Toaster position="top-right" />

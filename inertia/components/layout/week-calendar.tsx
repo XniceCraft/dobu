@@ -1,5 +1,5 @@
 import { memo, useMemo } from 'react'
-import { getCurrentWeekDays, toDateKey } from '@/lib/calendar'
+import { getCurrentWeekDays, toDateKey } from '@/lib/utils/calendar'
 import { cn } from '@/lib/utils'
 
 interface WeekCalendarProps {

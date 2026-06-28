@@ -24,7 +24,11 @@ export interface ApiDefinition {
     show: typeof routes['family.show']
     join: typeof routes['family.join']
   }
-  device: typeof routes['device']
+  device: typeof routes['device'] & {
+    pair: typeof routes['device.pair'] & {
+      store: typeof routes['device.pair.store']
+    }
+  }
   dress: typeof routes['dress']
   drink: {
     create: typeof routes['drink.create']

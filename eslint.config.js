@@ -1,36 +1,79 @@
-import { configApp, PLUGINS_LIST, RULES_LIST } from '@adonisjs/eslint-config'
-import eslint from '@eslint/js'
+import { configApp, PLUGINS_LIST } from '@adonisjs/eslint-config'
+import tseslint from 'typescript-eslint'
 import react from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
+import jsxA11y from 'eslint-plugin-jsx-a11y'
+import prettier from 'eslint-plugin-prettier/recommended'
 import globals from 'globals'
 
 const frontendConfig = {
   name: 'Inertia Frontend',
   files: ['./inertia/**/*.{ts,tsx}'],
+  plugins: {
+    ...PLUGINS_LIST,
+    react,
+    'react-hooks': reactHooks,
+    'jsx-a11y': jsxA11y,
+    ...prettier.plugins,
+  },
   languageOptions: {
     globals: {
       ...globals.browser,
       React: 'readonly',
     },
-    ...react.configs.flat['jsx-runtime'].languageOptions,
-  },
-  plugins: {
-    ...PLUGINS_LIST,
-    ...react.configs.flat['jsx-runtime'].plugins,
-    ...reactHooks.configs.flat.recommended.plugins,
+    parserOptions: {
+      ecmaFeatures: {
+        jsx: true,
+      },
+    },
   },
   settings: {
     react: {
       version: 'detect',
     },
   },
+  extends: [tseslint.configs.recommended],
   rules: {
-    ...RULES_LIST,
     ...react.configs.flat['jsx-runtime'].rules,
-    ...reactHooks.configs.flat.recommended.rules,
-    ...eslint.configs.recommended.rules,
+    ...reactHooks.configs.recommended.rules,
     '@unicorn/filename-case': ['error', { case: 'kebabCase' }],
-    'react-hooks/rules-of-hooks': 'error',
+    '@unicorn/no-for-loop': 'off',
+    'jsx-a11y/alt-text': [
+      'warn',
+      {
+        elements: ['img'],
+        img: ['Image'],
+      },
+    ],
+    'jsx-a11y/aria-props': 'warn',
+    'jsx-a11y/aria-proptypes': 'warn',
+    'jsx-a11y/aria-unsupported-elements': 'warn',
+    'jsx-a11y/role-has-required-aria-props': 'warn',
+    'jsx-a11y/role-supports-aria-props': 'warn',
+
+    'react/react-in-jsx-scope': 'off',
+    'react/prop-types': 'off',
+    'react/jsx-no-target-blank': 'off',
+    'react/jsx-key': 'error',
+
+    'react-hooks/exhaustive-deps': [
+      'warn',
+      {
+        additionalHooks: 'useGSAP',
+      },
+    ],
+
+    '@typescript-eslint/consistent-type-imports': [
+      'error',
+      {
+        prefer: 'type-imports',
+        fixStyle: 'inline-type-imports',
+        disallowTypeAnnotations: false,
+      },
+    ],
+
+    ...prettier.rules,
+    'prettier/prettier': ['error', { endOfLine: 'auto' }],
   },
 }
 

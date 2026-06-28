@@ -32,6 +32,8 @@ router
     router.get('/family/:slug', [controllers.Family, 'show']).as('family.show')
     router.post('/family/:slug', [controllers.Family, 'join']).as('family.join')
     router.get('/device', [controllers.Page, 'device']).as('device')
+    router.get('/device/pair', [controllers.Bottle, 'showPair']).as('device.pair')
+    router.post('/device/pair', [controllers.Bottle, 'store']).as('device.pair.store')
     router.on('/dress').renderInertia('dress', {}).as('dress')
 
     router

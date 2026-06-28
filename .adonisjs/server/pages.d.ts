@@ -12,9 +12,13 @@ type ExtractProps<T> =
 
 declare module '@adonisjs/inertia/types' {
   export interface InertiaPages {
+    'auth/_components/dialog/edit-image-dialog': ExtractProps<(typeof import('../../inertia/pages/auth/_components/dialog/edit-image-dialog.tsx'))['default']>
+    'auth/_components/field/avatar-field': ExtractProps<(typeof import('../../inertia/pages/auth/_components/field/avatar-field.tsx'))['default']>
     'auth/login': ExtractProps<(typeof import('../../inertia/pages/auth/login.tsx'))['default']>
     'auth/signup': ExtractProps<(typeof import('../../inertia/pages/auth/signup.tsx'))['default']>
     'device': ExtractProps<(typeof import('../../inertia/pages/device.tsx'))['default']>
+    'device/index': ExtractProps<(typeof import('../../inertia/pages/device/index.tsx'))['default']>
+    'device/pair': ExtractProps<(typeof import('../../inertia/pages/device/pair.tsx'))['default']>
     'dress': ExtractProps<(typeof import('../../inertia/pages/dress.tsx'))['default']>
     'drink': ExtractProps<(typeof import('../../inertia/pages/drink.tsx'))['default']>
     'errors/not_found': ExtractProps<(typeof import('../../inertia/pages/errors/not_found.tsx'))['default']>

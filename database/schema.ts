@@ -130,7 +130,7 @@ export class RememberMeTokenSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['avatar', 'birthdate', 'characterId', 'createdAt', 'dayEnd', 'dayStart', 'email', 'familyId', 'id', 'milliliterTarget', 'name', 'password', 'updatedAt', 'weight', 'workType'] as const
+  static $columns = ['avatar', 'birthdate', 'characterId', 'climate', 'createdAt', 'dayEnd', 'dayStart', 'email', 'familyId', 'gender', 'height', 'id', 'milliliterTarget', 'name', 'password', 'updatedAt', 'weight', 'workType'] as const
   $columns = UserSchema.$columns
   @column()
   declare avatar: any | null
@@ -138,6 +138,8 @@ export class UserSchema extends BaseModel {
   declare birthdate: DateTime
   @column()
   declare characterId: number | null
+  @column()
+  declare climate: string
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column()
@@ -148,6 +150,10 @@ export class UserSchema extends BaseModel {
   declare email: string
   @column()
   declare familyId: number | null
+  @column()
+  declare gender: string
+  @column()
+  declare height: number
   @column({ isPrimary: true })
   declare id: number
   @column()

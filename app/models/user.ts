@@ -13,7 +13,12 @@ import { DateTime } from 'luxon'
 import type { Attachment } from '@jrmc/adonis-attachment/types/attachment'
 import type { BelongsTo, HasMany, HasOne } from '@adonisjs/lucid/types/relations'
 
-export default class User extends compose(UserSchema, withAuthFinder(hash)) {
+const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
+  uids: ['email'],
+  passwordColumnName: 'password',
+})
+
+export default class User extends compose(UserSchema, AuthFinder) {
   @hasOne(() => Character)
   declare character: HasOne<typeof Character>
 
@@ -29,14 +34,20 @@ export default class User extends compose(UserSchema, withAuthFinder(hash)) {
   @hasMany(() => Drink)
   declare drinks: HasMany<typeof Drink>
 
-  @attachment({ folder: 'uploads/avatars' })
+  @attachment({ folder: 'uploads/avatars', variants: ['thumbnail', 'small'] })
   declare avatar: Attachment
 
   @belongsTo(() => Family)
   declare family: BelongsTo<typeof Family>
 
   @column()
+  declare gender: 'male' | 'female'
+
+  @column()
   declare workType: 'indoor' | 'semi-outdoor' | 'outdoor'
+
+  @column()
+  declare climate: 'cold' | 'temperate' | 'hot' | 'tropical'
 
   static rememberMeTokens = DbRememberMeTokensProvider.forModel(User)
 }

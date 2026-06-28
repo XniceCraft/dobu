@@ -2,7 +2,7 @@ import Drink from '#models/drink'
 import DrinkLog from '#models/drink_log'
 import DrinkTransformer from '#transformers/drink_transformer'
 import { DateTime } from 'luxon'
-import { getWeekDrinkLogs } from '#utils/drink'
+import { getWeekDrinkLogs } from 'app/helpers/drink.ts'
 
 import type { HttpContext } from '@adonisjs/core/http'
 
@@ -16,7 +16,7 @@ export default class PageController {
   async device({ auth, inertia }: HttpContext) {
     const data = await this.getData(auth.use('web').user!.id)
 
-    return inertia.render('device', data)
+    return inertia.render('device/index', data)
   }
 
   private async getData(userId: number) {

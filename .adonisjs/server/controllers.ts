@@ -9,6 +9,7 @@ export const controllers = {
     Session: () => import('#controllers/auth/session_controller'),
     SignUp: () => import('#controllers/auth/sign_up_controller'),
   },
+  Bottle: () => import('#controllers/bottle_controller'),
   Drink: () => import('#controllers/drink_controller'),
   Family: () => import('#controllers/family_controller'),
   Page: () => import('#controllers/page_controller'),

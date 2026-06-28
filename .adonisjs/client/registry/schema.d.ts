@@ -163,6 +163,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/page_controller').default['device']>>>
     }
   }
+  'device.pair': {
+    methods: ["GET","HEAD"]
+    pattern: '/device/pair'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/bottle_controller').default['showPair']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bottle_controller').default['showPair']>>>
+    }
+  }
+  'device.pair.store': {
+    methods: ["POST"]
+    pattern: '/device/pair'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/bottle_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bottle_controller').default['store']>>>
+    }
+  }
   'dress': {
     methods: ["GET","HEAD"]
     pattern: '/dress'

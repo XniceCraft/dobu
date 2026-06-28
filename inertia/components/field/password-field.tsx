@@ -35,6 +35,7 @@ export function PasswordField<T extends FieldValues>({
               aria-invalid={fieldState.invalid}
               type={showPassword ? 'text' : 'password'}
               placeholder={placeholder}
+              autoComplete="off"
               required
             />
             <button

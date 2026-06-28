@@ -17,6 +17,8 @@ export type ScannedRoutes = {
     'family.show': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'family.join': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'device': { paramsTuple?: []; params?: {} }
+    'device.pair': { paramsTuple?: []; params?: {} }
+    'device.pair.store': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
     'drink.create': { paramsTuple?: []; params?: {} }
     'drink.store': { paramsTuple?: []; params?: {} }
@@ -37,6 +39,7 @@ export type ScannedRoutes = {
     'family.index': { paramsTuple?: []; params?: {} }
     'family.show': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'device': { paramsTuple?: []; params?: {} }
+    'device.pair': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
     'drink.create': { paramsTuple?: []; params?: {} }
     'setting': { paramsTuple?: []; params?: {} }
@@ -55,6 +58,7 @@ export type ScannedRoutes = {
     'family.index': { paramsTuple?: []; params?: {} }
     'family.show': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'device': { paramsTuple?: []; params?: {} }
+    'device.pair': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
     'drink.create': { paramsTuple?: []; params?: {} }
     'setting': { paramsTuple?: []; params?: {} }
@@ -72,6 +76,7 @@ export type ScannedRoutes = {
     'family.store': { paramsTuple?: []; params?: {} }
     'family.leave': { paramsTuple?: []; params?: {} }
     'family.join': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
+    'device.pair.store': { paramsTuple?: []; params?: {} }
     'drink.store': { paramsTuple?: []; params?: {} }
     'setting.account.update': { paramsTuple?: []; params?: {} }
   }
