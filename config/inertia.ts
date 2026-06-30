@@ -16,7 +16,8 @@ const inertiaConfig = defineConfig({
     entrypoint: 'inertia/ssr.tsx',
   },
   rootView: (ctx) => {
-    if (ctx.request.matchesRoute(['auth.login', 'auth.signup'])) {
+    const url = ctx.request.url()
+    if (ctx.request.matchesRoute(['auth.login', 'auth.signup']) || url.startsWith('/admin')) {
       return 'auth_layout'
     }
 

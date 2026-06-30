@@ -34,7 +34,7 @@ router
     router.get('/device', [controllers.Page, 'device']).as('device')
     router.get('/device/pair', [controllers.Bottle, 'showPair']).as('device.pair')
     router.post('/device/pair', [controllers.Bottle, 'store']).as('device.pair.store')
-    router.on('/dress').renderInertia('dress', {}).as('dress')
+    router.get('/dress', [controllers.Page, 'dress']).as('dress')
 
     router
       .group(() => {
@@ -56,6 +56,17 @@ router
         router.post('/account', [controllers.Account, 'update']).as('setting.account.update')
       })
       .prefix('/setting')
+
+    router
+      .group(() => {
+        router
+          .group(() => {
+            router.get('/', [controllers.admin.Characters, 'index']).as('admin.characters.index')
+            router.post('/', [controllers.admin.Characters, 'store']).as('admin.characters.store')
+          })
+          .prefix('/characters')
+      })
+      .prefix('/admin')
   })
   .use(middleware.auth())
 

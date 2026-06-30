@@ -156,6 +156,18 @@ const routes = {
     tokens: [{"old":"/setting/account","type":0,"val":"setting","end":""},{"old":"/setting/account","type":0,"val":"account","end":""}],
     types: placeholder as Registry['setting.account.update']['types'],
   },
+  'admin.characters.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/characters',
+    tokens: [{"old":"/admin/characters","type":0,"val":"admin","end":""},{"old":"/admin/characters","type":0,"val":"characters","end":""}],
+    types: placeholder as Registry['admin.characters.index']['types'],
+  },
+  'admin.characters.store': {
+    methods: ["POST"],
+    pattern: '/admin/characters',
+    tokens: [{"old":"/admin/characters","type":0,"val":"admin","end":""},{"old":"/admin/characters","type":0,"val":"characters","end":""}],
+    types: placeholder as Registry['admin.characters.store']['types'],
+  },
   'attachments': {
     methods: ["GET","HEAD"],
     pattern: '/attachments/:key/:name?',

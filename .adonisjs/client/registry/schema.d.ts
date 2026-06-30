@@ -195,8 +195,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: unknown
-      errorResponse: unknown
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/page_controller').default['dress']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/page_controller').default['dress']>>>
     }
   }
   'drink.create': {
@@ -305,6 +305,30 @@ export interface Registry {
       query: ExtractQuery<InferInput<(typeof import('#validators/user').updateUserValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/account_controller').default['update']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/account_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.characters.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/characters'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/characters_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/characters_controller').default['index']>>>
+    }
+  }
+  'admin.characters.store': {
+    methods: ["POST"]
+    pattern: '/admin/characters'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/character').upsertCharacterValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/character').upsertCharacterValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/characters_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/characters_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'attachments': {

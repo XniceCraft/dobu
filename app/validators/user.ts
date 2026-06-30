@@ -1,7 +1,8 @@
 import vine from '@vinejs/vine'
+import { imageField } from '#validators/image'
 
 export const signupValidator = vine.create({
-  avatar: vine.file({ size: '5mb', extnames: ['jpg', 'jpeg', 'png', 'webp'] }),
+  avatar: imageField(),
   name: vine.string().minLength(2).maxLength(255),
   email: vine.string().email().maxLength(255).unique({ table: 'users', column: 'email' }),
   password: vine.string().minLength(8).maxLength(32).confirmed({

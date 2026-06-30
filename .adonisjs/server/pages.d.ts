@@ -12,7 +12,7 @@ type ExtractProps<T> =
 
 declare module '@adonisjs/inertia/types' {
   export interface InertiaPages {
-    'auth/_components/dialog/edit-image-dialog': ExtractProps<(typeof import('../../inertia/pages/auth/_components/dialog/edit-image-dialog.tsx'))['default']>
+    'admin/characters/index': ExtractProps<(typeof import('../../inertia/pages/admin/characters/index.tsx'))['default']>
     'auth/_components/field/avatar-field': ExtractProps<(typeof import('../../inertia/pages/auth/_components/field/avatar-field.tsx'))['default']>
     'auth/login': ExtractProps<(typeof import('../../inertia/pages/auth/login.tsx'))['default']>
     'auth/signup': ExtractProps<(typeof import('../../inertia/pages/auth/signup.tsx'))['default']>
@@ -33,5 +33,7 @@ declare module '@adonisjs/inertia/types' {
     'setting/days': ExtractProps<(typeof import('../../inertia/pages/setting/days.tsx'))['default']>
     'setting/weight': ExtractProps<(typeof import('../../inertia/pages/setting/weight.tsx'))['default']>
     'setting/work-type': ExtractProps<(typeof import('../../inertia/pages/setting/work-type.tsx'))['default']>
+    'admin/characters/_components/dialog/add-character-dialog': ExtractProps<(typeof import('../../inertia/pages/admin/characters/_components/dialog/add-character-dialog.tsx'))['default']>
+    'admin/characters/_components/field/character-field': ExtractProps<(typeof import('../../inertia/pages/admin/characters/_components/field/character-field.tsx'))['default']>
   }
 }

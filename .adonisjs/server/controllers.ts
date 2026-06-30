@@ -5,6 +5,9 @@
 
 export const controllers = {
   Account: () => import('#controllers/account_controller'),
+  admin: {
+    Characters: () => import('#controllers/admin/characters_controller'),
+  },
   auth: {
     Session: () => import('#controllers/auth/session_controller'),
     SignUp: () => import('#controllers/auth/sign_up_controller'),

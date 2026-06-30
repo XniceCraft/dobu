@@ -29,6 +29,8 @@ export type ScannedRoutes = {
     'setting.days': { paramsTuple?: []; params?: {} }
     'setting.work-type': { paramsTuple?: []; params?: {} }
     'setting.account.update': { paramsTuple?: []; params?: {} }
+    'admin.characters.index': { paramsTuple?: []; params?: {} }
+    'admin.characters.store': { paramsTuple?: []; params?: {} }
     'attachments': { paramsTuple: [ParamValue,ParamValue?]; params: {'key': ParamValue,'name'?: ParamValue} }
   }
   GET: {
@@ -48,6 +50,7 @@ export type ScannedRoutes = {
     'setting.weight': { paramsTuple?: []; params?: {} }
     'setting.days': { paramsTuple?: []; params?: {} }
     'setting.work-type': { paramsTuple?: []; params?: {} }
+    'admin.characters.index': { paramsTuple?: []; params?: {} }
     'attachments': { paramsTuple: [ParamValue,ParamValue?]; params: {'key': ParamValue,'name'?: ParamValue} }
   }
   HEAD: {
@@ -67,6 +70,7 @@ export type ScannedRoutes = {
     'setting.weight': { paramsTuple?: []; params?: {} }
     'setting.days': { paramsTuple?: []; params?: {} }
     'setting.work-type': { paramsTuple?: []; params?: {} }
+    'admin.characters.index': { paramsTuple?: []; params?: {} }
     'attachments': { paramsTuple: [ParamValue,ParamValue?]; params: {'key': ParamValue,'name'?: ParamValue} }
   }
   POST: {
@@ -79,6 +83,7 @@ export type ScannedRoutes = {
     'device.pair.store': { paramsTuple?: []; params?: {} }
     'drink.store': { paramsTuple?: []; params?: {} }
     'setting.account.update': { paramsTuple?: []; params?: {} }
+    'admin.characters.store': { paramsTuple?: []; params?: {} }
   }
 }
 declare module '@adonisjs/core/types/http' {

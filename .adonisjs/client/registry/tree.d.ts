@@ -43,5 +43,11 @@ export interface ApiDefinition {
     days: typeof routes['setting.days']
     workType: typeof routes['setting.work-type']
   }
+  admin: {
+    characters: {
+      index: typeof routes['admin.characters.index']
+      store: typeof routes['admin.characters.store']
+    }
+  }
   attachments: typeof routes['attachments']
 }

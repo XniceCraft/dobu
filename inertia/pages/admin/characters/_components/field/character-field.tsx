@@ -55,7 +55,7 @@ async function createCroppedImage(
   return new File([blob], `cropped-${fileName}`, { type: 'image/webp' })
 }
 
-export function AvatarField({ onChange }: { onChange: (value: File) => void }) {
+export function CharacterField({ onChange }: { onChange: (value: File) => void }) {
   const [file, setFile] = useState<File | null>(null)
   const [editedFile, setEditedFile] = useState<FileWithCrop | null>(null)
   const [showCropDialog, setShowCropDialog] = useState(false)
