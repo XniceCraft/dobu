@@ -36,7 +36,7 @@ export class CacheSchema extends BaseModel {
 }
 
 export class CharacterSchema extends BaseModel {
-  static $columns = ['createdAt', 'id', 'image', 'updatedAt'] as const
+  static $columns = ['createdAt', 'id', 'image', 'name', 'updatedAt'] as const
   $columns = CharacterSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
@@ -44,6 +44,8 @@ export class CharacterSchema extends BaseModel {
   declare id: number
   @column()
   declare image: any | null
+  @column()
+  declare name: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }

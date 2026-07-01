@@ -29,7 +29,9 @@ export interface ApiDefinition {
       store: typeof routes['device.pair.store']
     }
   }
-  dress: typeof routes['dress']
+  dress: typeof routes['dress'] & {
+    update: typeof routes['dress.update']
+  }
   drink: {
     create: typeof routes['drink.create']
     store: typeof routes['drink.store']

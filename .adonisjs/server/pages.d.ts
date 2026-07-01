@@ -12,6 +12,8 @@ type ExtractProps<T> =
 
 declare module '@adonisjs/inertia/types' {
   export interface InertiaPages {
+    'admin/characters/_components/dialog/add-character-dialog': ExtractProps<(typeof import('../../inertia/pages/admin/characters/_components/dialog/add-character-dialog.tsx'))['default']>
+    'admin/characters/_components/field/character-field': ExtractProps<(typeof import('../../inertia/pages/admin/characters/_components/field/character-field.tsx'))['default']>
     'admin/characters/index': ExtractProps<(typeof import('../../inertia/pages/admin/characters/index.tsx'))['default']>
     'auth/_components/field/avatar-field': ExtractProps<(typeof import('../../inertia/pages/auth/_components/field/avatar-field.tsx'))['default']>
     'auth/login': ExtractProps<(typeof import('../../inertia/pages/auth/login.tsx'))['default']>
@@ -20,6 +22,7 @@ declare module '@adonisjs/inertia/types' {
     'device/index': ExtractProps<(typeof import('../../inertia/pages/device/index.tsx'))['default']>
     'device/pair': ExtractProps<(typeof import('../../inertia/pages/device/pair.tsx'))['default']>
     'dress': ExtractProps<(typeof import('../../inertia/pages/dress.tsx'))['default']>
+    'dress/_components/character-selector': ExtractProps<(typeof import('../../inertia/pages/dress/_components/character-selector.tsx'))['default']>
     'drink': ExtractProps<(typeof import('../../inertia/pages/drink.tsx'))['default']>
     'errors/not_found': ExtractProps<(typeof import('../../inertia/pages/errors/not_found.tsx'))['default']>
     'errors/server_error': ExtractProps<(typeof import('../../inertia/pages/errors/server_error.tsx'))['default']>
@@ -33,7 +36,5 @@ declare module '@adonisjs/inertia/types' {
     'setting/days': ExtractProps<(typeof import('../../inertia/pages/setting/days.tsx'))['default']>
     'setting/weight': ExtractProps<(typeof import('../../inertia/pages/setting/weight.tsx'))['default']>
     'setting/work-type': ExtractProps<(typeof import('../../inertia/pages/setting/work-type.tsx'))['default']>
-    'admin/characters/_components/dialog/add-character-dialog': ExtractProps<(typeof import('../../inertia/pages/admin/characters/_components/dialog/add-character-dialog.tsx'))['default']>
-    'admin/characters/_components/field/character-field': ExtractProps<(typeof import('../../inertia/pages/admin/characters/_components/field/character-field.tsx'))['default']>
   }
 }

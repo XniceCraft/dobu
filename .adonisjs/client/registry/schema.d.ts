@@ -195,8 +195,20 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/page_controller').default['dress']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/page_controller').default['dress']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/characters_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/characters_controller').default['index']>>>
+    }
+  }
+  'dress.update': {
+    methods: ["POST"]
+    pattern: '/dress'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/character').updateUserCharacterValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/character').updateUserCharacterValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/characters_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/characters_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'drink.create': {

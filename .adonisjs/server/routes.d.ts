@@ -20,6 +20,7 @@ export type ScannedRoutes = {
     'device.pair': { paramsTuple?: []; params?: {} }
     'device.pair.store': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
+    'dress.update': { paramsTuple?: []; params?: {} }
     'drink.create': { paramsTuple?: []; params?: {} }
     'drink.store': { paramsTuple?: []; params?: {} }
     'setting': { paramsTuple?: []; params?: {} }
@@ -81,6 +82,7 @@ export type ScannedRoutes = {
     'family.leave': { paramsTuple?: []; params?: {} }
     'family.join': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'device.pair.store': { paramsTuple?: []; params?: {} }
+    'dress.update': { paramsTuple?: []; params?: {} }
     'drink.store': { paramsTuple?: []; params?: {} }
     'setting.account.update': { paramsTuple?: []; params?: {} }
     'admin.characters.store': { paramsTuple?: []; params?: {} }

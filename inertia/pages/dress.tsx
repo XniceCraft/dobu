@@ -5,12 +5,15 @@ import { Navbar } from '@/components/layout/navbar'
 
 import type { InertiaProps } from '@/types'
 import type { Data } from '@generated/data'
+import { CharacterSelector } from './dress/_components/character-selector'
 
 export default function DressPage({
   characters,
   calendar,
+  userCharacter,
 }: InertiaProps<{
   characters: Data.Character[]
+  userCharacter: number | null
   calendar: Record<string, boolean>
 }>) {
   return (
@@ -20,14 +23,17 @@ export default function DressPage({
         <CharacterBackground />
 
         <Navbar calendar={calendar} />
-        <main className="flex-1 flex flex-col items-center justify-between py-5">
-          <section>
-            <h2 className="text-center">Target Hari Ini</h2>
-          </section>
-
-          <section className="max-w-88 w-full space-y-3">
-            <div className="w-full max-w-xl bg-white rounded-full relative py-2 px-2"></div>
-          </section>
+        <main className="flex-1 flex flex-col items-center justify-center py-5">
+          {characters.length === 0 ? (
+            <div className="flex flex-col items-center gap-5 text-center">
+              <h1 className="text-2xl font-bold text-amber-800">Belum ada Karakter</h1>
+            </div>
+          ) : (
+            <CharacterSelector
+              characters={characters}
+              selectedId={userCharacter ?? characters[0].id}
+            />
+          )}
         </main>
 
         <MobileNavigation />

@@ -1,9 +1,9 @@
 import Character from '#models/character'
 import { attachmentManager } from '@jrmc/adonis-attachment'
 import { upsertCharacterValidator } from '#validators/character'
+import CharacterTransformer from '#transformers/character_transformer'
 
 import type { HttpContext } from '@adonisjs/core/http'
-import CharacterTransformer from '#transformers/character_transformer'
 
 export default class CharactersController {
   async index({ inertia }: HttpContext) {
@@ -15,10 +15,11 @@ export default class CharactersController {
   }
 
   async store({ request, response }: HttpContext) {
-    const { image } = await request.validateUsing(upsertCharacterValidator)
+    const { name, image } = await request.validateUsing(upsertCharacterValidator)
     const attachment = await attachmentManager.createFromFile(image)
 
     await Character.create({
+      name,
       image: attachment,
     })
 

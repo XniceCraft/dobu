@@ -34,7 +34,8 @@ router
     router.get('/device', [controllers.Page, 'device']).as('device')
     router.get('/device/pair', [controllers.Bottle, 'showPair']).as('device.pair')
     router.post('/device/pair', [controllers.Bottle, 'store']).as('device.pair.store')
-    router.get('/dress', [controllers.Page, 'dress']).as('dress')
+    router.get('/dress', [controllers.Characters, 'index']).as('dress')
+    router.post('/dress', [controllers.Characters, 'update']).as('dress.update')
 
     router
       .group(() => {

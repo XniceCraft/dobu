@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useId } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useRouter } from '@adonisjs/inertia/react'
 import { Button, LoadingButton } from '@/components/ui/button'
@@ -12,17 +12,20 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { CharacterField } from '../field/character-field'
-import { Field, FieldError } from '@/components/ui/field'
+import { Field, FieldError, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
 import { PlusIcon } from '@phosphor-icons/react'
 import { upsertCharacterSchema, type UpsertCharacterSchema } from '@/lib/validations/character'
 import { zodResolver } from '@hookform/resolvers/zod'
 import toast from 'react-hot-toast'
 
 export function AddCharacterDialog() {
+  const formPrefix = useId()
   const router = useRouter()
   const {
     control,
     handleSubmit,
+    reset,
     setError,
     formState: { isSubmitting },
   } = useForm<UpsertCharacterSchema>({
@@ -50,11 +53,12 @@ export function AddCharacterDialog() {
           onSuccess: () => {
             toast.success('Karakter berhasil ditambahkan')
             setDialogOpen(false)
+            reset()
           },
         }
       )
     },
-    [router, setError, setDialogOpen]
+    [router, setError, setDialogOpen, reset]
   )
 
   return (
@@ -69,7 +73,26 @@ export function AddCharacterDialog() {
         <DialogHeader>
           <DialogTitle className="font-semibold text-lg">Tambahkan Karakter</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} id="add-character-form">
+        <form onSubmit={handleSubmit(onSubmit)} id={formPrefix} className="space-y-6">
+          <Controller
+            control={control}
+            name="name"
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={`${formPrefix}-${field.name}`}>Nama</FieldLabel>
+                <Input
+                  {...field}
+                  id={`${formPrefix}-${field.name}`}
+                  aria-invalid={fieldState.invalid}
+                  className="rounded-lg"
+                  placeholder="Masukkan nama karakter"
+                  type="text"
+                  required
+                />
+                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              </Field>
+            )}
+          />
           <Controller
             control={control}
             name="image"
@@ -82,7 +105,7 @@ export function AddCharacterDialog() {
           />
         </form>
         <DialogFooter className="flex-col">
-          <LoadingButton type="submit" form="add-character-form" loading={isSubmitting}>
+          <LoadingButton type="submit" form={formPrefix} loading={isSubmitting}>
             Tambah
           </LoadingButton>
           <DialogClose asChild>

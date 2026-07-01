@@ -65,7 +65,7 @@ export default function SignUp() {
           <p className="text-muted-foreground text-sm text-center mb-6">
             Lengkapi data anda untuk memulai
           </p>
-          <form onSubmit={handleSubmit(onSubmit, console.log)} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <Controller
               control={control}
               name="avatar"
