@@ -163,16 +163,16 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/page_controller').default['device']>>>
     }
   }
-  'device.pair': {
+  'device.control': {
     methods: ["GET","HEAD"]
-    pattern: '/device/pair'
+    pattern: '/device/control'
     types: {
       body: {}
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/bottle_controller').default['showPair']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bottle_controller').default['showPair']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/bottle_controller').default['control']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bottle_controller').default['control']>>>
     }
   }
   'device.pair.store': {

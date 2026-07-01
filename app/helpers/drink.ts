@@ -29,19 +29,22 @@ const INSENSIBLE_LOSS_ML_PER_M2 = 400
 export async function getWeekDrinkLogs(userId: number): Promise<Record<string, boolean>> {
   const today = DateTime.now()
   const monday = today.startOf('week')
-  const sunday = monday.plus({ days: 6 }).endOf('day')
 
   const rows = await Drink.query()
     .where('userId', userId)
-    .whereBetween('drinkDate', [monday.toISODate(), sunday.toISODate()])
-    .select('drinkDate')
+    .whereBetween('drinkDate', [monday.toISODate()!, today.toISODate()!])
 
-  const loggedDates = new Set(rows.map((r) => r.drinkDate.toISODate()))
+  const totalsByDate = new Map<string, number>()
+  for (const row of rows) {
+    const key = row.drinkDate.toISODate()!
+    totalsByDate.set(key, (totalsByDate.get(key) ?? 0) + row.milliliter)
+  }
 
   return Object.fromEntries(
-    Array.from({ length: 7 }, (_, i) => {
+    Array.from({ length: rows.length }, (_, i) => {
       const dateKey = monday.plus({ days: i }).toISODate()!
-      return [dateKey, loggedDates.has(dateKey)]
+      const total = totalsByDate.get(dateKey) ?? 0
+      return [dateKey, total > 0]
     })
   )
 }

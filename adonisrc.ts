@@ -31,7 +31,7 @@ export default defineConfig({
     () => import('@adonisjs/session/commands'),
     () => import('@adonisjs/inertia/commands'),
     () => import('@jrmc/adonis-attachment/commands'),
-    () => import('@adonisjs/cache/commands')
+    () => import('@adonisjs/cache/commands'),
   ],
 
   /*
@@ -63,7 +63,7 @@ export default defineConfig({
     () => import('#providers/api_provider'),
     () => import('@jrmc/adonis-attachment/attachment_provider'),
     () => import('@adonisjs/drive/drive_provider'),
-    () => import('@adonisjs/cache/cache_provider')
+    () => import('@adonisjs/cache/cache_provider'),
   ],
 
   /*

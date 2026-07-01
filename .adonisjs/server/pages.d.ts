@@ -18,9 +18,8 @@ declare module '@adonisjs/inertia/types' {
     'auth/_components/field/avatar-field': ExtractProps<(typeof import('../../inertia/pages/auth/_components/field/avatar-field.tsx'))['default']>
     'auth/login': ExtractProps<(typeof import('../../inertia/pages/auth/login.tsx'))['default']>
     'auth/signup': ExtractProps<(typeof import('../../inertia/pages/auth/signup.tsx'))['default']>
-    'device': ExtractProps<(typeof import('../../inertia/pages/device.tsx'))['default']>
+    'device/control': ExtractProps<(typeof import('../../inertia/pages/device/control.tsx'))['default']>
     'device/index': ExtractProps<(typeof import('../../inertia/pages/device/index.tsx'))['default']>
-    'device/pair': ExtractProps<(typeof import('../../inertia/pages/device/pair.tsx'))['default']>
     'dress': ExtractProps<(typeof import('../../inertia/pages/dress.tsx'))['default']>
     'dress/_components/character-selector': ExtractProps<(typeof import('../../inertia/pages/dress/_components/character-selector.tsx'))['default']>
     'drink': ExtractProps<(typeof import('../../inertia/pages/drink.tsx'))['default']>

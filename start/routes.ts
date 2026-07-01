@@ -32,7 +32,7 @@ router
     router.get('/family/:slug', [controllers.Family, 'show']).as('family.show')
     router.post('/family/:slug', [controllers.Family, 'join']).as('family.join')
     router.get('/device', [controllers.Page, 'device']).as('device')
-    router.get('/device/pair', [controllers.Bottle, 'showPair']).as('device.pair')
+    router.get('/device/control', [controllers.Bottle, 'control']).as('device.control')
     router.post('/device/pair', [controllers.Bottle, 'store']).as('device.pair.store')
     router.get('/dress', [controllers.Characters, 'index']).as('dress')
     router.post('/dress', [controllers.Characters, 'update']).as('dress.update')

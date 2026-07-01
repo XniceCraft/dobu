@@ -1,7 +1,7 @@
 import Drink from '#models/drink'
 import DrinkLog from '#models/drink_log'
 import { DateTime } from 'luxon'
-import { getWeekDrinkLogs } from 'app/helpers/drink.ts'
+import { getWeekDrinkLogs } from '#helpers/drink'
 import { insertDrinkValidator } from '#validators/drink'
 
 import type { HttpContext } from '@adonisjs/core/http'

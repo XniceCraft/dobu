@@ -3,6 +3,7 @@ import { client } from './client'
 import { hydrateRoot } from 'react-dom/client'
 import { createInertiaApp } from '@inertiajs/react'
 import { resolvePageComponent } from '@adonisjs/inertia/helpers'
+import { BottleProvider } from './providers/bottle-provider'
 import { TuyauProvider } from '@adonisjs/inertia/react'
 import { Toaster } from 'react-hot-toast'
 
@@ -17,8 +18,10 @@ createInertiaApp({
     hydrateRoot(
       el,
       <TuyauProvider client={client}>
-        <App {...props} />
-        <Toaster position="top-right" />
+        <BottleProvider>
+          <App {...props} />
+          <Toaster position="top-right" />
+        </BottleProvider>
       </TuyauProvider>
     )
   },

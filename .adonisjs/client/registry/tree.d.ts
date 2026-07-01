@@ -25,7 +25,8 @@ export interface ApiDefinition {
     join: typeof routes['family.join']
   }
   device: typeof routes['device'] & {
-    pair: typeof routes['device.pair'] & {
+    control: typeof routes['device.control']
+    pair: {
       store: typeof routes['device.pair.store']
     }
   }

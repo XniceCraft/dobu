@@ -1,4 +1,5 @@
-import { Link } from '@adonisjs/inertia/react'
+import { useBottle } from '@/providers/bottle-provider'
+import { Link, useRouter } from '@adonisjs/inertia/react'
 import { Navbar } from '@/components/layout/navbar'
 import { MobileNavigation } from '@/components/layout/mobile-navigation'
 import { Button } from '@/components/ui/button'
@@ -6,6 +7,7 @@ import { CharacterBackground } from '@/components/background/character-backgroun
 
 import type { InertiaProps } from '@/types'
 import type { Data } from '@generated/data'
+import { useCallback } from 'react'
 
 type PageProps = InertiaProps & {
   drink: Data.Drink
@@ -15,36 +17,52 @@ type PageProps = InertiaProps & {
 }
 
 export default function DevicePage({ user, drink, bottle, streak, calendar }: PageProps) {
+  const router = useRouter()
+  const { connect } = useBottle()
+
+  const onBottleConnected = useCallback(() => {
+    router.visit({
+      route: 'device.control',
+    })
+  }, [router])
+
   return (
     <div className="h-screen flex flex-col relative overflow-hidden">
       <CharacterBackground />
 
       <Navbar calendar={calendar} />
       <main className="flex-1 flex flex-col items-center justify-between py-5 gap-5">
-        <section>
-          <h2 className="text-center">Volume Botol</h2>
-          <h1 className="text-4xl font-bold tracking-wide text-center">
-            {bottle ? bottle.volumeMl : 'Tidak tersedia'}
-          </h1>
-        </section>
         {bottle ? (
-          <section className="max-w-32 w-full h-full max-h-96 bg-white rounded-full p-2">
-            <div className="bg-gray-200 rounded-full h-full flex overflow-hidden">
-              <div
-                className="relative bg-sky-400 h-full w-full mt-auto rounded-full flex items-center justify-center"
-                style={{ transform: `scaleY(${bottle.remainingPercent / 100})` }}
-              >
-                <p className="font-bold text-3xl text-white mix-blend-difference">
-                  {Math.round(bottle.remainingPercent)}%
-                </p>
+          <>
+            <section>
+              <h2 className="text-center">Volume Botol</h2>
+              <h1 className="text-4xl font-bold tracking-wide text-center">{bottle.volumeMl} ML</h1>
+            </section>
+            <section className="max-w-32 w-full h-full max-h-96 bg-white rounded-full p-2">
+              <div className="bg-gray-200 rounded-full h-full flex overflow-hidden">
+                <div
+                  className="relative bg-sky-400 h-full w-full mt-auto rounded-full flex items-center justify-center"
+                  style={{ transform: `scaleY(${bottle.remainingPercent / 100})` }}
+                >
+                  <p className="font-bold text-3xl text-white mix-blend-difference">
+                    {Math.round(bottle.remainingPercent)}%
+                  </p>
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
+          </>
         ) : (
           <section className="max-w-88 w-full h-full max-h-96 flex flex-col items-center justify-center rounded-lg bg-white">
-            <p>Botol tidak terhubung</p>
-            <Button variant="gradient" asChild>
-              <Link route="device.pair">Hubungkan botol</Link>
+            <p>Tidak ada botol yang tersimpan</p>
+            <Button
+              variant="gradient"
+              onClick={() =>
+                connect({
+                  onConnect: onBottleConnected,
+                })
+              }
+            >
+              Hubungkan Botol
             </Button>
           </section>
         )}
