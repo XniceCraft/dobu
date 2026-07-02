@@ -115,6 +115,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/family_controller').default['store']>>>
     }
   }
+  'family.invite': {
+    methods: ["GET","HEAD"]
+    pattern: '/family/invite'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/family_controller').default['invite']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/family_controller').default['invite']>>>
+    }
+  }
+  'family.join': {
+    methods: ["GET","HEAD"]
+    pattern: '/family/:slug'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { slug: ParamValue }
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/family').joinFamilyValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/family_controller').default['join']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/family_controller').default['join']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'family.leave': {
     methods: ["POST"]
     pattern: '/family/leave'
@@ -127,30 +151,6 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/family_controller').default['leave']>>>
     }
   }
-  'family.show': {
-    methods: ["GET","HEAD"]
-    pattern: '/family/:slug'
-    types: {
-      body: {}
-      paramsTuple: [ParamValue]
-      params: { slug: ParamValue }
-      query: ExtractQueryForGet<InferInput<(typeof import('#validators/family').showFamilyValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/family_controller').default['show']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/family_controller').default['show']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
-  'family.join': {
-    methods: ["POST"]
-    pattern: '/family/:slug'
-    types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/family').joinFamilyValidator)>>
-      paramsTuple: [ParamValue]
-      params: { slug: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/family').joinFamilyValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/family_controller').default['join']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/family_controller').default['join']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
   'device': {
     methods: ["GET","HEAD"]
     pattern: '/device'
@@ -161,18 +161,6 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/page_controller').default['device']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/page_controller').default['device']>>>
-    }
-  }
-  'device.control': {
-    methods: ["GET","HEAD"]
-    pattern: '/device/control'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/bottle_controller').default['control']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bottle_controller').default['control']>>>
     }
   }
   'device.pair.store': {
@@ -319,6 +307,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/account_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'admin.dashboard': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/dashboard_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/dashboard_controller').default['index']>>>
+    }
+  }
   'admin.characters.index': {
     methods: ["GET","HEAD"]
     pattern: '/admin/characters'
@@ -335,12 +335,36 @@ export interface Registry {
     methods: ["POST"]
     pattern: '/admin/characters'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/character').upsertCharacterValidator)>>
+      body: ExtractBody<InferInput<(typeof import('#validators/character').createCharacterValidator)>>
       paramsTuple: []
       params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/character').upsertCharacterValidator)>>
+      query: ExtractQuery<InferInput<(typeof import('#validators/character').createCharacterValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/characters_controller').default['store']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/characters_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.characters.update': {
+    methods: ["POST"]
+    pattern: '/admin/characters/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/character').updateCharacterValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/character').updateCharacterValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/characters_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/characters_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.characters.destroy': {
+    methods: ["POST"]
+    pattern: '/admin/characters/:id/delete'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/characters_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/characters_controller').default['destroy']>>>
     }
   }
   'attachments': {

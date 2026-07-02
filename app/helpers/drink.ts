@@ -41,7 +41,7 @@ export async function getWeekDrinkLogs(userId: number): Promise<Record<string, b
   }
 
   return Object.fromEntries(
-    Array.from({ length: rows.length }, (_, i) => {
+    Array.from({ length: today.diff(monday, 'days').days + 1 }, (_, i) => {
       const dateKey = monday.plus({ days: i }).toISODate()!
       const total = totalsByDate.get(dateKey) ?? 0
       return [dateKey, total > 0]

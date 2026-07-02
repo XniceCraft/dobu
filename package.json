@@ -86,6 +86,7 @@
     "@hookform/resolvers": "^5.4.0",
     "@inertiajs/react": "^2.3.24",
     "@jrmc/adonis-attachment": "^5.1.5",
+    "@lglab/react-qr-code": "^1.7.0",
     "@ncdai/react-wheel-picker": "^1.2.2",
     "@phosphor-icons/react": "^2.1.10",
     "@tuyau/core": "^1.2.2",

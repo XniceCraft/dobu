@@ -8,6 +8,7 @@ export default class extends BaseSchema {
       table.increments('id')
       table.integer('drink_id').unsigned().references('drinks.id').onDelete('cascade').notNullable()
       table.integer('amount_ml').unsigned()
+      table.enum('source', ['manual', 'bottle']).notNullable()
 
       table.timestamp('created_at')
       table.timestamp('updated_at')

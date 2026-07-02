@@ -7,6 +7,7 @@ export const controllers = {
   Account: () => import('#controllers/account_controller'),
   admin: {
     Characters: () => import('#controllers/admin/characters_controller'),
+    Dashboard: () => import('#controllers/admin/dashboard_controller'),
   },
   auth: {
     Session: () => import('#controllers/auth/session_controller'),
@@ -16,5 +17,6 @@ export const controllers = {
   Characters: () => import('#controllers/characters_controller'),
   Drink: () => import('#controllers/drink_controller'),
   Family: () => import('#controllers/family_controller'),
+  Issues: () => import('#controllers/issues_controller'),
   Page: () => import('#controllers/page_controller'),
 }

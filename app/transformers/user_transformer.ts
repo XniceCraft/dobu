@@ -6,7 +6,7 @@ import type User from '#models/user'
 export default class UserTransformer extends BaseTransformer<User> {
   async toObject() {
     return {
-      ...this.pick(this.resource, ['id', 'name', 'email', 'milliliterTarget']),
+      ...this.pick(this.resource, ['id', 'name', 'email', 'milliliterTarget', 'familyId']),
       avatar: this.resource.avatar ? await this.resource.avatar.getUrl('thumbnail') : null,
     }
   }
@@ -23,6 +23,7 @@ export default class UserTransformer extends BaseTransformer<User> {
         'dayStart',
         'dayEnd',
         'milliliterTarget',
+        'intervalMinutes',
       ]),
       avatar: this.resource.avatar ? await this.resource.avatar.getUrl('thumbnail') : null,
     }
@@ -35,7 +36,9 @@ export default class UserTransformer extends BaseTransformer<User> {
     return {
       ...this.pick(this.resource, ['id', 'name', 'milliliterTarget']),
       avatar: this.resource.avatar ? await this.resource.avatar.getUrl('thumbnail') : null,
-      character: CharacterTransformer.transform(this.whenLoaded(this.resource.character)),
+      character: this.resource.character
+        ? CharacterTransformer.transform(this.resource.character)
+        : null,
       milliliter,
     }
   }

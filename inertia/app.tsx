@@ -12,16 +12,20 @@ const appName = import.meta.env.VITE_APP_NAME
 createInertiaApp({
   title: (title) => (title ? `${title} - ${appName}` : appName),
   resolve: (name) => {
-    return resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx'))
+    return resolvePageComponent(
+      `./pages/${name}.tsx`,
+      import.meta.glob('./pages/**/*.tsx'),
+      (page: React.ReactElement) => {
+        return <BottleProvider>{page}</BottleProvider>
+      }
+    )
   },
   setup({ el, App, props }) {
     hydrateRoot(
       el,
       <TuyauProvider client={client}>
-        <BottleProvider>
-          <App {...props} />
-          <Toaster position="top-right" />
-        </BottleProvider>
+        <App {...props} />
+        <Toaster position="top-right" />
       </TuyauProvider>
     )
   },

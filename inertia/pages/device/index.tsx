@@ -1,30 +1,22 @@
 import { useBottle } from '@/providers/bottle-provider'
-import { Link, useRouter } from '@adonisjs/inertia/react'
+import { Link } from '@adonisjs/inertia/react'
 import { Navbar } from '@/components/layout/navbar'
 import { MobileNavigation } from '@/components/layout/mobile-navigation'
 import { Button } from '@/components/ui/button'
 import { CharacterBackground } from '@/components/background/character-background'
+import { clamp } from '@/lib/utils/math'
 
 import type { InertiaProps } from '@/types'
 import type { Data } from '@generated/data'
-import { useCallback } from 'react'
 
 type PageProps = InertiaProps & {
   drink: Data.Drink
-  bottle?: Data.Bottle
   streak: number
   calendar: Record<string, boolean>
 }
 
-export default function DevicePage({ user, drink, bottle, streak, calendar }: PageProps) {
-  const router = useRouter()
-  const { connect } = useBottle()
-
-  const onBottleConnected = useCallback(() => {
-    router.visit({
-      route: 'device.control',
-    })
-  }, [router])
+export default function DevicePage({ user, drink, streak, calendar }: PageProps) {
+  const { connect, bottle } = useBottle()
 
   return (
     <div className="h-screen flex flex-col relative overflow-hidden">
@@ -36,16 +28,16 @@ export default function DevicePage({ user, drink, bottle, streak, calendar }: Pa
           <>
             <section>
               <h2 className="text-center">Volume Botol</h2>
-              <h1 className="text-4xl font-bold tracking-wide text-center">{bottle.volumeMl} ML</h1>
+              <h1 className="text-4xl font-bold tracking-wide text-center">{bottle.size} ML</h1>
             </section>
             <section className="max-w-32 w-full h-full max-h-96 bg-white rounded-full p-2">
               <div className="bg-gray-200 rounded-full h-full flex overflow-hidden">
                 <div
                   className="relative bg-sky-400 h-full w-full mt-auto rounded-full flex items-center justify-center"
-                  style={{ transform: `scaleY(${bottle.remainingPercent / 100})` }}
+                  style={{ transform: `scaleY(${clamp(bottle.remainingMl / bottle.size, 0, 1)})` }}
                 >
                   <p className="font-bold text-3xl text-white mix-blend-difference">
-                    {Math.round(bottle.remainingPercent)}%
+                    {Math.round((bottle.remainingMl / bottle.size) * 100)}%
                   </p>
                 </div>
               </div>
@@ -54,15 +46,8 @@ export default function DevicePage({ user, drink, bottle, streak, calendar }: Pa
         ) : (
           <section className="max-w-88 w-full h-full max-h-96 flex flex-col items-center justify-center rounded-lg bg-white">
             <p>Tidak ada botol yang tersimpan</p>
-            <Button
-              variant="gradient"
-              onClick={() =>
-                connect({
-                  onConnect: onBottleConnected,
-                })
-              }
-            >
-              Hubungkan Botol
+            <Button variant="gradient" onClick={connect}>
+              Hubungkan Botol{' '}
             </Button>
           </section>
         )}
@@ -75,7 +60,9 @@ export default function DevicePage({ user, drink, bottle, streak, calendar }: Pa
               <div className="bg-gray-100 rounded-full w-full h-full overflow-hidden">
                 <div
                   className="bg-sky-400 rounded-full w-full h-full origin-left"
-                  style={{ transform: `scaleX(${drink.milliliter / user!.milliliterTarget})` }}
+                  style={{
+                    transform: `scaleX(${clamp(drink.milliliter / user!.milliliterTarget, 0, 1)})`,
+                  }}
                 />
               </div>
             </div>

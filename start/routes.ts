@@ -26,14 +26,16 @@ router
     router.post('logout', [controllers.auth.Session, 'destroy']).as('auth.logout')
 
     router.get('/', [controllers.Page, 'home']).as('home')
+
     router.get('/family', [controllers.Family, 'index']).as('family.index')
     router.post('/family', [controllers.Family, 'store']).as('family.store')
+    router.get('/family/invite', [controllers.Family, 'invite']).as('family.invite')
+    router.get('/family/:slug', [controllers.Family, 'join']).as('family.join')
     router.post('/family/leave', [controllers.Family, 'leave']).as('family.leave')
-    router.get('/family/:slug', [controllers.Family, 'show']).as('family.show')
-    router.post('/family/:slug', [controllers.Family, 'join']).as('family.join')
+
     router.get('/device', [controllers.Page, 'device']).as('device')
-    router.get('/device/control', [controllers.Bottle, 'control']).as('device.control')
     router.post('/device/pair', [controllers.Bottle, 'store']).as('device.pair.store')
+
     router.get('/dress', [controllers.Characters, 'index']).as('dress')
     router.post('/dress', [controllers.Characters, 'update']).as('dress.update')
 
@@ -60,10 +62,18 @@ router
 
     router
       .group(() => {
+        router.get('/', [controllers.admin.Dashboard, 'index']).as('admin.dashboard')
+
         router
           .group(() => {
             router.get('/', [controllers.admin.Characters, 'index']).as('admin.characters.index')
             router.post('/', [controllers.admin.Characters, 'store']).as('admin.characters.store')
+            router
+              .post('/:id', [controllers.admin.Characters, 'update'])
+              .as('admin.characters.update')
+            router
+              .post('/:id/delete', [controllers.admin.Characters, 'destroy'])
+              .as('admin.characters.destroy')
           })
           .prefix('/characters')
       })

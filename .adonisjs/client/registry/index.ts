@@ -60,35 +60,29 @@ const routes = {
     tokens: [{"old":"/family","type":0,"val":"family","end":""}],
     types: placeholder as Registry['family.store']['types'],
   },
+  'family.invite': {
+    methods: ["GET","HEAD"],
+    pattern: '/family/invite',
+    tokens: [{"old":"/family/invite","type":0,"val":"family","end":""},{"old":"/family/invite","type":0,"val":"invite","end":""}],
+    types: placeholder as Registry['family.invite']['types'],
+  },
+  'family.join': {
+    methods: ["GET","HEAD"],
+    pattern: '/family/:slug',
+    tokens: [{"old":"/family/:slug","type":0,"val":"family","end":""},{"old":"/family/:slug","type":1,"val":"slug","end":""}],
+    types: placeholder as Registry['family.join']['types'],
+  },
   'family.leave': {
     methods: ["POST"],
     pattern: '/family/leave',
     tokens: [{"old":"/family/leave","type":0,"val":"family","end":""},{"old":"/family/leave","type":0,"val":"leave","end":""}],
     types: placeholder as Registry['family.leave']['types'],
   },
-  'family.show': {
-    methods: ["GET","HEAD"],
-    pattern: '/family/:slug',
-    tokens: [{"old":"/family/:slug","type":0,"val":"family","end":""},{"old":"/family/:slug","type":1,"val":"slug","end":""}],
-    types: placeholder as Registry['family.show']['types'],
-  },
-  'family.join': {
-    methods: ["POST"],
-    pattern: '/family/:slug',
-    tokens: [{"old":"/family/:slug","type":0,"val":"family","end":""},{"old":"/family/:slug","type":1,"val":"slug","end":""}],
-    types: placeholder as Registry['family.join']['types'],
-  },
   'device': {
     methods: ["GET","HEAD"],
     pattern: '/device',
     tokens: [{"old":"/device","type":0,"val":"device","end":""}],
     types: placeholder as Registry['device']['types'],
-  },
-  'device.control': {
-    methods: ["GET","HEAD"],
-    pattern: '/device/control',
-    tokens: [{"old":"/device/control","type":0,"val":"device","end":""},{"old":"/device/control","type":0,"val":"control","end":""}],
-    types: placeholder as Registry['device.control']['types'],
   },
   'device.pair.store': {
     methods: ["POST"],
@@ -162,6 +156,12 @@ const routes = {
     tokens: [{"old":"/setting/account","type":0,"val":"setting","end":""},{"old":"/setting/account","type":0,"val":"account","end":""}],
     types: placeholder as Registry['setting.account.update']['types'],
   },
+  'admin.dashboard': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin',
+    tokens: [{"old":"/admin","type":0,"val":"admin","end":""}],
+    types: placeholder as Registry['admin.dashboard']['types'],
+  },
   'admin.characters.index': {
     methods: ["GET","HEAD"],
     pattern: '/admin/characters',
@@ -173,6 +173,18 @@ const routes = {
     pattern: '/admin/characters',
     tokens: [{"old":"/admin/characters","type":0,"val":"admin","end":""},{"old":"/admin/characters","type":0,"val":"characters","end":""}],
     types: placeholder as Registry['admin.characters.store']['types'],
+  },
+  'admin.characters.update': {
+    methods: ["POST"],
+    pattern: '/admin/characters/:id',
+    tokens: [{"old":"/admin/characters/:id","type":0,"val":"admin","end":""},{"old":"/admin/characters/:id","type":0,"val":"characters","end":""},{"old":"/admin/characters/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['admin.characters.update']['types'],
+  },
+  'admin.characters.destroy': {
+    methods: ["POST"],
+    pattern: '/admin/characters/:id/delete',
+    tokens: [{"old":"/admin/characters/:id/delete","type":0,"val":"admin","end":""},{"old":"/admin/characters/:id/delete","type":0,"val":"characters","end":""},{"old":"/admin/characters/:id/delete","type":1,"val":"id","end":""},{"old":"/admin/characters/:id/delete","type":0,"val":"delete","end":""}],
+    types: placeholder as Registry['admin.characters.destroy']['types'],
   },
   'attachments': {
     methods: ["GET","HEAD"],

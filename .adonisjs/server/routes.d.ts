@@ -13,11 +13,10 @@ export type ScannedRoutes = {
     'home': { paramsTuple?: []; params?: {} }
     'family.index': { paramsTuple?: []; params?: {} }
     'family.store': { paramsTuple?: []; params?: {} }
-    'family.leave': { paramsTuple?: []; params?: {} }
-    'family.show': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
+    'family.invite': { paramsTuple?: []; params?: {} }
     'family.join': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
+    'family.leave': { paramsTuple?: []; params?: {} }
     'device': { paramsTuple?: []; params?: {} }
-    'device.control': { paramsTuple?: []; params?: {} }
     'device.pair.store': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
     'dress.update': { paramsTuple?: []; params?: {} }
@@ -30,8 +29,11 @@ export type ScannedRoutes = {
     'setting.days': { paramsTuple?: []; params?: {} }
     'setting.work-type': { paramsTuple?: []; params?: {} }
     'setting.account.update': { paramsTuple?: []; params?: {} }
+    'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.characters.index': { paramsTuple?: []; params?: {} }
     'admin.characters.store': { paramsTuple?: []; params?: {} }
+    'admin.characters.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.characters.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'attachments': { paramsTuple: [ParamValue,ParamValue?]; params: {'key': ParamValue,'name'?: ParamValue} }
   }
   GET: {
@@ -40,9 +42,9 @@ export type ScannedRoutes = {
     'auth.login': { paramsTuple?: []; params?: {} }
     'home': { paramsTuple?: []; params?: {} }
     'family.index': { paramsTuple?: []; params?: {} }
-    'family.show': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
+    'family.invite': { paramsTuple?: []; params?: {} }
+    'family.join': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'device': { paramsTuple?: []; params?: {} }
-    'device.control': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
     'drink.create': { paramsTuple?: []; params?: {} }
     'setting': { paramsTuple?: []; params?: {} }
@@ -51,6 +53,7 @@ export type ScannedRoutes = {
     'setting.weight': { paramsTuple?: []; params?: {} }
     'setting.days': { paramsTuple?: []; params?: {} }
     'setting.work-type': { paramsTuple?: []; params?: {} }
+    'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.characters.index': { paramsTuple?: []; params?: {} }
     'attachments': { paramsTuple: [ParamValue,ParamValue?]; params: {'key': ParamValue,'name'?: ParamValue} }
   }
@@ -60,9 +63,9 @@ export type ScannedRoutes = {
     'auth.login': { paramsTuple?: []; params?: {} }
     'home': { paramsTuple?: []; params?: {} }
     'family.index': { paramsTuple?: []; params?: {} }
-    'family.show': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
+    'family.invite': { paramsTuple?: []; params?: {} }
+    'family.join': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'device': { paramsTuple?: []; params?: {} }
-    'device.control': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
     'drink.create': { paramsTuple?: []; params?: {} }
     'setting': { paramsTuple?: []; params?: {} }
@@ -71,6 +74,7 @@ export type ScannedRoutes = {
     'setting.weight': { paramsTuple?: []; params?: {} }
     'setting.days': { paramsTuple?: []; params?: {} }
     'setting.work-type': { paramsTuple?: []; params?: {} }
+    'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.characters.index': { paramsTuple?: []; params?: {} }
     'attachments': { paramsTuple: [ParamValue,ParamValue?]; params: {'key': ParamValue,'name'?: ParamValue} }
   }
@@ -80,12 +84,13 @@ export type ScannedRoutes = {
     'auth.logout': { paramsTuple?: []; params?: {} }
     'family.store': { paramsTuple?: []; params?: {} }
     'family.leave': { paramsTuple?: []; params?: {} }
-    'family.join': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'device.pair.store': { paramsTuple?: []; params?: {} }
     'dress.update': { paramsTuple?: []; params?: {} }
     'drink.store': { paramsTuple?: []; params?: {} }
     'setting.account.update': { paramsTuple?: []; params?: {} }
     'admin.characters.store': { paramsTuple?: []; params?: {} }
+    'admin.characters.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.characters.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

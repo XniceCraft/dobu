@@ -18,7 +18,7 @@ type Navigation = {
 const navigation: Navigation[] = [
   {
     label: 'Dashboard',
-    route: 'admin.characters.index',
+    route: 'admin.dashboard',
     icon: ChartBarIcon,
   },
   {
@@ -32,10 +32,8 @@ function SidebarContent({ url, props }: { url: string; props: InertiaProps }) {
   return (
     <>
       <div className="border-b border-rule px-6 py-5">
-        <div className="flex items-center gap-3">
-          <p className="font-mono text-[10px] tracking-[0.2em] text-ink-3 uppercase">Admin Panel</p>
-          <h2 className="text-lg font-bold tracking-tight text-ink">Dobu</h2>
-        </div>
+        <p className="font-mono text-[10px] tracking-[0.2em] text-ink-3 uppercase">Admin Panel</p>
+        <h2 className="text-lg font-bold tracking-tight text-ink">Dobu</h2>
       </div>
 
       <div className="flex-1 px-4 py-6">

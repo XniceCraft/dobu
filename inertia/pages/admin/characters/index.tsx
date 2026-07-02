@@ -1,11 +1,16 @@
+import { useRef } from 'react'
+import { AddCharacterDialog } from './_components/dialog/add-character-dialog'
 import { AdminContainer } from '@/components/container/admin-container'
 import { AdminLayout } from '@/components/layout/admin-layout'
+import { Button } from '@/components/ui/button'
+import { DeleteCharacterDialog } from './_components/dialog/delete-character-dialog'
+import { EditCharacterDialog } from './_components/dialog/edit-character-dialog'
 import { Head } from '@inertiajs/react'
-import { ImageIcon } from '@phosphor-icons/react'
+import { ImageIcon, PencilIcon, TrashIcon } from '@phosphor-icons/react'
+import { formatDate } from '@/lib/utils/date'
 
 import type { InertiaProps } from '@/types'
 import type { Data } from '@generated/data'
-import { AddCharacterDialog } from './_components/dialog/add-character-dialog'
 
 export const numberFormatter = new Intl.NumberFormat('en')
 
@@ -23,6 +28,9 @@ function MetricCard({ label, value }: { label: string; value: number }) {
 export default function CharactersIndex({
   characters,
 }: InertiaProps<{ characters: Data.Character[] }>) {
+  const editDialogRef = useRef<{ editCharacter: (character: Data.Character) => void }>(null)
+  const deleteDialogRef = useRef<{ deleteCharacter: (character: Data.Character) => void }>(null)
+
   return (
     <>
       <Head title="Karakter" />
@@ -63,26 +71,66 @@ export default function CharactersIndex({
 
             <div className="p-6">
               {characters && characters.length > 0 ? (
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-                  {characters.map((character) => (
-                    <article
-                      key={character.id}
-                      className="group relative flex flex-col items-center justify-center rounded-2xl border border-rule bg-paper p-3 transition-all duration-200 hover:scale-[1.02] hover:border-accent hover:shadow-md"
-                    >
-                      <div className="aspect-square w-full overflow-hidden rounded-xl bg-surface flex items-center justify-center border border-rule/50">
-                        <img
-                          src={character.image}
-                          alt={`Karakter ${character.id}`}
-                          className="size-full object-cover transition-transform duration-300 group-hover:scale-110"
-                        />
-                      </div>
-                      <div className="mt-3 flex w-full items-center justify-between px-1">
-                        <span className="font-mono text-xs font-semibold text-ink-2">
-                          ID: #{character.id}
-                        </span>
-                      </div>
-                    </article>
-                  ))}
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-rule font-medium text-xs tracking-wider text-ink-3 uppercase">
+                        <th className="pb-3 pl-4">Karakter</th>
+                        <th className="pb-3">ID</th>
+                        <th className="pb-3">Tanggal Dibuat</th>
+                        <th className="pb-3 text-right pr-4">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-rule/40">
+                      {characters.map((character) => (
+                        <tr
+                          key={character.id}
+                          className="group hover:bg-muted/30 transition-colors"
+                        >
+                          <td className="py-3.5 pl-4 flex items-center gap-3">
+                            <div className="size-10 overflow-hidden rounded-lg bg-surface flex items-center justify-center border border-rule/50">
+                              {character.image ? (
+                                <img
+                                  src={character.image}
+                                  alt={character.name}
+                                  className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                />
+                              ) : (
+                                <ImageIcon className="size-5 text-ink-3" />
+                              )}
+                            </div>
+                            <span className="font-medium text-sm text-ink">{character.name}</span>
+                          </td>
+                          <td className="py-3.5 text-sm text-ink-2 font-mono">#{character.id}</td>
+                          <td className="py-3.5 text-sm text-ink-2">
+                            {character.createdAt ? formatDate(character.createdAt) : '-'}
+                          </td>
+                          <td className="py-3.5 text-right pr-4">
+                            <div className="inline-flex items-center gap-1">
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                className="size-8 rounded-lg text-ink-2 hover:bg-muted hover:text-ink"
+                                onClick={() => editDialogRef.current?.editCharacter(character)}
+                              >
+                                <PencilIcon className="size-4" />
+                                <span className="sr-only">Edit</span>
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                className="size-8 rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/60 dark:hover:text-red-400"
+                                onClick={() => deleteDialogRef.current?.deleteCharacter(character)}
+                              >
+                                <TrashIcon className="size-4" />
+                                <span className="sr-only">Hapus</span>
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               ) : (
                 <div className="flex flex-col items-center py-16 text-center">
@@ -97,6 +145,8 @@ export default function CharactersIndex({
               )}
             </div>
           </section>
+          <EditCharacterDialog ref={editDialogRef} />
+          <DeleteCharacterDialog ref={deleteDialogRef} />
         </AdminContainer>
       </AdminLayout>
     </>

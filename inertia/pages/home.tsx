@@ -5,6 +5,7 @@ import { CharacterBackground } from '@/components/background/character-backgroun
 import { MobileNavigation } from '@/components/layout/mobile-navigation'
 import { Separator } from '@/components/ui/separator'
 import { ClockIcon } from '@phosphor-icons/react'
+import { clamp } from '@/lib/utils/math'
 
 import type { InertiaProps } from '@/types'
 import type { Data } from '@generated/data'
@@ -36,7 +37,9 @@ export default function Home({ user, drink, streak, calendar }: PageProps) {
               <div className="bg-gray-100 rounded-full w-full h-full overflow-hidden">
                 <div
                   className="bg-sky-400 rounded-full w-full h-full origin-left"
-                  style={{ transform: `scaleX(${drink.milliliter / user!.milliliterTarget})` }}
+                  style={{
+                    transform: `scaleX(${clamp(drink.milliliter / user!.milliliterTarget, 0, 1)})`,
+                  }}
                 />
               </div>
             </div>

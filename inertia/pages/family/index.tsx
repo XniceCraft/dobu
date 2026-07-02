@@ -1,13 +1,15 @@
-import { Navbar } from '@/components/layout/navbar'
-import { MobileNavigation } from '@/components/layout/mobile-navigation'
+import { Button } from '@/components/ui/button'
 import { CharacterBackground } from '@/components/background/character-background'
+import { Link } from '@adonisjs/inertia/react'
+import { MobileNavigation } from '@/components/layout/mobile-navigation'
+import { Navbar } from '@/components/layout/navbar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { ShareIcon } from 'lucide-react'
+import { clamp } from '@/lib/utils/math'
 
 import type { Data } from '@generated/data'
 import type { InertiaProps } from '@/types'
-import { Button } from '@/components/ui/button'
-import { ShareIcon } from 'lucide-react'
-import { Link } from '@adonisjs/inertia/react'
+import { PlusIcon } from '@phosphor-icons/react'
 
 type PageProps = InertiaProps & {
   drink: {
@@ -27,14 +29,21 @@ export default function Family({ drink, calendar }: PageProps) {
         <section className="bg-white rounded-3xl py-8 px-12 max-w-88 w-full h-full max-h-96">
           {drink ? (
             <Tabs defaultValue="daily">
-              <TabsList className="mx-auto mb-5 bg-sky-50">
-                <TabsTrigger value="daily" className="data-active:shadow-sm">
-                  Harian
-                </TabsTrigger>
-                <TabsTrigger value="weekly" className="data-active:shadow-sm">
-                  Mingguan
-                </TabsTrigger>
-              </TabsList>
+              <div className="flex">
+                <TabsList className="mx-auto mb-5 bg-sky-50">
+                  <TabsTrigger value="daily" className="data-active:shadow-sm">
+                    Harian
+                  </TabsTrigger>
+                  <TabsTrigger value="weekly" className="data-active:shadow-sm">
+                    Mingguan
+                  </TabsTrigger>
+                </TabsList>
+                <Button variant="ghost" asChild>
+                  <Link route="family.invite">
+                    <PlusIcon className="text-2xl" />
+                  </Link>
+                </Button>
+              </div>
               <TabsContent value="daily">
                 <div className="space-y-5">
                   {drink.daily.map((member) => (
@@ -50,10 +59,15 @@ export default function Family({ drink, calendar }: PageProps) {
                       <div
                         className="absolute bg-sky-400 top-0 left-0 w-full h-full origin-left rounded-full"
                         style={{
-                          transform: `scaleX(${member.milliliter / member.milliliterTarget})`,
+                          transform: `scaleX(${clamp(member.milliliter / member.milliliterTarget, 0, 1)})`,
                         }}
                       />
                       <p className="relative z-2 text-sm font-medium">{`${member.milliliter}/${member.milliliterTarget} ML`}</p>
+                      <img
+                        src={member.character?.image ?? ''}
+                        alt="Character"
+                        className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-10 h-10 rounded-full object-cover z-1"
+                      />
                     </div>
                   ))}
                 </div>
@@ -73,10 +87,15 @@ export default function Family({ drink, calendar }: PageProps) {
                       <div
                         className="absolute bg-sky-400 top-0 left-0 w-full h-full origin-left rounded-full"
                         style={{
-                          transform: `scaleX(${member.milliliter / (member.milliliterTarget * 7)})`,
+                          transform: `scaleX(${clamp(member.milliliter / (member.milliliterTarget * 7), 0, 1)})`,
                         }}
                       />
                       <p className="relative z-2 text-sm font-medium">{`${member.milliliter}/${member.milliliterTarget * 7} ML`}</p>
+                      <img
+                        src={member.character?.image ?? ''}
+                        alt="Character"
+                        className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-10 h-10 rounded-full object-cover z-1"
+                      />
                     </div>
                   ))}
                 </div>

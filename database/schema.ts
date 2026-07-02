@@ -7,23 +7,6 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
-export class BottleSchema extends BaseModel {
-  static $columns = ['createdAt', 'id', 'remainingPercent', 'updatedAt', 'userId', 'volumeMl'] as const
-  $columns = BottleSchema.$columns
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime | null
-  @column({ isPrimary: true })
-  declare id: number
-  @column()
-  declare remainingPercent: number
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime | null
-  @column()
-  declare userId: number
-  @column()
-  declare volumeMl: number
-}
-
 export class CacheSchema extends BaseModel {
   static $columns = ['expiresAt', 'key', 'value'] as const
   $columns = CacheSchema.$columns
@@ -51,7 +34,7 @@ export class CharacterSchema extends BaseModel {
 }
 
 export class DrinkLogSchema extends BaseModel {
-  static $columns = ['amountMl', 'createdAt', 'drinkId', 'id', 'updatedAt'] as const
+  static $columns = ['amountMl', 'createdAt', 'drinkId', 'id', 'source', 'updatedAt'] as const
   $columns = DrinkLogSchema.$columns
   @column()
   declare amountMl: number | null
@@ -61,6 +44,8 @@ export class DrinkLogSchema extends BaseModel {
   declare drinkId: number
   @column({ isPrimary: true })
   declare id: number
+  @column()
+  declare source: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }
@@ -132,7 +117,7 @@ export class RememberMeTokenSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['avatar', 'birthdate', 'characterId', 'climate', 'createdAt', 'dayEnd', 'dayStart', 'email', 'familyId', 'gender', 'height', 'id', 'milliliterTarget', 'name', 'password', 'updatedAt', 'weight', 'workType'] as const
+  static $columns = ['avatar', 'birthdate', 'characterId', 'climate', 'createdAt', 'dayEnd', 'dayStart', 'email', 'familyId', 'gender', 'height', 'id', 'intervalMinutes', 'milliliterTarget', 'name', 'password', 'updatedAt', 'weight', 'workType'] as const
   $columns = UserSchema.$columns
   @column()
   declare avatar: any | null
@@ -158,6 +143,8 @@ export class UserSchema extends BaseModel {
   declare height: number
   @column({ isPrimary: true })
   declare id: number
+  @column()
+  declare intervalMinutes: number
   @column()
   declare milliliterTarget: number
   @column()

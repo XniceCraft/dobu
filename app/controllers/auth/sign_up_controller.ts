@@ -5,6 +5,12 @@ import { calculateMilliliterTarget } from '#helpers/drink'
 
 import type { HttpContext } from '@adonisjs/core/http'
 
+const intervalMinutes: Record<User['workType'], number> = {
+  'indoor': 60,
+  'semi-outdoor': 45,
+  'outdoor': 30,
+}
+
 export default class SignUpController {
   async create({ inertia }: HttpContext) {
     return inertia.render('auth/signup', {})
@@ -26,6 +32,7 @@ export default class SignUpController {
     await User.create({
       ...data,
       avatar: attachment,
+      intervalMinutes: intervalMinutes[data.workType],
       milliliterTarget,
     })
 

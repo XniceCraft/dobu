@@ -1,6 +1,6 @@
 import Character from '#models/character'
 import { attachmentManager } from '@jrmc/adonis-attachment'
-import { upsertCharacterValidator } from '#validators/character'
+import { createCharacterValidator, updateCharacterValidator } from '#validators/character'
 import CharacterTransformer from '#transformers/character_transformer'
 
 import type { HttpContext } from '@adonisjs/core/http'
@@ -15,13 +15,36 @@ export default class CharactersController {
   }
 
   async store({ request, response }: HttpContext) {
-    const { name, image } = await request.validateUsing(upsertCharacterValidator)
+    const { name, image } = await request.validateUsing(createCharacterValidator)
     const attachment = await attachmentManager.createFromFile(image)
 
     await Character.create({
       name,
       image: attachment,
     })
+
+    return response.redirect().back()
+  }
+
+  async update({ request, response, params }: HttpContext) {
+    const character = await Character.findOrFail(params.id)
+    const { name, image } = await request.validateUsing(updateCharacterValidator)
+
+    character.name = name
+    if (image) {
+      await character.image?.remove()
+      character.image = await attachmentManager.createFromFile(image)
+    }
+
+    await character.save()
+
+    return response.redirect().back()
+  }
+
+  async destroy({ params, response }: HttpContext) {
+    const character = await Character.findOrFail(params.id)
+
+    await character.delete()
 
     return response.redirect().back()
   }

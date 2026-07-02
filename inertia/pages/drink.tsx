@@ -16,6 +16,7 @@ import { generateValues } from '@/lib/utils/array'
 import type { WheelPickerOption } from '@/components/field/wheel-picker'
 import type { Data } from '@generated/data'
 import type { InertiaProps } from '@/types'
+import { useBottle } from '@/providers/bottle-provider'
 
 type PageProps = InertiaProps & {
   drink: {
@@ -37,6 +38,7 @@ const drinkSchema = z.object({
 })
 
 export default function Drink({ calendar }: PageProps) {
+  const { connected, send } = useBottle()
   const router = useRouter()
   const { control, setError, handleSubmit, formState } = useForm<z.infer<typeof drinkSchema>>({
     resolver: zodResolver(drinkSchema),
@@ -46,7 +48,7 @@ export default function Drink({ calendar }: PageProps) {
   })
 
   const onSubmit = useCallback(
-    (data: z.infer<typeof drinkSchema>) => {
+    async (data: z.infer<typeof drinkSchema>) => {
       router.visit(
         {
           route: 'drink.store',
@@ -67,8 +69,11 @@ export default function Drink({ calendar }: PageProps) {
           },
         }
       )
+      if (connected) {
+        await send('MANUAL_DRINK', String(data.amount))
+      }
     },
-    [router, setError]
+    [router, setError, connected, send]
   )
 
   return (

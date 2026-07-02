@@ -20,12 +20,11 @@ export interface ApiDefinition {
   family: {
     index: typeof routes['family.index']
     store: typeof routes['family.store']
-    leave: typeof routes['family.leave']
-    show: typeof routes['family.show']
+    invite: typeof routes['family.invite']
     join: typeof routes['family.join']
+    leave: typeof routes['family.leave']
   }
   device: typeof routes['device'] & {
-    control: typeof routes['device.control']
     pair: {
       store: typeof routes['device.pair.store']
     }
@@ -47,9 +46,12 @@ export interface ApiDefinition {
     workType: typeof routes['setting.work-type']
   }
   admin: {
+    dashboard: typeof routes['admin.dashboard']
     characters: {
       index: typeof routes['admin.characters.index']
       store: typeof routes['admin.characters.store']
+      update: typeof routes['admin.characters.update']
+      destroy: typeof routes['admin.characters.destroy']
     }
   }
   attachments: typeof routes['attachments']

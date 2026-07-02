@@ -55,7 +55,13 @@ async function createCroppedImage(
   return new File([blob], `cropped-${fileName}`, { type: 'image/webp' })
 }
 
-export function CharacterField({ onChange }: { onChange: (value: File) => void }) {
+export function CharacterField({
+  onChange,
+  existingImage,
+}: {
+  onChange: (value?: File) => void
+  existingImage?: string
+}) {
   const [file, setFile] = useState<File | null>(null)
   const [editedFile, setEditedFile] = useState<FileWithCrop | null>(null)
   const [showCropDialog, setShowCropDialog] = useState(false)
@@ -79,6 +85,19 @@ export function CharacterField({ onChange }: { onChange: (value: File) => void }
     }
   }, [file])
 
+  useEffect(() => {
+    async function loadFile() {
+      if (!existingImage) return
+
+      const response = await fetch(existingImage)
+      const blob = await response.blob()
+      const file = new File([blob], existingImage, { type: blob.type })
+      setFile(file)
+    }
+
+    loadFile()
+  }, [existingImage])
+
   const imageRefCallback = useCallback(
     (node: HTMLImageElement | null) => {
       imageRef.current = node
@@ -96,6 +115,7 @@ export function CharacterField({ onChange }: { onChange: (value: File) => void }
       if (newFiles.length === 0) {
         setFile(null)
         setEditedFile(null)
+        onChange(undefined)
         return
       }
 
@@ -156,7 +176,11 @@ export function CharacterField({ onChange }: { onChange: (value: File) => void }
       >
         {file ? (
           <div className="relative w-full overflow-hidden rounded-xl border border-rule bg-surface shadow-sm group h-48">
-            <img ref={imageRefCallback} alt={file.name} className="w-full h-full object-cover" />
+            <img
+              ref={imageRefCallback}
+              alt={file ? file.name : 'Character preview'}
+              className="w-full h-full object-cover"
+            />
 
             <div
               className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-200 rounded-xl pointer-events-none"
@@ -164,16 +188,18 @@ export function CharacterField({ onChange }: { onChange: (value: File) => void }
             />
 
             <div className="absolute top-2 right-2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-              <Button
-                type="button"
-                variant="secondary"
-                size="icon"
-                className="size-8 shadow-md bg-white/90 text-gray-700 hover:bg-white hover:text-gray-900 dark:bg-zinc-800/90 dark:text-zinc-200 dark:hover:bg-zinc-800"
-                title="Edit / crop image"
-                onClick={() => setShowCropDialog(true)}
-              >
-                <PencilIcon />
-              </Button>
+              {file && (
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="icon"
+                  className="size-8 shadow-md bg-white/90 text-gray-700 hover:bg-white hover:text-gray-900 dark:bg-zinc-800/90 dark:text-zinc-200 dark:hover:bg-zinc-800"
+                  title="Edit / crop image"
+                  onClick={() => setShowCropDialog(true)}
+                >
+                  <PencilIcon />
+                </Button>
+              )}
 
               <Button
                 type="button"

@@ -18,6 +18,7 @@ export default class extends BaseSchema {
       table.enum('climate', ['cold', 'temperate', 'hot', 'tropical']).notNullable()
       table.enum('work_type', ['indoor', 'semi-outdoor', 'outdoor']).notNullable()
       table.integer('milliliter_target').unsigned().notNullable()
+      table.integer('interval_minutes').unsigned().notNullable()
       table.json('avatar')
 
       table.timestamp('created_at').notNullable()

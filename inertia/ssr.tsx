@@ -13,16 +13,17 @@ export default function render(page: any) {
     resolve: (name) => {
       return resolvePageComponent(
         `./pages/${name}.tsx`,
-        import.meta.glob('./pages/**/*.tsx', { eager: true })
+        import.meta.glob('./pages/**/*.tsx', { eager: true }),
+        (page: React.ReactElement) => {
+          return <BottleProvider>{page}</BottleProvider>
+        }
       )
     },
     setup: ({ App, props }) => {
       return (
         <TuyauProvider client={client}>
-          <BottleProvider>
-            <App {...props} />
-            <Toaster position="top-right" />
-          </BottleProvider>
+          <App {...props} />
+          <Toaster position="top-right" />
         </TuyauProvider>
       )
     },
