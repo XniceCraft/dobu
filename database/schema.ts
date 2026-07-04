@@ -34,7 +34,7 @@ export class CharacterSchema extends BaseModel {
 }
 
 export class DrinkLogSchema extends BaseModel {
-  static $columns = ['amountMl', 'createdAt', 'drinkId', 'id', 'source', 'updatedAt'] as const
+  static $columns = ['amountMl', 'createdAt', 'drinkId', 'id', 'updatedAt'] as const
   $columns = DrinkLogSchema.$columns
   @column()
   declare amountMl: number | null
@@ -44,8 +44,6 @@ export class DrinkLogSchema extends BaseModel {
   declare drinkId: number
   @column({ isPrimary: true })
   declare id: number
-  @column()
-  declare source: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }

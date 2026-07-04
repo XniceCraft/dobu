@@ -25,8 +25,8 @@ export default function DressPage({
         <Navbar calendar={calendar} />
         <main className="flex-1 flex flex-col items-center justify-center py-5">
           {characters.length === 0 ? (
-            <div className="flex flex-col items-center gap-5 text-center">
-              <h1 className="text-2xl font-bold text-amber-800">Belum ada Karakter</h1>
+            <div className="p-8 flex flex-col justify-center items-center gap-5 text-center bg-white rounded-xl">
+              <h1 className="text-lg font-semibold text-black">Belum ada Karakter</h1>
             </div>
           ) : (
             <CharacterSelector

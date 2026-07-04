@@ -84,12 +84,6 @@ const routes = {
     tokens: [{"old":"/device","type":0,"val":"device","end":""}],
     types: placeholder as Registry['device']['types'],
   },
-  'device.pair.store': {
-    methods: ["POST"],
-    pattern: '/device/pair',
-    tokens: [{"old":"/device/pair","type":0,"val":"device","end":""},{"old":"/device/pair","type":0,"val":"pair","end":""}],
-    types: placeholder as Registry['device.pair.store']['types'],
-  },
   'dress': {
     methods: ["GET","HEAD"],
     pattern: '/dress',

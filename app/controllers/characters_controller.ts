@@ -1,7 +1,8 @@
-import { getWeekDrinkLogs } from '#helpers/drink'
 import Character from '#models/character'
 import CharacterTransformer from '#transformers/character_transformer'
+import { DrinkService } from '#services/drink_service'
 import { updateUserCharacterValidator } from '#validators/character'
+
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class CharactersController {
@@ -10,7 +11,7 @@ export default class CharactersController {
     const characters = await Character.query().orderBy('createdAt', 'desc')
     const userCharacter = auth.use('web').user!.characterId
 
-    const calendar = await getWeekDrinkLogs(user.id)
+    const calendar = await DrinkService.getWeekDrinkLogs(user.id)
 
     return inertia.render('dress', {
       characters: CharacterTransformer.transform(characters),

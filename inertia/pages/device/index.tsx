@@ -16,7 +16,7 @@ type PageProps = InertiaProps & {
 }
 
 export default function DevicePage({ user, drink, streak, calendar }: PageProps) {
-  const { connect, bottle, connected } = useBottle()
+  const { connect, bottle, connected, initalizeData } = useBottle()
 
   return (
     <div className="h-screen flex flex-col relative overflow-hidden">
@@ -71,9 +71,16 @@ export default function DevicePage({ user, drink, streak, calendar }: PageProps)
           <p className="font-semibold text-gray-700 text-center">
             Lanjutkan streak {streak} minum air terpenuhi
           </p>
-          <Button variant="gradient" className="w-full h-12" asChild>
-            <Link route="drink.create">Catat Minum</Link>
-          </Button>
+          <div className="flex gap-3 flex-col sm:flex-row">
+            <Button variant="gradient" className="w-full h-12" asChild>
+              <Link route="drink.create">Catat Minum</Link>
+            </Button>
+            {connected && !bottle && (
+              <Button variant="outline" className="w-full h-12" onClick={initalizeData}>
+                Inisialisasi Data
+              </Button>
+            )}
+          </div>
         </section>
       </main>
 

@@ -1,7 +1,7 @@
 import Character from '#models/character'
+import CharacterTransformer from '#transformers/character_transformer'
 import { attachmentManager } from '@jrmc/adonis-attachment'
 import { createCharacterValidator, updateCharacterValidator } from '#validators/character'
-import CharacterTransformer from '#transformers/character_transformer'
 
 import type { HttpContext } from '@adonisjs/core/http'
 

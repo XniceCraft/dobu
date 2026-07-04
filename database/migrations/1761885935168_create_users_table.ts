@@ -20,6 +20,8 @@ export default class extends BaseSchema {
       table.integer('milliliter_target').unsigned().notNullable()
       table.integer('interval_minutes').unsigned().notNullable()
       table.json('avatar')
+      table.integer('streak').notNullable().defaultTo(0)
+      table.date('streak_start').nullable()
 
       table.timestamp('created_at').notNullable()
       table.timestamp('updated_at').nullable()

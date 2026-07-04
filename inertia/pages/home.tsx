@@ -10,13 +10,18 @@ import { clamp } from '@/lib/utils/math'
 import type { InertiaProps } from '@/types'
 import type { Data } from '@generated/data'
 
-type PageProps = InertiaProps & {
+export default function Home({
+  user,
+  drink,
+  streak,
+  calendar,
+  targetPerInterval,
+}: InertiaProps<{
   drink: Data.Drink
   streak: number
   calendar: Record<string, boolean>
-}
-
-export default function Home({ user, drink, streak, calendar }: PageProps) {
+  targetPerInterval: number
+}>) {
   return (
     <div className="h-screen flex flex-col relative overflow-hidden">
       <CharacterBackground />
@@ -53,11 +58,11 @@ export default function Home({ user, drink, streak, calendar }: PageProps) {
             </Button>
             <div className="flex-1/2 bg-white rounded-full px-4 py-1 inline-flex gap-2 justify-center items-center shadow">
               <ClockIcon className="size-8 text-sky-400" weight="fill" />
-              <span className="text-3xl font-bold">20</span>
+              <span className="text-3xl font-bold">{user!.intervalMinutes}</span>
               <div className="-space-y-2">
                 <span className="text-[0.6rem]">menit</span>
                 <Separator />
-                <span className="text-[0.6rem] font-bold">135ml</span>
+                <span className="text-[0.6rem] font-bold">{targetPerInterval} ml</span>
               </div>
             </div>
           </div>

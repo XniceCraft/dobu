@@ -1,16 +1,20 @@
 import Drink from '#models/drink'
 import DrinkTransformer from '#transformers/drink_transformer'
 import { DateTime } from 'luxon'
-import { getWeekDrinkLogs, getOrUpdateStreak } from '#helpers/drink'
+import { DrinkService } from '#services/drink_service'
 
 import type User from '#models/user'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class PageController {
   async home({ auth, inertia }: HttpContext) {
-    const data = await this.getData(auth.use('web').user!)
+    const user = auth.use('web').user!
+    const data = await this.getData(user)
 
-    return inertia.render('home', data)
+    return inertia.render('home', {
+      ...data,
+      targetPerInterval: DrinkService.calculateTargetPerInterval(user),
+    })
   }
 
   async device({ auth, inertia }: HttpContext) {
@@ -30,8 +34,8 @@ export default class PageController {
       }
     )
 
-    const calendar = await getWeekDrinkLogs(user.id)
-    const streak = await getOrUpdateStreak(user)
+    const calendar = await DrinkService.getWeekDrinkLogs(user.id)
+    const streak = await DrinkService.getOrUpdateStreak(user)
 
     return {
       drink: DrinkTransformer.transform(drink),

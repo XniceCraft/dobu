@@ -34,7 +34,6 @@ router
     router.post('/family/leave', [controllers.Family, 'leave']).as('family.leave')
 
     router.get('/device', [controllers.Page, 'device']).as('device')
-    router.post('/device/pair', [controllers.Bottle, 'store']).as('device.pair.store')
 
     router.get('/dress', [controllers.Characters, 'index']).as('dress')
     router.post('/dress', [controllers.Characters, 'update']).as('dress.update')

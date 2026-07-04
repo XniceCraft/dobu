@@ -4,6 +4,7 @@ import { usePage } from '@inertiajs/react'
 import toast from 'react-hot-toast'
 
 import type { InertiaProps } from '@/types'
+import { useRouter } from '@adonisjs/inertia/react'
 
 type Bottle = {
   size: 400
@@ -15,6 +16,7 @@ type BottleContextType = {
   connect: () => void
   connected: boolean
   send: (cmd: string, payload?: string) => Promise<void>
+  initalizeData: () => Promise<void>
 }
 
 const BottleContext = createContext<BottleContextType | null>(null)
@@ -25,51 +27,64 @@ function timeToMinutes(time: string): number {
 }
 
 export function BottleProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter()
   const { user } = usePage<InertiaProps>().props
   const [bottle, setBottle] = useState<Bottle | null>(null)
   const { connected, connect, send, sendNoWait, addIncomingCallback, removeIncomingCallback } =
     useBLE()
 
-  const onConnectHandler = useCallback(async () => {
-    try {
-      if (!user) return
-      const remainingMl = await send('VOLUME')
+  const initalizeData = useCallback(async () => {
+    if (!user) return
+    const remainingMl = await send('VOLUME')
 
-      const startMinutes = timeToMinutes(user.dayStart)
-      const endMinutes = timeToMinutes(user.dayEnd)
-      const duration = endMinutes - startMinutes
-      const drinkCount = Math.floor(duration / user.intervalMinutes)
-      const targetPerInterval = Math.floor(user.milliliterTarget / drinkCount)
-      await sendNoWait(
-        `SYNC:${user.milliliterTarget}:${targetPerInterval}:${user.intervalMinutes}:${drinkCount}`
-      )
-      setBottle({ size: 400, remainingMl: Number.parseInt(remainingMl.split(':')[1]) })
-    } catch {
-      toast.error('timeout')
-    }
+    const startMinutes = timeToMinutes(user.dayStart)
+    const endMinutes = timeToMinutes(user.dayEnd)
+    const duration = endMinutes - startMinutes
+    const drinkCount = Math.floor(duration / user.intervalMinutes)
+    const targetPerInterval = Math.floor(user.milliliterTarget / drinkCount)
+    await sendNoWait(
+      `SYNC:${user.milliliterTarget}:${targetPerInterval}:${user.intervalMinutes}:${drinkCount}`
+    )
+    setBottle({ size: 400, remainingMl: Number.parseInt(remainingMl.split(':')[1]) })
   }, [user, send, sendNoWait])
 
   const connectWrapper = useCallback(async () => {
     const result = await connect()
-    if (result.success) {
-      toast.success('Terhubung')
-      await onConnectHandler()
+    if (!result.success) {
+      toast.error('Gagal terhubung')
+      return
     }
-  }, [connect, onConnectHandler])
+    toast.success('Berhasil terhubung')
+    await initalizeData()
+  }, [connect, initalizeData])
 
   const onIncomingMessage = useCallback(
     async (message: string) => {
-      console.log(message)
-      if (message.startsWith('REQUEST_SYNC')) {
-      }
       if (message.startsWith('DRINK')) {
         if (!user) return
 
         const ml = Number.parseInt(message.split(':')[1])
         setBottle((old) => (old ? { ...old, remainingMl: ml } : null))
+
+        router.visit(
+          {
+            route: 'drink.store',
+          },
+          {
+            method: 'post',
+            data: { amount: ml },
+            preserveState: true,
+            onError: () => {
+              toast.error('Gagal mencatat')
+            },
+            onSuccess: () => {
+              toast.success('Berhasil mencatat')
+            },
+          }
+        )
       }
     },
-    [user]
+    [user, router]
   )
 
   useEffect(() => {
@@ -86,8 +101,9 @@ export function BottleProvider({ children }: { children: React.ReactNode }) {
       connect: connectWrapper,
       connected,
       send: sendNoWait,
+      initalizeData,
     }),
-    [bottle, connectWrapper, connected, sendNoWait]
+    [bottle, connectWrapper, connected, sendNoWait, initalizeData]
   )
 
   return <BottleContext value={value}>{children}</BottleContext>

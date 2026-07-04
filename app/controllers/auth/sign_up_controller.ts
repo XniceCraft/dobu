@@ -1,15 +1,7 @@
-import User from '#models/user'
 import { signupValidator } from '#validators/user'
-import { attachmentManager } from '@jrmc/adonis-attachment'
-import { calculateMilliliterTarget } from '#helpers/drink'
+import { UserService } from '#services/user_service'
 
 import type { HttpContext } from '@adonisjs/core/http'
-
-const intervalMinutes: Record<User['workType'], number> = {
-  'indoor': 60,
-  'semi-outdoor': 45,
-  'outdoor': 30,
-}
 
 export default class SignUpController {
   async create({ inertia }: HttpContext) {
@@ -18,23 +10,8 @@ export default class SignUpController {
 
   async store({ request, response }: HttpContext) {
     const { avatar, ...data } = await request.validateUsing(signupValidator)
-    const attachment = await attachmentManager.createFromFile(avatar)
 
-    const milliliterTarget = calculateMilliliterTarget({
-      birthdate: data.birthdate,
-      weight: data.weight,
-      height: data.height,
-      gender: data.gender,
-      workType: data.workType,
-      climate: data.climate,
-    })
-
-    await User.create({
-      ...data,
-      avatar: attachment,
-      intervalMinutes: intervalMinutes[data.workType],
-      milliliterTarget,
-    })
+    await UserService.createUser(data, avatar)
 
     response.redirect().toRoute('auth.login')
   }

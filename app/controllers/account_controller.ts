@@ -1,7 +1,8 @@
 import UserTransformer from '#transformers/user_transformer'
 import { updateUserValidator } from '#validators/user'
-import type { HttpContext } from '@adonisjs/core/http'
 import { attachmentManager } from '@jrmc/adonis-attachment'
+
+import type { HttpContext } from '@adonisjs/core/http'
 
 export default class AccountController {
   async show({ inertia, auth }: HttpContext) {
