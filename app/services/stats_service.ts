@@ -22,6 +22,7 @@ export interface StatsData {
   perYearData: ReturnType<typeof DrinkTransformer.transform>
   weeklyChartData: { day: WeekdayName; total_ml: number }[]
   monthlyChartData: { month: string; total_ml: number }[]
+  calendarData: Record<string, boolean>
 }
 
 export class StatsService {
@@ -54,9 +55,11 @@ export class StatsService {
       .select('drinkDate', 'milliliter')
 
     const totals = new Map<WeekdayName, number>()
+    const calendarData: Record<string, boolean> = {}
     for (const row of monthRows) {
       const name = WEEKDAY_NAMES[row.drinkDate.weekday - 1]
       totals.set(name, (totals.get(name) ?? 0) + row.milliliter)
+      calendarData[row.drinkDate.toISODate()!] = true
     }
 
     const weeklyChartData = WEEKDAY_NAMES.map((day) => ({
@@ -93,6 +96,7 @@ export class StatsService {
       perYearData: DrinkTransformer.transform(perYearData),
       weeklyChartData,
       monthlyChartData,
+      calendarData,
     }
   }
 }

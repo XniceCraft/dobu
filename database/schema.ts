@@ -115,7 +115,29 @@ export class RememberMeTokenSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['avatar', 'birthdate', 'characterId', 'climate', 'createdAt', 'dayEnd', 'dayStart', 'email', 'familyId', 'gender', 'height', 'id', 'intervalMinutes', 'milliliterTarget', 'name', 'password', 'streak', 'streakStart', 'updatedAt', 'weight', 'workType'] as const
+  static $columns = [
+    'avatar',
+    'birthdate',
+    'characterId',
+    'climate',
+    'createdAt',
+    'dayEnd',
+    'dayStart',
+    'email',
+    'familyId',
+    'gender',
+    'height',
+    'id',
+    'intervalMinutes',
+    'milliliterTarget',
+    'name',
+    'password',
+    'streak',
+    'streakStart',
+    'updatedAt',
+    'weight',
+    'workType',
+  ] as const
   $columns = UserSchema.$columns
   @column()
   declare avatar: any | null
@@ -159,4 +181,6 @@ export class UserSchema extends BaseModel {
   declare weight: number
   @column()
   declare workType: string
+  @column()
+  declare role: string
 }

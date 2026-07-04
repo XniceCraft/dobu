@@ -79,6 +79,7 @@ router
           .prefix('/characters')
       })
       .prefix('/admin')
+      .use(middleware.ensureAdmin())
   })
   .use(middleware.auth())
 

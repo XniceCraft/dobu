@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import { id } from 'date-fns/locale'
+import { Calendar } from '@/components/ui/calendar'
 import { CharacterBackground } from '@/components/background/character-background'
 import { Navbar } from '@/components/layout/navbar'
 import { MobileNavigation } from '@/components/layout/mobile-navigation'
@@ -8,7 +11,7 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from '@/components/ui/chart'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from 'recharts'
 
 import type { InertiaProps } from '@/types'
@@ -49,8 +52,10 @@ const chartConfig = {
 
 export default function StatsIndex({
   groupBy,
+  month,
   weeklyChartData,
   monthlyChartData,
+  calendarData,
 }: InertiaProps<{
   month: number
   groupBy: 'month' | 'year'
@@ -58,6 +63,7 @@ export default function StatsIndex({
   perYearData: Data.Drink
   weeklyChartData: Array<{ day: string; total_ml: number }>
   monthlyChartData: Array<{ month: string; total_ml: number }>
+  calendarData: Record<string, boolean>
 }>) {
   const weeklyData = weeklyChartData.map((d) => ({
     ...d,
@@ -69,26 +75,28 @@ export default function StatsIndex({
     label: MONTH_ID[d.month.slice(5)] ?? d.month,
   }))
 
+  // Build the set of highlighted dates from calendarData
+  const drinkDates = Object.keys(calendarData).map((d) => new Date(d))
+
+  // Default calendar month: use the `month` prop (1-indexed) in the current year
+  const now = new Date()
+  const calendarDefaultMonth = new Date(now.getFullYear(), month - 1, 1)
+
   return (
     <div className="h-screen flex flex-col relative overflow-hidden">
       <CharacterBackground />
 
       <Navbar />
-      <main className="flex-1 flex flex-col items-center justify-center py-5">
-        <section className="max-w-md w-full rounded-lg bg-white p-8">
+      <main className="flex-1 flex flex-col items-center py-5 overflow-y-auto">
+        <section className="max-w-md w-full rounded-2xl bg-white p-6 shadow-sm space-y-6">
           <Tabs defaultValue={groupBy}>
-            <TabsList>
+            <TabsList className="mx-auto">
               <TabsTrigger value="month">Per Minggu</TabsTrigger>
               <TabsTrigger value="year">Per Bulan</TabsTrigger>
             </TabsList>
 
             <TabsContent value="month">
               <Card className="w-full rounded-2xl border-none bg-slate-50 shadow-sm">
-                <CardHeader className="pb-0">
-                  <CardTitle className="text-sm font-medium text-slate-500">
-                    Konsumsi per Hari
-                  </CardTitle>
-                </CardHeader>
                 <CardContent className="pt-4">
                   <ChartContainer config={chartConfig} className="h-55 w-full">
                     <BarChart
@@ -121,11 +129,6 @@ export default function StatsIndex({
 
             <TabsContent value="year">
               <Card className="w-full rounded-2xl border-none bg-slate-50 shadow-sm">
-                <CardHeader className="pb-0">
-                  <CardTitle className="text-sm font-medium text-slate-500">
-                    Konsumsi per Bulan
-                  </CardTitle>
-                </CardHeader>
                 <CardContent className="pt-4">
                   <ChartContainer config={chartConfig} className="h-55 w-full">
                     <BarChart
@@ -157,10 +160,34 @@ export default function StatsIndex({
               </Card>
             </TabsContent>
           </Tabs>
+
+          {/* Calendar section — below the tabs card, inside the white card container */}
+          <DrinkCalendar drinkDates={drinkDates} defaultMonth={calendarDefaultMonth} />
         </section>
       </main>
 
       <MobileNavigation />
     </div>
+  )
+}
+
+/* ─── Drink Calendar ─────────────────────────────────────────────── */
+
+function DrinkCalendar({ drinkDates, defaultMonth }: { drinkDates: Date[]; defaultMonth: Date }) {
+  const [month, setMonth] = useState(defaultMonth)
+
+  return (
+    <section className="max-w-md w-full mt-4 rounded-2xl bg-[#dbeeff] px-4 py-3">
+      <Calendar
+        locale={id}
+        month={month}
+        onMonthChange={setMonth}
+        modifiers={{ drink: drinkDates }}
+        modifiersClassNames={{
+          drink: '!bg-white !text-[#1a5fa3] shadow-sm shadow-blue-100 font-semibold',
+        }}
+        className="w-full [--cell-size:--spacing(9)] bg-transparent [&_.rdp-caption_label]:text-[#1a5fa3] [&_.rdp-caption_label]:font-semibold [&_.rdp-weekday]:text-[#4a90c8]/70 [&_.rdp-day_button]:text-[#3a7abf] [&_.rdp-day_button]:hover:bg-white/60 [&_.rdp-today]:!bg-[#a8d4f5]/50 [&_.rdp-today]:!text-[#1a5fa3] [&_.rdp-button_previous]:text-[#3b82c4] [&_.rdp-button_previous]:hover:bg-white/50 [&_.rdp-button_next]:text-[#3b82c4] [&_.rdp-button_next]:hover:bg-white/50"
+      />
+    </section>
   )
 }

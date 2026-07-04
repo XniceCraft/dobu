@@ -49,5 +49,8 @@ export default class User extends compose(UserSchema, AuthFinder) {
   @column()
   declare climate: 'cold' | 'temperate' | 'hot' | 'tropical'
 
+  @column()
+  declare role: 'user' | 'admin'
+
   static rememberMeTokens = DbRememberMeTokensProvider.forModel(User)
 }

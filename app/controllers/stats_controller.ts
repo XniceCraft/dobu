@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { queryStatsValidator } from '#validators/stat'
+import { queryStatsValidator } from '#validators/stats'
 import { StatsService } from '#services/stats_service'
 
 import type { HttpContext } from '@adonisjs/core/http'
