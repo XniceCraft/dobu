@@ -34,19 +34,10 @@ export function BottleProvider({ children }: { children: React.ReactNode }) {
     useBLE()
 
   const initalizeData = useCallback(async () => {
-    if (!user) return
     const remainingMl = await send('VOLUME')
 
-    const startMinutes = timeToMinutes(user.dayStart)
-    const endMinutes = timeToMinutes(user.dayEnd)
-    const duration = endMinutes - startMinutes
-    const drinkCount = Math.floor(duration / user.intervalMinutes)
-    const targetPerInterval = Math.floor(user.milliliterTarget / drinkCount)
-    await sendNoWait(
-      `SYNC:${user.milliliterTarget}:${targetPerInterval}:${user.intervalMinutes}:${drinkCount}`
-    )
     setBottle({ size: 400, remainingMl: Number.parseInt(remainingMl.split(':')[1]) })
-  }, [user, send, sendNoWait])
+  }, [send])
 
   const connectWrapper = useCallback(async () => {
     const result = await connect()
@@ -82,9 +73,20 @@ export function BottleProvider({ children }: { children: React.ReactNode }) {
             },
           }
         )
+      } else if (message.startsWith('REQUEST_SYNC_ALL')) {
+        if (!user) return
+
+        const startMinutes = timeToMinutes(user.dayStart)
+        const endMinutes = timeToMinutes(user.dayEnd)
+        const duration = endMinutes - startMinutes
+        const drinkCount = Math.floor(duration / user.intervalMinutes)
+        const targetPerInterval = Math.floor(user.milliliterTarget / drinkCount)
+        await sendNoWait(
+          `SYNC:${user.milliliterTarget}:${targetPerInterval}:${user.intervalMinutes}:${drinkCount}`
+        )
       }
     },
-    [user, router]
+    [user, router, sendNoWait]
   )
 
   useEffect(() => {
