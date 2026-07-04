@@ -46,6 +46,8 @@ router
       })
       .prefix('/drink')
 
+    router.get('/stats', [controllers.Stats, 'index']).as('stats.index')
+
     router
       .group(() => {
         router.on('/').renderInertia('setting', {}).as('setting')

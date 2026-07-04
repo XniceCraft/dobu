@@ -16,7 +16,7 @@ type PageProps = InertiaProps & {
 }
 
 export default function DevicePage({ user, drink, streak, calendar }: PageProps) {
-  const { connect, bottle } = useBottle()
+  const { connect, bottle, connected } = useBottle()
 
   return (
     <div className="h-screen flex flex-col relative overflow-hidden">
@@ -24,22 +24,23 @@ export default function DevicePage({ user, drink, streak, calendar }: PageProps)
 
       <Navbar calendar={calendar} />
       <main className="flex-1 flex flex-col items-center justify-between py-5 gap-5">
-        {bottle ? (
+        {bottle && connected ? (
           <>
             <section>
               <h2 className="text-center">Volume Botol</h2>
-              <h1 className="text-4xl font-bold tracking-wide text-center">{bottle.size} ML</h1>
+              <h1 className="text-4xl font-bold tracking-wide text-center">
+                {bottle.remainingMl} ML
+              </h1>
             </section>
             <section className="max-w-32 w-full h-full max-h-96 bg-white rounded-full p-2">
-              <div className="bg-gray-200 rounded-full h-full flex overflow-hidden">
+              <div className="bg-gray-200 rounded-full h-full flex overflow-hidden relative">
                 <div
-                  className="relative bg-sky-400 h-full w-full mt-auto rounded-full flex items-center justify-center"
+                  className="relative bg-sky-400 h-full w-full mt-auto rounded-full flex items-center justify-center origin-bottom"
                   style={{ transform: `scaleY(${clamp(bottle.remainingMl / bottle.size, 0, 1)})` }}
-                >
-                  <p className="font-bold text-3xl text-white mix-blend-difference">
-                    {Math.round((bottle.remainingMl / bottle.size) * 100)}%
-                  </p>
-                </div>
+                ></div>
+                <p className="font-bold text-3xl text-black absolute top-1/2 left-1/2 -translate-1/2">
+                  {Math.round((bottle.remainingMl / bottle.size) * 100)}%
+                </p>
               </div>
             </section>
           </>

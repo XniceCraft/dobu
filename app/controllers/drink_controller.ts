@@ -23,11 +23,36 @@ export default class DrinksController {
         drinkDate: DateTime.now().toSQLDate() as unknown as DateTime,
       },
       {
-        milliliter: amount,
+        milliliter: 0,
       }
     )
+    const oldMilliliter = drink.milliliter
     drink.milliliter += amount
     await drink.save()
+
+    const newMilliliter = drink.milliliter
+    const targetMetBefore = oldMilliliter >= user.milliliterTarget
+    const targetMetToday = newMilliliter >= user.milliliterTarget
+
+    if (targetMetToday && !targetMetBefore) {
+      if (user.streak > 0 && user.streakStart) {
+        const lastCompletedDate = user.streakStart.plus({ days: user.streak - 1 })
+        const yesterday = DateTime.now().minus({ days: 1 }).startOf('day')
+        const lastCompletedStart = lastCompletedDate.startOf('day')
+        const diffDays = yesterday.diff(lastCompletedStart, 'days').days
+
+        if (diffDays === 0) {
+          user.streak += 1
+        } else {
+          user.streak = 1
+          user.streakStart = DateTime.now()
+        }
+      } else {
+        user.streak = 1
+        user.streakStart = DateTime.now()
+      }
+      await user.save()
+    }
 
     await DrinkLog.create({
       drinkId: drink.id,

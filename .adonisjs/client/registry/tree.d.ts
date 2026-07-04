@@ -36,6 +36,9 @@ export interface ApiDefinition {
     create: typeof routes['drink.create']
     store: typeof routes['drink.store']
   }
+  stats: {
+    index: typeof routes['stats.index']
+  }
   setting: typeof routes['setting'] & {
     account: typeof routes['setting.account'] & {
       update: typeof routes['setting.account.update']

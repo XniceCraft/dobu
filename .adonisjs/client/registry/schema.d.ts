@@ -134,9 +134,9 @@ export interface Registry {
       body: {}
       paramsTuple: [ParamValue]
       params: { slug: ParamValue }
-      query: ExtractQueryForGet<InferInput<(typeof import('#validators/family').joinFamilyValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/family_controller').default['join']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/family_controller').default['join']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/family_controller').default['join']>>>
     }
   }
   'family.leave': {
@@ -221,6 +221,18 @@ export interface Registry {
       query: ExtractQuery<InferInput<(typeof import('#validators/drink').insertDrinkValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/drink_controller').default['store']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/drink_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'stats.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/stats'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/stats_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/stats_controller').default['index']>>>
     }
   }
   'setting': {

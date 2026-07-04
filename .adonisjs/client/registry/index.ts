@@ -114,6 +114,12 @@ const routes = {
     tokens: [{"old":"/drink","type":0,"val":"drink","end":""}],
     types: placeholder as Registry['drink.store']['types'],
   },
+  'stats.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/stats',
+    tokens: [{"old":"/stats","type":0,"val":"stats","end":""}],
+    types: placeholder as Registry['stats.index']['types'],
+  },
   'setting': {
     methods: ["GET","HEAD"],
     pattern: '/setting',

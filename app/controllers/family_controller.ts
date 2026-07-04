@@ -4,7 +4,6 @@ import UserTransformer from '#transformers/user_transformer'
 import { DateTime } from 'luxon'
 import { getWeekDrinkLogs } from '#helpers/drink'
 import { uuidv7 } from '#helpers/uuidv7'
-import { joinFamilyValidator } from '#validators/family'
 
 import type { HttpContext } from '@adonisjs/core/http'
 
@@ -89,16 +88,15 @@ export default class FamiliyController {
     return inertia.render('family/invite', { calendar, slug: user.family.slug })
   }
 
-  async join({ auth, request, response }: HttpContext) {
-    const { slug } = await request.validateUsing(joinFamilyValidator)
-    const family = await Family.findBy('slug', slug)
+  async join({ auth, params, response }: HttpContext) {
+    const family = await Family.findByOrFail('slug', params.slug)
 
     const user = auth.use('web').user!
     if (user.familyId) {
       return response.forbidden()
     }
 
-    await user.merge({ familyId: family!.id }).save()
+    await user.merge({ familyId: family.id }).save()
 
     return response.redirect().toRoute('family.index')
   }

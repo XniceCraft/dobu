@@ -1,28 +1,28 @@
 import Drink from '#models/drink'
-import DrinkLog from '#models/drink_log'
 import DrinkTransformer from '#transformers/drink_transformer'
 import { DateTime } from 'luxon'
-import { getWeekDrinkLogs } from '#helpers/drink'
+import { getWeekDrinkLogs, getOrUpdateStreak } from '#helpers/drink'
 
+import type User from '#models/user'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class PageController {
   async home({ auth, inertia }: HttpContext) {
-    const data = await this.getData(auth.use('web').user!.id)
+    const data = await this.getData(auth.use('web').user!)
 
     return inertia.render('home', data)
   }
 
   async device({ auth, inertia }: HttpContext) {
-    const data = await this.getData(auth.use('web').user!.id)
+    const data = await this.getData(auth.use('web').user!)
 
     return inertia.render('device/index', data)
   }
 
-  private async getData(userId: number) {
+  private async getData(user: User) {
     const drink = await Drink.firstOrCreate(
       {
-        userId,
+        userId: user.id,
         drinkDate: DateTime.now().toSQLDate() as unknown as DateTime,
       },
       {
@@ -30,17 +30,12 @@ export default class PageController {
       }
     )
 
-    // Drink id assigned to today drink data
-    const todayDrink = await DrinkLog.query()
-      .where('drink_id', drink.id)
-      .count('* as total')
-      .first()
-
-    const calendar = await getWeekDrinkLogs(userId)
+    const calendar = await getWeekDrinkLogs(user.id)
+    const streak = await getOrUpdateStreak(user)
 
     return {
       drink: DrinkTransformer.transform(drink),
-      streak: Number(todayDrink?.$extras.total),
+      streak,
       calendar,
     }
   }

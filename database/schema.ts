@@ -117,7 +117,7 @@ export class RememberMeTokenSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['avatar', 'birthdate', 'characterId', 'climate', 'createdAt', 'dayEnd', 'dayStart', 'email', 'familyId', 'gender', 'height', 'id', 'intervalMinutes', 'milliliterTarget', 'name', 'password', 'updatedAt', 'weight', 'workType'] as const
+  static $columns = ['avatar', 'birthdate', 'characterId', 'climate', 'createdAt', 'dayEnd', 'dayStart', 'email', 'familyId', 'gender', 'height', 'id', 'intervalMinutes', 'milliliterTarget', 'name', 'password', 'streak', 'streakStart', 'updatedAt', 'weight', 'workType'] as const
   $columns = UserSchema.$columns
   @column()
   declare avatar: any | null
@@ -151,6 +151,10 @@ export class UserSchema extends BaseModel {
   declare name: string
   @column({ serializeAs: null })
   declare password: string
+  @column()
+  declare streak: number
+  @column.date()
+  declare streakStart: DateTime | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
   @column()

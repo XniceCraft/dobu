@@ -181,6 +181,7 @@ export function useBLE() {
 
     try {
       const message = buildMessage(cmd, payload)
+      console.log(message)
       const encoded = new TextEncoder().encode(message)
       await writeCharRef.current.writeValueWithResponse(encoded)
     } catch {

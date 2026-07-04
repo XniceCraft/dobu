@@ -19,4 +19,5 @@ export const controllers = {
   Family: () => import('#controllers/family_controller'),
   Issues: () => import('#controllers/issues_controller'),
   Page: () => import('#controllers/page_controller'),
+  Stats: () => import('#controllers/stats_controller'),
 }

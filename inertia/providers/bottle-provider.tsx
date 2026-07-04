@@ -19,6 +19,11 @@ type BottleContextType = {
 
 const BottleContext = createContext<BottleContextType | null>(null)
 
+function timeToMinutes(time: string): number {
+  const [h, m, s] = time.split(':').map(Number)
+  return h * 60 + m + s / 60
+}
+
 export function BottleProvider({ children }: { children: React.ReactNode }) {
   const { user } = usePage<InertiaProps>().props
   const [bottle, setBottle] = useState<Bottle | null>(null)
@@ -27,12 +32,22 @@ export function BottleProvider({ children }: { children: React.ReactNode }) {
 
   const onConnectHandler = useCallback(async () => {
     try {
+      if (!user) return
       const remainingMl = await send('VOLUME')
+
+      const startMinutes = timeToMinutes(user.dayStart)
+      const endMinutes = timeToMinutes(user.dayEnd)
+      const duration = endMinutes - startMinutes
+      const drinkCount = Math.floor(duration / user.intervalMinutes)
+      const targetPerInterval = Math.floor(user.milliliterTarget / drinkCount)
+      await sendNoWait(
+        `SYNC:${user.milliliterTarget}:${targetPerInterval}:${user.intervalMinutes}:${drinkCount}`
+      )
       setBottle({ size: 400, remainingMl: Number.parseInt(remainingMl.split(':')[1]) })
     } catch {
       toast.error('timeout')
     }
-  }, [send])
+  }, [user, send, sendNoWait])
 
   const connectWrapper = useCallback(async () => {
     const result = await connect()
@@ -44,20 +59,17 @@ export function BottleProvider({ children }: { children: React.ReactNode }) {
 
   const onIncomingMessage = useCallback(
     async (message: string) => {
+      console.log(message)
       if (message.startsWith('REQUEST_SYNC')) {
+      }
+      if (message.startsWith('DRINK')) {
         if (!user) return
 
-        const drinkCount = Math.floor(
-          (new Date(user.dayEnd).getTime() - new Date(user.dayStart).getTime()) /
-            user.intervalMinutes
-        )
-        const targetPerInterval = user.milliliterTarget / drinkCount
-        await sendNoWait(
-          `SYNC:${user.milliliterTarget}:${targetPerInterval}:${user.intervalMinutes}:${drinkCount}`
-        )
+        const ml = Number.parseInt(message.split(':')[1])
+        setBottle((old) => (old ? { ...old, remainingMl: ml } : null))
       }
     },
-    [sendNoWait, user]
+    [user]
   )
 
   useEffect(() => {

@@ -1,4 +1,5 @@
 import Drink from '#models/drink'
+import User from '#models/user'
 import { DateTime } from 'luxon'
 
 const BASE_ML_PER_KG = {
@@ -27,6 +28,9 @@ const FOOD_WATER_FRACTION = 0.2
 const INSENSIBLE_LOSS_ML_PER_M2 = 400
 
 export async function getWeekDrinkLogs(userId: number): Promise<Record<string, boolean>> {
+  const user = await User.findOrFail(userId)
+  const target = user.milliliterTarget
+
   const today = DateTime.now()
   const monday = today.startOf('week')
 
@@ -44,9 +48,27 @@ export async function getWeekDrinkLogs(userId: number): Promise<Record<string, b
     Array.from({ length: today.diff(monday, 'days').days + 1 }, (_, i) => {
       const dateKey = monday.plus({ days: i }).toISODate()!
       const total = totalsByDate.get(dateKey) ?? 0
-      return [dateKey, total > 0]
+      return [dateKey, total >= target]
     })
   )
+}
+
+export async function getOrUpdateStreak(user: User): Promise<number> {
+  if (user.streak > 0 && user.streakStart) {
+    const lastCompletedDate = user.streakStart.plus({ days: user.streak - 1 })
+    const today = DateTime.now().startOf('day')
+    const lastCompletedStart = lastCompletedDate.startOf('day')
+    const diffDays = today.diff(lastCompletedStart, 'days').days
+
+    if (diffDays > 1) {
+      user.streak = 0
+      user.streakStart = null
+      await user.save()
+      return 0
+    }
+    return user.streak
+  }
+  return 0
 }
 
 function getAge(birthdate: DateTime): number {
