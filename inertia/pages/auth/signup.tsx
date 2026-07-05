@@ -3,9 +3,10 @@ import { Link, useRouter } from '@adonisjs/inertia/react'
 import { Controller, useForm } from 'react-hook-form'
 import { Head } from '@inertiajs/react'
 import { AvatarField } from './_components/field/avatar-field'
+import { BirthdateField } from './_components/field/birthdate-field'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
-import { Button, LoadingButton } from '@/components/ui/button'
+import { LoadingButton } from '@/components/ui/button'
 import { PasswordField } from '@/components/field/password-field'
 import {
   Select,
@@ -16,10 +17,6 @@ import {
 } from '@/components/ui/select'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { type SignUpSchema, signUpSchema } from '@/lib/validations/user'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Calendar } from '@/components/ui/calendar'
-import { CalendarIcon } from '@phosphor-icons/react'
-import { cn } from '@/lib/utils'
 
 export default function SignUp() {
   const formPrefix = useId()
@@ -133,32 +130,7 @@ export default function SignUp() {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor={`${formPrefix}-${field.name}`}>Tanggal Lahir</FieldLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        id="date"
-                        className={cn(
-                          'justify-start font-normal',
-                          field.value ? 'text-gray-900' : 'text-gray-500'
-                        )}
-                      >
-                        <CalendarIcon />
-                        {field.value
-                          ? field.value.toLocaleDateString()
-                          : 'Masukkan tanggal lahir anda'}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        defaultMonth={field.value}
-                        captionLayout="dropdown"
-                        onSelect={field.onChange}
-                      />
-                    </PopoverContent>
-                  </Popover>
+                  <BirthdateField value={field.value} onChange={field.onChange} />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
               )}
