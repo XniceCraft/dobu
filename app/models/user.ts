@@ -1,6 +1,8 @@
 import Character from '#models/character'
 import Drink from '#models/drink'
 import Family from '#models/family'
+import UserDrink from '#models/user_drink'
+import UserProfile from '#models/user_profile'
 import hash from '@adonisjs/core/services/hash'
 import { attachment } from '@jrmc/adonis-attachment'
 import { compose } from '@adonisjs/core/helpers'
@@ -22,6 +24,15 @@ export default class User extends compose(UserSchema, AuthFinder) {
   @belongsTo(() => Character)
   declare character: BelongsTo<typeof Character>
 
+  @belongsTo(() => Family)
+  declare family: BelongsTo<typeof Family>
+
+  @hasOne(() => UserProfile)
+  declare profile: HasOne<typeof UserProfile>
+
+  @hasOne(() => UserDrink)
+  declare drinkPreference: HasOne<typeof UserDrink>
+
   // Used to get single data (today)
   @hasOne(() => Drink, {
     onQuery: (query) => {
@@ -36,18 +47,6 @@ export default class User extends compose(UserSchema, AuthFinder) {
 
   @attachment({ folder: 'uploads/avatars', variants: ['thumbnail', 'small'] })
   declare avatar: Attachment
-
-  @belongsTo(() => Family)
-  declare family: BelongsTo<typeof Family>
-
-  @column()
-  declare gender: 'male' | 'female'
-
-  @column()
-  declare workType: 'indoor' | 'semi-outdoor' | 'outdoor'
-
-  @column()
-  declare climate: 'cold' | 'temperate' | 'hot' | 'tropical'
 
   @column()
   declare role: 'user' | 'admin'

@@ -1,13 +1,13 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'families'
+  protected tableName = 'bottles'
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.string('slug', 255).notNullable().unique()
-      table.integer('owner_id').unsigned().references('users.id').notNullable()
+      table.integer('user_id').unsigned().references('users.id').onDelete('cascade').notNullable()
+      table.timestamp('device_disconnected_at').nullable()
 
       table.timestamp('created_at')
       table.timestamp('updated_at')

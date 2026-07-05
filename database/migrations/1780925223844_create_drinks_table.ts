@@ -7,7 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.integer('user_id').unsigned().references('users.id').onDelete('cascade').notNullable()
-      table.integer('milliliter').unsigned().notNullable()
+      table.integer('total_ml').unsigned().notNullable()
       table.date('drink_date').notNullable()
       table.unique(['user_id', 'drink_date'])
 

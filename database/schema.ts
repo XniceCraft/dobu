@@ -7,6 +7,21 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
+export class BottleSchema extends BaseModel {
+  static $columns = ['createdAt', 'deviceDisconnectedAt', 'id', 'updatedAt', 'userId'] as const
+  $columns = BottleSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column.dateTime()
+  declare deviceDisconnectedAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
 export class CacheSchema extends BaseModel {
   static $columns = ['expiresAt', 'key', 'value'] as const
   $columns = CacheSchema.$columns
@@ -34,22 +49,22 @@ export class CharacterSchema extends BaseModel {
 }
 
 export class DrinkLogSchema extends BaseModel {
-  static $columns = ['amountMl', 'createdAt', 'drinkId', 'id', 'updatedAt'] as const
+  static $columns = ['amountMl', 'createdAt', 'id', 'updatedAt', 'userId'] as const
   $columns = DrinkLogSchema.$columns
   @column()
-  declare amountMl: number | null
+  declare amountMl: number
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
-  @column()
-  declare drinkId: number
   @column({ isPrimary: true })
   declare id: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
 }
 
 export class DrinkSchema extends BaseModel {
-  static $columns = ['createdAt', 'drinkDate', 'id', 'milliliter', 'updatedAt', 'userId'] as const
+  static $columns = ['createdAt', 'drinkDate', 'id', 'totalMl', 'updatedAt', 'userId'] as const
   $columns = DrinkSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
@@ -58,7 +73,7 @@ export class DrinkSchema extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
   @column()
-  declare milliliter: number
+  declare totalMl: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
   @column()
@@ -75,7 +90,7 @@ export class FamilySchema extends BaseModel {
   @column()
   declare ownerId: number
   @column()
-  declare slug: string | null
+  declare slug: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }
@@ -114,79 +129,77 @@ export class RememberMeTokenSchema extends BaseModel {
   declare updatedAt: DateTime
 }
 
-export class UserSchema extends BaseModel {
-  static $columns = [
-    'avatar',
-    'birthdate',
-    'characterId',
-    'climate',
-    'createdAt',
-    'dayEnd',
-    'dayStart',
-    'email',
-    'familyId',
-    'gender',
-    'height',
-    'id',
-    'intervalMinutes',
-    'milliliterTarget',
-    'name',
-    'password',
-    'streak',
-    'streakStart',
-    'updatedAt',
-    'weight',
-    'workType',
-    'deviceDisconnectedAt',
-    'deviceDisconnectedMl',
-  ] as const
-  $columns = UserSchema.$columns
+export class UserDrinkSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'intervalMinutes', 'streak', 'streakStart', 'targetMl', 'updatedAt', 'userId'] as const
+  $columns = UserDrinkSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
   @column()
-  declare avatar: any | null
+  declare intervalMinutes: number
+  @column()
+  declare streak: number
+  @column.date()
+  declare streakStart: DateTime | null
+  @column()
+  declare targetMl: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
+export class UserProfileSchema extends BaseModel {
+  static $columns = ['birthdate', 'climate', 'createdAt', 'dayEnd', 'dayStart', 'gender', 'height', 'id', 'updatedAt', 'userId', 'weight', 'workType'] as const
+  $columns = UserProfileSchema.$columns
   @column.date()
   declare birthdate: DateTime
   @column()
-  declare characterId: number | null
-  @column()
   declare climate: string
   @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
+  declare createdAt: DateTime | null
   @column()
   declare dayEnd: string
   @column()
   declare dayStart: string
-  @column()
-  declare email: string
-  @column()
-  declare familyId: number | null
   @column()
   declare gender: string
   @column()
   declare height: number
   @column({ isPrimary: true })
   declare id: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
   @column()
-  declare intervalMinutes: number
+  declare userId: number
   @column()
-  declare milliliterTarget: number
+  declare weight: number
+  @column()
+  declare workType: string
+}
+
+export class UserSchema extends BaseModel {
+  static $columns = ['avatar', 'characterId', 'createdAt', 'email', 'familyId', 'id', 'name', 'password', 'role', 'updatedAt'] as const
+  $columns = UserSchema.$columns
+  @column()
+  declare avatar: any | null
+  @column()
+  declare characterId: number | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare email: string
+  @column()
+  declare familyId: number | null
+  @column({ isPrimary: true })
+  declare id: number
   @column()
   declare name: string
   @column({ serializeAs: null })
   declare password: string
   @column()
-  declare streak: number
-  @column.date()
-  declare streakStart: DateTime | null
+  declare role: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
-  @column()
-  declare weight: number
-  @column()
-  declare workType: string
-  @column()
-  declare role: string
-  @column.dateTime()
-  declare deviceDisconnectedAt: DateTime | null
-  @column()
-  declare deviceDisconnectedMl: number | null
 }

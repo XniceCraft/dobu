@@ -3,6 +3,6 @@ import type Drink from '#models/drink'
 
 export default class DrinkTransformer extends BaseTransformer<Drink> {
   toObject() {
-    return this.pick(this.resource, ['id', 'milliliter'])
+    return this.pick(this.resource, ['id', 'totalMl'])
   }
 }
