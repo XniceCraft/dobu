@@ -28,6 +28,7 @@ declare module '@adonisjs/inertia/types' {
     'errors/forbidden': ExtractProps<(typeof import('../../inertia/pages/errors/forbidden.tsx'))['default']>
     'errors/not-found': ExtractProps<(typeof import('../../inertia/pages/errors/not-found.tsx'))['default']>
     'errors/server-error': ExtractProps<(typeof import('../../inertia/pages/errors/server-error.tsx'))['default']>
+    'family/_components/user-list': ExtractProps<(typeof import('../../inertia/pages/family/_components/user-list.tsx'))['default']>
     'family/index': ExtractProps<(typeof import('../../inertia/pages/family/index.tsx'))['default']>
     'family/invite': ExtractProps<(typeof import('../../inertia/pages/family/invite.tsx'))['default']>
     'home': ExtractProps<(typeof import('../../inertia/pages/home.tsx'))['default']>
@@ -40,6 +41,5 @@ declare module '@adonisjs/inertia/types' {
     'setting/weight': ExtractProps<(typeof import('../../inertia/pages/setting/weight.tsx'))['default']>
     'setting/work-type': ExtractProps<(typeof import('../../inertia/pages/setting/work-type.tsx'))['default']>
     'stats/index': ExtractProps<(typeof import('../../inertia/pages/stats/index.tsx'))['default']>
-    'family/_components/user-list': ExtractProps<(typeof import('../../inertia/pages/family/_components/user-list.tsx'))['default']>
   }
 }

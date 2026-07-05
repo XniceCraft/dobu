@@ -75,10 +75,8 @@ export default function StatsIndex({
     label: MONTH_ID[d.month.slice(5)] ?? d.month,
   }))
 
-  // Build the set of highlighted dates from calendarData
   const drinkDates = Object.keys(calendarData).map((d) => new Date(d))
 
-  // Default calendar month: use the `month` prop (1-indexed) in the current year
   const now = new Date()
   const calendarDefaultMonth = new Date(now.getFullYear(), month - 1, 1)
 
@@ -161,7 +159,6 @@ export default function StatsIndex({
             </TabsContent>
           </Tabs>
 
-          {/* Calendar section — below the tabs card, inside the white card container */}
           <DrinkCalendar drinkDates={drinkDates} defaultMonth={calendarDefaultMonth} />
         </section>
       </main>
@@ -170,8 +167,6 @@ export default function StatsIndex({
     </div>
   )
 }
-
-/* ─── Drink Calendar ─────────────────────────────────────────────── */
 
 function DrinkCalendar({ drinkDates, defaultMonth }: { drinkDates: Date[]; defaultMonth: Date }) {
   const [month, setMonth] = useState(defaultMonth)
@@ -186,7 +181,7 @@ function DrinkCalendar({ drinkDates, defaultMonth }: { drinkDates: Date[]; defau
         modifiersClassNames={{
           drink: '!bg-white !text-[#1a5fa3] shadow-sm shadow-blue-100 font-semibold',
         }}
-        className="w-full [--cell-size:--spacing(9)] bg-transparent [&_.rdp-caption_label]:text-[#1a5fa3] [&_.rdp-caption_label]:font-semibold [&_.rdp-weekday]:text-[#4a90c8]/70 [&_.rdp-day_button]:text-[#3a7abf] [&_.rdp-day_button]:hover:bg-white/60 [&_.rdp-today]:!bg-[#a8d4f5]/50 [&_.rdp-today]:!text-[#1a5fa3] [&_.rdp-button_previous]:text-[#3b82c4] [&_.rdp-button_previous]:hover:bg-white/50 [&_.rdp-button_next]:text-[#3b82c4] [&_.rdp-button_next]:hover:bg-white/50"
+        className="w-full [--cell-size:--spacing(9)] bg-transparent [&_.rdp-caption_label]:text-[#1a5fa3] [&_.rdp-caption_label]:font-semibold [&_.rdp-weekday]:text-[#4a90c8]/70 [&_.rdp-day_button]:text-[#3a7abf] [&_.rdp-day_button]:hover:bg-white/60 [&_.rdp-today]:bg-[#a8d4f5]/50! [&_.rdp-today]:text-[#1a5fa3]! [&_.rdp-button_previous]:text-[#3b82c4] [&_.rdp-button_previous]:hover:bg-white/50 [&_.rdp-button_next]:text-[#3b82c4] [&_.rdp-button_next]:hover:bg-white/50"
       />
     </section>
   )
