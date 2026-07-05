@@ -16,7 +16,7 @@ type PageProps = InertiaProps & {
 }
 
 export default function DevicePage({ user, drink, streak, calendar }: PageProps) {
-  const { connect, bottle, connected, initalizeData } = useBottle()
+  const { connect, bottle, connected, initializeData } = useBottle()
 
   return (
     <div className="h-screen flex flex-col relative overflow-hidden">
@@ -76,7 +76,7 @@ export default function DevicePage({ user, drink, streak, calendar }: PageProps)
               <Link route="drink.create">Catat Minum</Link>
             </Button>
             {connected && !bottle && (
-              <Button variant="outline" className="w-full h-12" onClick={initalizeData}>
+              <Button variant="outline" className="w-full h-12" onClick={initializeData}>
                 Inisialisasi Data
               </Button>
             )}

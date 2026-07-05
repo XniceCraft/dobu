@@ -21,11 +21,14 @@ export type ScannedRoutes = {
     'dress.update': { paramsTuple?: []; params?: {} }
     'drink.create': { paramsTuple?: []; params?: {} }
     'drink.store': { paramsTuple?: []; params?: {} }
+    'drink.device.disconnect': { paramsTuple?: []; params?: {} }
+    'drink.device.sync': { paramsTuple?: []; params?: {} }
     'stats.index': { paramsTuple?: []; params?: {} }
     'setting': { paramsTuple?: []; params?: {} }
     'setting.account': { paramsTuple?: []; params?: {} }
     'setting.birthdate': { paramsTuple?: []; params?: {} }
     'setting.weight': { paramsTuple?: []; params?: {} }
+    'setting.height': { paramsTuple?: []; params?: {} }
     'setting.days': { paramsTuple?: []; params?: {} }
     'setting.work-type': { paramsTuple?: []; params?: {} }
     'setting.account.update': { paramsTuple?: []; params?: {} }
@@ -47,11 +50,13 @@ export type ScannedRoutes = {
     'device': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
     'drink.create': { paramsTuple?: []; params?: {} }
+    'drink.device.sync': { paramsTuple?: []; params?: {} }
     'stats.index': { paramsTuple?: []; params?: {} }
     'setting': { paramsTuple?: []; params?: {} }
     'setting.account': { paramsTuple?: []; params?: {} }
     'setting.birthdate': { paramsTuple?: []; params?: {} }
     'setting.weight': { paramsTuple?: []; params?: {} }
+    'setting.height': { paramsTuple?: []; params?: {} }
     'setting.days': { paramsTuple?: []; params?: {} }
     'setting.work-type': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
@@ -69,11 +74,13 @@ export type ScannedRoutes = {
     'device': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
     'drink.create': { paramsTuple?: []; params?: {} }
+    'drink.device.sync': { paramsTuple?: []; params?: {} }
     'stats.index': { paramsTuple?: []; params?: {} }
     'setting': { paramsTuple?: []; params?: {} }
     'setting.account': { paramsTuple?: []; params?: {} }
     'setting.birthdate': { paramsTuple?: []; params?: {} }
     'setting.weight': { paramsTuple?: []; params?: {} }
+    'setting.height': { paramsTuple?: []; params?: {} }
     'setting.days': { paramsTuple?: []; params?: {} }
     'setting.work-type': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
@@ -88,6 +95,7 @@ export type ScannedRoutes = {
     'family.leave': { paramsTuple?: []; params?: {} }
     'dress.update': { paramsTuple?: []; params?: {} }
     'drink.store': { paramsTuple?: []; params?: {} }
+    'drink.device.disconnect': { paramsTuple?: []; params?: {} }
     'setting.account.update': { paramsTuple?: []; params?: {} }
     'admin.characters.store': { paramsTuple?: []; params?: {} }
     'admin.characters.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

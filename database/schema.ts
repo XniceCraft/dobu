@@ -137,6 +137,8 @@ export class UserSchema extends BaseModel {
     'updatedAt',
     'weight',
     'workType',
+    'deviceDisconnectedAt',
+    'deviceDisconnectedMl',
   ] as const
   $columns = UserSchema.$columns
   @column()
@@ -183,4 +185,8 @@ export class UserSchema extends BaseModel {
   declare workType: string
   @column()
   declare role: string
+  @column.dateTime()
+  declare deviceDisconnectedAt: DateTime | null
+  @column()
+  declare deviceDisconnectedMl: number | null
 }

@@ -29,6 +29,14 @@ export default class AccountController {
     })
   }
 
+  async showHeight({ inertia, auth }: HttpContext) {
+    const user = auth.use('web').user!
+
+    return inertia.render('setting/height', {
+      user: UserTransformer.transform(user).useVariant('detailed'),
+    })
+  }
+
   async showDays({ inertia, auth }: HttpContext) {
     const user = auth.use('web').user!
 

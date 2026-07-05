@@ -1,6 +1,5 @@
 /// <reference types="@types/web-bluetooth" />
 import { useRef, useState, useCallback, useEffect } from 'react'
-import toast from 'react-hot-toast'
 
 const SERVICE_UUID = '12345678-1234-1234-1234-123456789abc'
 const WRITE_CHAR_UUID = '12345678-1234-1234-1234-123456789001' // PWA → ESP32
@@ -35,8 +34,29 @@ export function useBLE() {
   const deviceRef = useRef<BluetoothDevice | null>(null)
   const notifyCharRef = useRef<BluetoothRemoteGATTCharacteristic | null>(null)
   const writeCharRef = useRef<BluetoothRemoteGATTCharacteristic | null>(null)
-  const onIncomingMessageCallbackRef = useRef<(message: string) => void | null>(null)
+  const listenersRef = useRef<Set<(message: string) => void>>(new Set())
+  const disconnectListenersRef = useRef<Set<() => void>>(new Set())
   const pendingRef = useRef<Map<string, PendingRequest>>(new Map())
+
+  /**
+   * Subscribe to all incoming BLE messages.
+   * Returns an unsubscribe function — use directly as the return value of useEffect.
+   *
+   * Multiple independent subscribers are supported simultaneously.
+   */
+  const subscribe = useCallback((cb: (message: string) => void): (() => void) => {
+    listenersRef.current.add(cb)
+    return () => listenersRef.current.delete(cb)
+  }, [])
+
+  /**
+   * Subscribe to device disconnection events.
+   * Returns an unsubscribe function.
+   */
+  const subscribeDisconnect = useCallback((cb: () => void): (() => void) => {
+    disconnectListenersRef.current.add(cb)
+    return () => disconnectListenersRef.current.delete(cb)
+  }, [])
 
   const rejectAllPending = useCallback((reason: Error) => {
     for (const pending of pendingRef.current.values()) {
@@ -49,13 +69,18 @@ export function useBLE() {
   const onGattDisconnect = useCallback(() => {
     setConnected(false)
     rejectAllPending(new Error('Device disconnected'))
+    disconnectListenersRef.current.forEach((cb) => cb())
   }, [rejectAllPending])
+
 
   const onIncomingMessage = useCallback((e: Event) => {
     const val = (e.target as BluetoothRemoteGATTCharacteristic).value!
     const message = new TextDecoder().decode(val)
-    onIncomingMessageCallbackRef.current?.(message)
 
+    // Fan-out to all registered subscribers
+    listenersRef.current.forEach((cb) => cb(message))
+
+    // Resolve any awaiting send() call that matches this message prefix
     const prefix = extractPrefix(message)
     const pending = pendingRef.current.get(prefix)
     if (pending) {
@@ -63,14 +88,6 @@ export function useBLE() {
       pending.resolve(message)
       pendingRef.current.delete(prefix)
     }
-  }, [])
-
-  const addIncomingCallback = useCallback((callback: (message: string) => void) => {
-    onIncomingMessageCallbackRef.current = callback
-  }, [])
-
-  const removeIncomingCallback = useCallback(() => {
-    onIncomingMessageCallbackRef.current = null
   }, [])
 
   const teardown = useCallback(() => {
@@ -124,8 +141,12 @@ export function useBLE() {
       notifyCharRef.current.addEventListener('characteristicvaluechanged', onIncomingMessage)
 
       setConnected(true)
-    } catch {
-      return { success: false, error: 'Bluetooth is not supported on this device.' }
+    } catch (err) {
+      const error =
+        err instanceof Error && err.name === 'NotFoundError'
+          ? 'No device was selected.'
+          : 'Failed to connect to the device.'
+      return { success: false, error }
     }
 
     return { success: true }
@@ -172,21 +193,17 @@ export function useBLE() {
 
   /**
    * Fire-and-forget variant for messages that don't expect a reply.
+   * Throws on write failure — callers are responsible for error handling.
    *
    * sendNoWait('LED')          -> writes "LED"
    * sendNoWait('LED', 'on')    -> writes "LED:on"
    */
-  const sendNoWait = useCallback(async (cmd: string, payload?: string) => {
+  const sendNoWait = useCallback(async (cmd: string, payload?: string): Promise<void> => {
     if (!writeCharRef.current || !deviceRef.current?.gatt?.connected) return
 
-    try {
-      const message = buildMessage(cmd, payload)
-      console.log(message)
-      const encoded = new TextEncoder().encode(message)
-      await writeCharRef.current.writeValueWithResponse(encoded)
-    } catch {
-      toast.error('Failed to send message')
-    }
+    const message = buildMessage(cmd, payload)
+    const encoded = new TextEncoder().encode(message)
+    await writeCharRef.current.writeValueWithResponse(encoded)
   }, [])
 
   return {
@@ -194,7 +211,7 @@ export function useBLE() {
     send,
     sendNoWait,
     connected,
-    addIncomingCallback,
-    removeIncomingCallback,
+    subscribe,
+    subscribeDisconnect,
   }
 }

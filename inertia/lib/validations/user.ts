@@ -1,5 +1,10 @@
 import { z } from 'zod/mini'
 
+const heightField = z.coerce
+  .number<number>()
+  .check(z.gte(100, 'Tinggi badan minimal 100 cm'))
+  .check(z.lte(300, 'Tinggi badan maksimal 300 cm'))
+
 export const signUpSchema = z
   .object({
     avatar: z
@@ -17,16 +22,13 @@ export const signUpSchema = z
     password: z
       .string()
       .check(z.minLength(8, 'Password minimal 8 karakter'))
-      .check(z.maxLength(32, 'Password maksimal 255 karakter')),
+      .check(z.maxLength(32, 'Password maksimal 32 karakter')),
     passwordConfirmation: z.string(),
     weight: z.coerce
       .number<number>()
       .check(z.gte(1, 'Berat badan minimal 1 kg'))
       .check(z.lte(1000, 'Berat badan maksimal 1000 kg')),
-    height: z.coerce
-      .number<number>()
-      .check(z.gte(100, 'Tinggi badan minimal 100 cm'))
-      .check(z.lte(300, 'Tinggi badan maksimal 300 cm')),
+    height: heightField,
     gender: z.enum(['male', 'female']),
     dayStart: z.iso.time(),
     dayEnd: z.iso.time(),
@@ -46,9 +48,15 @@ export const signUpSchema = z
 
 export const loginSchema = z.object({
   email: z.email().check(z.maxLength(255, 'Email maksimal 255 karakter')),
-  password: z.string().check(z.maxLength(255, 'Password maksimal 255 karakter')),
+  password: z.string(),
   rememberMe: z.optional(z.boolean()),
+})
+
+export const heightSchema = z.object({
+  height: heightField,
 })
 
 export type SignUpSchema = z.infer<typeof signUpSchema>
 export type LoginSchema = z.infer<typeof loginSchema>
+
+export type HeightSchema = z.infer<typeof heightSchema>

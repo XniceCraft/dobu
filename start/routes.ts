@@ -42,6 +42,10 @@ router
       .group(() => {
         router.get('/', [controllers.Drink, 'create']).as('drink.create')
         router.post('/', [controllers.Drink, 'store']).as('drink.store')
+        router
+          .post('/device/disconnect', [controllers.Drink, 'disconnect'])
+          .as('drink.device.disconnect')
+        router.get('/device/sync', [controllers.Drink, 'sync']).as('drink.device.sync')
       })
       .prefix('/drink')
 
@@ -54,6 +58,7 @@ router
         router.get('/account', [controllers.Account, 'show']).as('setting.account')
         router.get('/birthdate', [controllers.Account, 'showBirthdate']).as('setting.birthdate')
         router.get('/weight', [controllers.Account, 'showWeight']).as('setting.weight')
+        router.get('/height', [controllers.Account, 'showHeight']).as('setting.height')
         router.get('/days', [controllers.Account, 'showDays']).as('setting.days')
         router.get('/work-type', [controllers.Account, 'showWorkType']).as('setting.work-type')
 

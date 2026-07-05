@@ -16,6 +16,7 @@ import { formatDate } from '@/lib/utils/date'
 import type { InertiaProps } from '@/types'
 import type { Data } from '@generated/data'
 import type { urlFor } from '@/client'
+import { RulerIcon } from '@phosphor-icons/react'
 
 type PageProps = InertiaProps<{
   user: Data.User.Variants['detailed']
@@ -23,7 +24,7 @@ type PageProps = InertiaProps<{
 
 const accountSettingLinks: {
   icon: LucideIcon
-  route?: Parameters<typeof urlFor>[0]
+  route: Parameters<typeof urlFor>[0] | null
   value: (user: Data.User.Variants['detailed']) => string | null
 }[] = [
   {
@@ -35,6 +36,11 @@ const accountSettingLinks: {
     icon: WeightIcon,
     route: 'setting.weight',
     value: (user: Data.User.Variants['detailed']) => `${user.weight} kg`,
+  },
+  {
+    icon: RulerIcon,
+    route: 'setting.height',
+    value: (user: Data.User.Variants['detailed']) => `${user.height} cm`,
   },
   {
     icon: Clock2Icon,
@@ -55,6 +61,7 @@ const accountSettingLinks: {
   {
     icon: TargetIcon,
     value: (user: Data.User.Variants['detailed']) => `${user.milliliterTarget} ml`,
+    route: null,
   },
 ]
 
@@ -81,17 +88,16 @@ export default function AccountSetting({ user }: PageProps) {
             <p className="font-semibold truncate">{user.name}</p>
           </div>
           {accountSettingLinks.map((accountSettingLink, index) => {
-            const Parent = accountSettingLink.route ? Link : 'div'
+            const routeAvailable = accountSettingLink.route !== null
+            const Parent = routeAvailable ? Link : 'div'
+            const props = routeAvailable ? { route: accountSettingLink.route! } : {}
+
             return (
-              <Parent
-                key={index}
-                {...(accountSettingLink.route && { route: accountSettingLink.route })}
-                className="flex gap-2 items-center w-full"
-              >
+              <Parent key={index} {...props} className="flex gap-2 items-center w-full">
                 <accountSettingLink.icon className="size-4" />
                 <div className="w-full border-b flex items-center justify-between py-2">
                   <p className="text-sm font-medium">{accountSettingLink.value(user)}</p>
-                  {accountSettingLink.route && <ChevronRightIcon className="size-4" />}
+                  {routeAvailable && <ChevronRightIcon className="size-4" />}
                 </div>
               </Parent>
             )

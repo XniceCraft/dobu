@@ -211,6 +211,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/drink_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'drink.device.disconnect': {
+    methods: ["POST"]
+    pattern: '/drink/device/disconnect'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/drink_controller').default['disconnect']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/drink_controller').default['disconnect']>>>
+    }
+  }
+  'drink.device.sync': {
+    methods: ["GET","HEAD"]
+    pattern: '/drink/device/sync'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/drink_controller').default['sync']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/drink_controller').default['sync']>>>
+    }
+  }
   'stats.index': {
     methods: ["GET","HEAD"]
     pattern: '/stats'
@@ -269,6 +293,18 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/account_controller').default['showWeight']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/account_controller').default['showWeight']>>>
+    }
+  }
+  'setting.height': {
+    methods: ["GET","HEAD"]
+    pattern: '/setting/height'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/account_controller').default['showHeight']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/account_controller').default['showHeight']>>>
     }
   }
   'setting.days': {

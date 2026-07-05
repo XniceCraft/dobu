@@ -18,4 +18,17 @@ export default class DrinksController {
 
     return response.redirect().back()
   }
+
+  async disconnect({ auth, response }: HttpContext) {
+    const user = auth.use('web').user!
+    await DrinkService.recordDisconnect(user)
+    return response.ok({ success: true })
+  }
+
+  async sync({ auth, response }: HttpContext) {
+    const user = auth.use('web').user!
+    const delta = await DrinkService.getSyncDelta(user)
+    return response.ok({ delta })
+  }
 }
+

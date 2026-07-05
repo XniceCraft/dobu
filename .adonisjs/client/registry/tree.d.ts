@@ -31,6 +31,10 @@ export interface ApiDefinition {
   drink: {
     create: typeof routes['drink.create']
     store: typeof routes['drink.store']
+    device: {
+      disconnect: typeof routes['drink.device.disconnect']
+      sync: typeof routes['drink.device.sync']
+    }
   }
   stats: {
     index: typeof routes['stats.index']
@@ -41,6 +45,7 @@ export interface ApiDefinition {
     }
     birthdate: typeof routes['setting.birthdate']
     weight: typeof routes['setting.weight']
+    height: typeof routes['setting.height']
     days: typeof routes['setting.days']
     workType: typeof routes['setting.work-type']
   }

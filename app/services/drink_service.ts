@@ -173,4 +173,31 @@ export class DrinkService {
 
     return drink
   }
+
+  static async recordDisconnect(user: User): Promise<void> {
+    const todayStr = DateTime.now().toSQLDate()
+
+    const drink = await Drink.query().where('userId', user.id).where('drinkDate', todayStr).first()
+
+    const currentMl = drink ? drink.milliliter : 0
+
+    user.deviceDisconnectedAt = DateTime.now()
+    user.deviceDisconnectedMl = currentMl
+    await user.save()
+  }
+
+  static async getSyncDelta(user: User): Promise<number> {
+    const todayStr = DateTime.now().toSQLDate()
+
+    const drink = await Drink.query().where('userId', user.id).where('drinkDate', todayStr).first()
+
+    const currentMl = drink ? drink.milliliter : 0
+
+    let delta = currentMl
+    if (user.deviceDisconnectedAt && user.deviceDisconnectedAt.hasSame(DateTime.now(), 'day')) {
+      delta = Math.max(0, currentMl - (user.deviceDisconnectedMl ?? 0))
+    }
+
+    return delta
+  }
 }
