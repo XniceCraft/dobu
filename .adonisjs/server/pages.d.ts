@@ -25,8 +25,9 @@ declare module '@adonisjs/inertia/types' {
     'dress': ExtractProps<(typeof import('../../inertia/pages/dress.tsx'))['default']>
     'dress/_components/character-selector': ExtractProps<(typeof import('../../inertia/pages/dress/_components/character-selector.tsx'))['default']>
     'drink': ExtractProps<(typeof import('../../inertia/pages/drink.tsx'))['default']>
-    'errors/not_found': ExtractProps<(typeof import('../../inertia/pages/errors/not_found.tsx'))['default']>
-    'errors/server_error': ExtractProps<(typeof import('../../inertia/pages/errors/server_error.tsx'))['default']>
+    'errors/forbidden': ExtractProps<(typeof import('../../inertia/pages/errors/forbidden.tsx'))['default']>
+    'errors/not-found': ExtractProps<(typeof import('../../inertia/pages/errors/not-found.tsx'))['default']>
+    'errors/server-error': ExtractProps<(typeof import('../../inertia/pages/errors/server-error.tsx'))['default']>
     'family/index': ExtractProps<(typeof import('../../inertia/pages/family/index.tsx'))['default']>
     'family/invite': ExtractProps<(typeof import('../../inertia/pages/family/invite.tsx'))['default']>
     'home': ExtractProps<(typeof import('../../inertia/pages/home.tsx'))['default']>

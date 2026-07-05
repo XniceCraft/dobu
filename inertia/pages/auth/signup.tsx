@@ -18,6 +18,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { type SignUpSchema, signUpSchema } from '@/lib/validations/user'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
+import { CalendarIcon } from '@phosphor-icons/react'
+import { cn } from '@/lib/utils'
 
 export default function SignUp() {
   const formPrefix = useId()
@@ -60,7 +62,7 @@ export default function SignUp() {
           className="block h-28 object-cover mx-auto"
           alt="Character"
         />
-        <section className="bg-white p-6 rounded-2xl ">
+        <section className="bg-white p-6 rounded-2xl shadow border border-gray-50">
           <h1 className="font-bold text-xl text-center mb-1">Daftar</h1>
           <p className="text-muted-foreground text-sm text-center mb-6">
             Lengkapi data anda untuk memulai
@@ -117,7 +119,7 @@ export default function SignUp() {
               control={control}
               name="password"
               label="Kata Sandi"
-              placeholder="Masukkan kata sandi baru"
+              placeholder="Masukkan kata sandi"
             />
             <PasswordField
               control={control}
@@ -133,8 +135,18 @@ export default function SignUp() {
                   <FieldLabel htmlFor={`${formPrefix}-${field.name}`}>Tanggal Lahir</FieldLabel>
                   <Popover>
                     <PopoverTrigger asChild>
-                      <Button variant="outline" id="date" className="justify-start font-normal">
-                        {field.value ? field.value.toLocaleDateString() : 'Select date'}
+                      <Button
+                        variant="outline"
+                        id="date"
+                        className={cn(
+                          'justify-start font-normal',
+                          field.value ? 'text-gray-900' : 'text-gray-500'
+                        )}
+                      >
+                        <CalendarIcon />
+                        {field.value
+                          ? field.value.toLocaleDateString()
+                          : 'Masukkan tanggal lahir anda'}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto overflow-hidden p-0" align="start">

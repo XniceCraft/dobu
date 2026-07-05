@@ -49,7 +49,7 @@ export default function Login() {
           className="block h-28 object-cover mx-auto"
           alt="Character"
         />
-        <section className="bg-white p-6 rounded-2xl ">
+        <section className="bg-white p-6 rounded-2xl shadow border border-gray-50">
           <h1 className="font-bold text-xl text-center mb-1">Masuk</h1>
           <p className="text-muted-foreground text-sm text-center mb-6">
             Masukkan data anda untuk masuk
