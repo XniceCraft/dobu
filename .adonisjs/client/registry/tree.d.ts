@@ -46,6 +46,9 @@ export interface ApiDefinition {
     height: typeof routes['setting.height']
     days: typeof routes['setting.days']
     workType: typeof routes['setting.work-type']
+    profile: {
+      update: typeof routes['setting.profile.update']
+    }
   }
   admin: {
     dashboard: typeof routes['admin.dashboard']

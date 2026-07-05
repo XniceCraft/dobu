@@ -3,9 +3,9 @@ import { CharacterBackground } from '@/components/background/character-backgroun
 import { Link } from '@adonisjs/inertia/react'
 import { MobileNavigation } from '@/components/layout/mobile-navigation'
 import { Navbar } from '@/components/layout/navbar'
+import { UserList } from './_components/user-list'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ShareIcon } from 'lucide-react'
-import { clamp } from '@/lib/utils/math'
 import { PlusIcon } from '@phosphor-icons/react'
 
 import type { Data } from '@generated/data'
@@ -48,64 +48,26 @@ export default function Family({
               <TabsContent value="daily">
                 <div className="space-y-5">
                   {drink.daily.map((member) => (
-                    <div
+                    <UserList
                       key={member.id}
-                      className="relative bg-gray-200 rounded-full h-8 flex items-center justify-center"
-                    >
-                      <img
-                        src={member.avatar ?? ''}
-                        alt="Avatar"
-                        className="absolute top-1/2 left-0 -translate-1/2 w-10 h-10 rounded-full object-cover z-1"
-                      />
-                      <div
-                        className="absolute bg-sky-400 top-0 left-0 w-full h-full origin-left rounded-full"
-                        style={{
-                          transform: `scaleX(${clamp(
-                            member.totalMl / member.drinkPreference.targetMl,
-                            0,
-                            1
-                          )})`,
-                        }}
-                      />
-                      <p className="relative z-2 text-sm font-medium">{`${member.totalMl}/${member.drinkPreference.targetMl} ML`}</p>
-                      <img
-                        src={member.character?.image ?? ''}
-                        alt="Character"
-                        className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-10 h-10 rounded-full object-cover z-1"
-                      />
-                    </div>
+                      avatar={member.avatar ?? ''}
+                      totalMl={member.totalMl}
+                      targetMl={member.drinkPreference.targetMl}
+                      character={member.character?.image}
+                    />
                   ))}
                 </div>
               </TabsContent>
               <TabsContent value="weekly">
                 <div className="space-y-5">
                   {drink.weekly.map((member) => (
-                    <div
+                    <UserList
                       key={member.id}
-                      className="relative bg-gray-200 rounded-full h-8 flex items-center justify-center"
-                    >
-                      <img
-                        src={member.avatar ?? ''}
-                        alt="Avatar"
-                        className="absolute top-1/2 left-0 -translate-1/2 w-10 h-10 rounded-full object-cover z-1"
-                      />
-                      <div
-                        className="absolute bg-sky-400 top-0 left-0 w-full h-full origin-left rounded-full"
-                        style={{
-                          transform: `scaleX(${clamp(
-                            member.totalMl / (member.drinkPreference.targetMl * 7),
-                            0,
-                            1
-                          )})`,
-                        }}
-                      />
-                      <p className="relative z-2 text-sm font-medium">{`${member.totalMl}/${member.drinkPreference.targetMl * 7} ML`}</p>
-                      <img
-                        src={member.character?.image ?? ''}
-                        alt="Character"
-                        className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-10 h-10 rounded-full object-cover z-1"
-                      />
-                    </div>
+                      avatar={member.avatar ?? ''}
+                      totalMl={member.totalMl}
+                      targetMl={member.drinkPreference.targetMl * 7}
+                      character={member.character?.image}
+                    />
                   ))}
                 </div>
               </TabsContent>

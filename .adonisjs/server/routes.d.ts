@@ -31,6 +31,7 @@ export type ScannedRoutes = {
     'setting.days': { paramsTuple?: []; params?: {} }
     'setting.work-type': { paramsTuple?: []; params?: {} }
     'setting.account.update': { paramsTuple?: []; params?: {} }
+    'setting.profile.update': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.characters.index': { paramsTuple?: []; params?: {} }
     'admin.characters.store': { paramsTuple?: []; params?: {} }
@@ -94,6 +95,7 @@ export type ScannedRoutes = {
     'dress.update': { paramsTuple?: []; params?: {} }
     'drink.store': { paramsTuple?: []; params?: {} }
     'setting.account.update': { paramsTuple?: []; params?: {} }
+    'setting.profile.update': { paramsTuple?: []; params?: {} }
     'admin.characters.store': { paramsTuple?: []; params?: {} }
     'admin.characters.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.characters.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

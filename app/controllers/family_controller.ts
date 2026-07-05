@@ -40,7 +40,7 @@ export default class FamilyController {
     const user = auth.use('web').user!
     await user.load('family')
 
-    if (user.family.id !== user.family.ownerId) {
+    if (user.id !== user.family.ownerId) {
       return response.forbidden()
     }
 

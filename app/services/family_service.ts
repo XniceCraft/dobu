@@ -14,6 +14,7 @@ export class FamilyService {
         query.select('total_ml')
       })
       .preload('character')
+      .preload('drinkPreference')
 
     const weekly = await User.query()
       .where('familyId', familyId)
@@ -27,6 +28,7 @@ export class FamilyService {
           ])
       })
       .preload('character')
+      .preload('drinkPreference')
 
     daily.sort((a, b) => {
       const aMl = a.drink?.totalMl ?? 0

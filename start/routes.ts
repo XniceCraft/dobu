@@ -60,6 +60,7 @@ router
         router.get('/work-type', [controllers.Account, 'showWorkType']).as('setting.work-type')
 
         router.post('/account', [controllers.Account, 'update']).as('setting.account.update')
+        router.post('/profile', [controllers.Profile, 'update']).as('setting.profile.update')
       })
       .prefix('/setting')
 

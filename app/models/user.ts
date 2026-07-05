@@ -22,8 +22,8 @@ const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
 })
 
 export default class User extends compose(UserSchema, AuthFinder) {
-  @belongsTo(() => Bottle)
-  declare bottle: BelongsTo<typeof Bottle>
+  @hasOne(() => Bottle)
+  declare bottle: HasOne<typeof Bottle>
 
   @belongsTo(() => Character)
   declare character: BelongsTo<typeof Character>

@@ -17,7 +17,8 @@ export const controllers = {
   Characters: () => import('#controllers/characters_controller'),
   Drink: () => import('#controllers/drink_controller'),
   Family: () => import('#controllers/family_controller'),
-  Issues: () => import('#controllers/issues_controller'),
-  Stats: () => import('#controllers/stats_controller'),
   Home: () => import('#controllers/home_controller'),
+  Issues: () => import('#controllers/issues_controller'),
+  Profile: () => import('#controllers/profile_controller'),
+  Stats: () => import('#controllers/stats_controller'),
 }

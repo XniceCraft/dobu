@@ -61,7 +61,7 @@ export default function WorkTypeSetting({
     (data: z.infer<typeof daysSchema>) => {
       router.visit(
         {
-          route: 'setting.account.update',
+          route: 'setting.profile.update',
         },
         {
           method: 'post',

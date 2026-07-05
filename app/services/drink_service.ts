@@ -4,6 +4,7 @@ import { DateTime } from 'luxon'
 
 import type User from '#models/user'
 import type UserProfile from '#models/user_profile'
+import app from '@adonisjs/core/services/app'
 
 interface CalculateMilliliterTargetType {
   birthdate: DateTime
@@ -12,6 +13,8 @@ interface CalculateMilliliterTargetType {
   gender: 'male' | 'female'
   workType: 'indoor' | 'semi-outdoor' | 'outdoor'
   climate: 'cold' | 'temperate' | 'hot' | 'tropical'
+  dayStart: string
+  dayEnd: string
 }
 
 const INTERVAL_MINUTES_BY_WORK_TYPE: Record<UserProfile['workType'], number> = {
@@ -61,8 +64,8 @@ function getBsaInsensibleLoss(heightCm: number, weightKg: number): number {
 }
 
 function timeToMinutes(time: string): number {
-  const [h, m, s] = time.split(':').map(Number)
-  return h * 60 + m + s / 60
+  const [h, m] = time.split(':').map(Number)
+  return h * 60 + m
 }
 
 export class DrinkService {
@@ -152,10 +155,24 @@ export class DrinkService {
     if (!params) await user.loadOnce('profile')
     await user.loadOnce('drinkPreference')
 
-    const intervalMinutes = INTERVAL_MINUTES_BY_WORK_TYPE[user.profile.workType]
-    const startMinutes = timeToMinutes(user.profile.dayStart)
-    const endMinutes = timeToMinutes(user.profile.dayEnd)
+    const logger = await app.container.make('logger')
+    if (!params && !user.profile) {
+      logger.error('Missing parameters to generate user drink: ', {
+        params,
+        userProfile: user.profile,
+      })
+      return
+    }
+
+    const workType = params !== undefined ? params.workType : user.profile.workType
+    const dayStart = params !== undefined ? params.dayStart : user.profile.dayStart
+    const dayEnd = params !== undefined ? params.dayEnd : user.profile.dayEnd
+
+    const intervalMinutes = INTERVAL_MINUTES_BY_WORK_TYPE[workType]
+    const startMinutes = timeToMinutes(dayStart)
+    const endMinutes = timeToMinutes(dayEnd)
     const duration = endMinutes - startMinutes
+
     const drinkCount = Math.floor(duration / intervalMinutes)
     const targetMl = this.calculateMilliliterTarget(params ?? user.profile)
     const targetPerInterval = Math.round(targetMl / drinkCount)
@@ -251,6 +268,8 @@ export class DrinkService {
     const drink = await this.getTodayDrink(user.id)
 
     let delta = drink.totalMl
+    if (!user.bottle) return 0
+
     if (user.bottle.disconnectedAt && user.bottle.disconnectedAt.hasSame(DateTime.now(), 'day')) {
       delta = Math.max(0, drink.totalMl - (user.bottle.disconnectedMl ?? 0))
     }

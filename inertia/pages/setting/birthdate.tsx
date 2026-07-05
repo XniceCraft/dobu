@@ -97,7 +97,7 @@ export default function BirthDateSetting({
 
       router.visit(
         {
-          route: 'setting.account.update',
+          route: 'setting.profile.update',
         },
         {
           method: 'post',

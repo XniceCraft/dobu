@@ -168,6 +168,12 @@ const routes = {
     tokens: [{"old":"/setting/account","type":0,"val":"setting","end":""},{"old":"/setting/account","type":0,"val":"account","end":""}],
     types: placeholder as Registry['setting.account.update']['types'],
   },
+  'setting.profile.update': {
+    methods: ["POST"],
+    pattern: '/setting/profile',
+    tokens: [{"old":"/setting/profile","type":0,"val":"setting","end":""},{"old":"/setting/profile","type":0,"val":"profile","end":""}],
+    types: placeholder as Registry['setting.profile.update']['types'],
+  },
   'admin.dashboard': {
     methods: ["GET","HEAD"],
     pattern: '/admin',

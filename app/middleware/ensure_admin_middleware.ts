@@ -6,7 +6,7 @@ export default class EnsureAdminMiddleware {
     const user = ctx.auth.user
 
     if (!user || user.role !== 'admin') {
-      return ctx.response.forbidden('You do not have permission to access this page')
+      return ctx.response.forbidden()
     }
 
     return next()

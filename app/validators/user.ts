@@ -29,18 +29,20 @@ export const loginValidator = vine.create({
 })
 
 export const updateUserValidator = vine.create(
+  signupValidator.schema.partial(['avatar', 'name']).pick(['avatar', 'name'])
+)
+
+export const updateUserProfileValidator = vine.create(
   signupValidator.schema
     .partial([
-      'name',
-      'birthdate',
-      'gender',
       'weight',
       'height',
+      'birthdate',
       'dayStart',
       'dayEnd',
       'workType',
-      'avatar',
       'climate',
+      'gender',
     ])
-    .omit(['email', 'password'])
+    .pick(['weight', 'height', 'birthdate', 'dayStart', 'dayEnd', 'workType', 'climate', 'gender'])
 )

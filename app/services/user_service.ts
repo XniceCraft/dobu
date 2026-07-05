@@ -35,6 +35,8 @@ export class UserService {
       gender: payload.gender,
       workType: payload.workType,
       climate: payload.climate,
+      dayStart: payload.dayStart,
+      dayEnd: payload.dayEnd,
     })
 
     return user

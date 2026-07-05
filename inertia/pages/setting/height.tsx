@@ -39,7 +39,7 @@ export default function HeightSetting({
     (data: HeightSchema) => {
       router.visit(
         {
-          route: 'setting.account.update',
+          route: 'setting.profile.update',
         },
         {
           method: 'post',

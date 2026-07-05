@@ -59,7 +59,9 @@ export default class AccountController {
 
     if (avatar) {
       await user.avatar?.remove()
-      user.avatar = await attachmentManager.createFromFile(avatar)
+      const attachment = await attachmentManager.createFromFile(avatar)
+      attachment.getDisk().delete(attachment.path!)
+      user.avatar = attachment
     }
 
     await user.merge(data).save()

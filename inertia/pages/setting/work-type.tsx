@@ -40,7 +40,7 @@ export default function WorkTypeSetting({
     (data: WorkTypeSchema) => {
       router.visit(
         {
-          route: 'setting.account.update',
+          route: 'setting.profile.update',
         },
         {
           method: 'post',

@@ -17,6 +17,7 @@ export default class CharactersController {
   async store({ request, response }: HttpContext) {
     const { name, image } = await request.validateUsing(createCharacterValidator)
     const attachment = await attachmentManager.createFromFile(image)
+    attachment.getDisk().delete(attachment.path!)
 
     await Character.create({
       name,
