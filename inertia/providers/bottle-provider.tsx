@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 const BOTTLE_CAPACITY_ML = 400
 
 type ConnectParams = {
-  delta: number
+  deltaMl: number
   targetMl: number
   intervalMinutes: number
   drinkCount: number
@@ -54,8 +54,8 @@ export function BottleProvider({ children }: { children: React.ReactNode }) {
       toast.success('Berhasil terhubung')
       await initializeData()
 
-      if (data.delta > 0) {
-        await sendNoWait('REQUEST_SYNC_DRINK', String(data.delta))
+      if (data.deltaMl > 0) {
+        await sendNoWait('REQUEST_SYNC_DRINK', String(data.deltaMl))
       }
     },
     [connect, initializeData, sendNoWait]
@@ -96,11 +96,10 @@ export function BottleProvider({ children }: { children: React.ReactNode }) {
 
   const onDisconnect = useCallback(() => {
     router.visit(
-      { route: 'drink.device.disconnect' },
+      { route: 'device.disconnect' },
       {
         method: 'post',
         preserveState: true,
-        preserveScroll: true,
       }
     )
   }, [router])

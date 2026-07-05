@@ -6,20 +6,21 @@ import { Navbar } from '@/components/layout/navbar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ShareIcon } from 'lucide-react'
 import { clamp } from '@/lib/utils/math'
+import { PlusIcon } from '@phosphor-icons/react'
 
 import type { Data } from '@generated/data'
 import type { InertiaProps } from '@/types'
-import { PlusIcon } from '@phosphor-icons/react'
 
-type PageProps = InertiaProps & {
+export default function Family({
+  drink,
+  calendar,
+}: InertiaProps<{
   drink: {
     daily: Data.User.Variants['toRanked'][]
     weekly: Data.User.Variants['toRanked'][]
   } | null
   calendar: Record<string, boolean>
-}
-
-export default function Family({ drink, calendar }: PageProps) {
+}>) {
   return (
     <div className="h-screen flex flex-col relative overflow-hidden">
       <CharacterBackground />
@@ -59,10 +60,14 @@ export default function Family({ drink, calendar }: PageProps) {
                       <div
                         className="absolute bg-sky-400 top-0 left-0 w-full h-full origin-left rounded-full"
                         style={{
-                          transform: `scaleX(${clamp(member.milliliter / member.milliliterTarget, 0, 1)})`,
+                          transform: `scaleX(${clamp(
+                            member.totalMl / member.drinkPreference.targetMl,
+                            0,
+                            1
+                          )})`,
                         }}
                       />
-                      <p className="relative z-2 text-sm font-medium">{`${member.milliliter}/${member.milliliterTarget} ML`}</p>
+                      <p className="relative z-2 text-sm font-medium">{`${member.totalMl}/${member.drinkPreference.targetMl} ML`}</p>
                       <img
                         src={member.character?.image ?? ''}
                         alt="Character"
@@ -87,10 +92,14 @@ export default function Family({ drink, calendar }: PageProps) {
                       <div
                         className="absolute bg-sky-400 top-0 left-0 w-full h-full origin-left rounded-full"
                         style={{
-                          transform: `scaleX(${clamp(member.milliliter / (member.milliliterTarget * 7), 0, 1)})`,
+                          transform: `scaleX(${clamp(
+                            member.totalMl / (member.drinkPreference.targetMl * 7),
+                            0,
+                            1
+                          )})`,
                         }}
                       />
-                      <p className="relative z-2 text-sm font-medium">{`${member.milliliter}/${member.milliliterTarget * 7} ML`}</p>
+                      <p className="relative z-2 text-sm font-medium">{`${member.totalMl}/${member.drinkPreference.targetMl * 7} ML`}</p>
                       <img
                         src={member.character?.image ?? ''}
                         alt="Character"

@@ -84,6 +84,12 @@ const routes = {
     tokens: [{"old":"/device","type":0,"val":"device","end":""}],
     types: placeholder as Registry['device']['types'],
   },
+  'device.disconnect': {
+    methods: ["POST"],
+    pattern: '/device/disconnect',
+    tokens: [{"old":"/device/disconnect","type":0,"val":"device","end":""},{"old":"/device/disconnect","type":0,"val":"disconnect","end":""}],
+    types: placeholder as Registry['device.disconnect']['types'],
+  },
   'dress': {
     methods: ["GET","HEAD"],
     pattern: '/dress',
@@ -107,18 +113,6 @@ const routes = {
     pattern: '/drink',
     tokens: [{"old":"/drink","type":0,"val":"drink","end":""}],
     types: placeholder as Registry['drink.store']['types'],
-  },
-  'drink.device.disconnect': {
-    methods: ["POST"],
-    pattern: '/drink/device/disconnect',
-    tokens: [{"old":"/drink/device/disconnect","type":0,"val":"drink","end":""},{"old":"/drink/device/disconnect","type":0,"val":"device","end":""},{"old":"/drink/device/disconnect","type":0,"val":"disconnect","end":""}],
-    types: placeholder as Registry['drink.device.disconnect']['types'],
-  },
-  'drink.device.sync': {
-    methods: ["GET","HEAD"],
-    pattern: '/drink/device/sync',
-    tokens: [{"old":"/drink/device/sync","type":0,"val":"drink","end":""},{"old":"/drink/device/sync","type":0,"val":"device","end":""},{"old":"/drink/device/sync","type":0,"val":"sync","end":""}],
-    types: placeholder as Registry['drink.device.sync']['types'],
   },
   'stats.index': {
     methods: ["GET","HEAD"],

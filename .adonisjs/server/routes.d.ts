@@ -17,12 +17,11 @@ export type ScannedRoutes = {
     'family.join': { paramsTuple: [ParamValue]; params: {'slug': ParamValue} }
     'family.leave': { paramsTuple?: []; params?: {} }
     'device': { paramsTuple?: []; params?: {} }
+    'device.disconnect': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
     'dress.update': { paramsTuple?: []; params?: {} }
     'drink.create': { paramsTuple?: []; params?: {} }
     'drink.store': { paramsTuple?: []; params?: {} }
-    'drink.device.disconnect': { paramsTuple?: []; params?: {} }
-    'drink.device.sync': { paramsTuple?: []; params?: {} }
     'stats.index': { paramsTuple?: []; params?: {} }
     'setting': { paramsTuple?: []; params?: {} }
     'setting.account': { paramsTuple?: []; params?: {} }
@@ -50,7 +49,6 @@ export type ScannedRoutes = {
     'device': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
     'drink.create': { paramsTuple?: []; params?: {} }
-    'drink.device.sync': { paramsTuple?: []; params?: {} }
     'stats.index': { paramsTuple?: []; params?: {} }
     'setting': { paramsTuple?: []; params?: {} }
     'setting.account': { paramsTuple?: []; params?: {} }
@@ -74,7 +72,6 @@ export type ScannedRoutes = {
     'device': { paramsTuple?: []; params?: {} }
     'dress': { paramsTuple?: []; params?: {} }
     'drink.create': { paramsTuple?: []; params?: {} }
-    'drink.device.sync': { paramsTuple?: []; params?: {} }
     'stats.index': { paramsTuple?: []; params?: {} }
     'setting': { paramsTuple?: []; params?: {} }
     'setting.account': { paramsTuple?: []; params?: {} }
@@ -93,9 +90,9 @@ export type ScannedRoutes = {
     'auth.logout': { paramsTuple?: []; params?: {} }
     'family.store': { paramsTuple?: []; params?: {} }
     'family.leave': { paramsTuple?: []; params?: {} }
+    'device.disconnect': { paramsTuple?: []; params?: {} }
     'dress.update': { paramsTuple?: []; params?: {} }
     'drink.store': { paramsTuple?: []; params?: {} }
-    'drink.device.disconnect': { paramsTuple?: []; params?: {} }
     'setting.account.update': { paramsTuple?: []; params?: {} }
     'admin.characters.store': { paramsTuple?: []; params?: {} }
     'admin.characters.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

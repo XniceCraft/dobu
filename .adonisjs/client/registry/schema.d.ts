@@ -87,8 +87,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/page_controller').default['home']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/page_controller').default['home']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/home_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/home_controller').default['index']>>>
     }
   }
   'family.index': {
@@ -159,8 +159,20 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/page_controller').default['device']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/page_controller').default['device']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/bottles_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bottles_controller').default['index']>>>
+    }
+  }
+  'device.disconnect': {
+    methods: ["POST"]
+    pattern: '/device/disconnect'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/bottles_controller').default['disconnect']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/bottles_controller').default['disconnect']>>>
     }
   }
   'dress': {
@@ -209,30 +221,6 @@ export interface Registry {
       query: ExtractQuery<InferInput<(typeof import('#validators/drink').insertDrinkValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/drink_controller').default['store']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/drink_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
-  'drink.device.disconnect': {
-    methods: ["POST"]
-    pattern: '/drink/device/disconnect'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/drink_controller').default['disconnect']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/drink_controller').default['disconnect']>>>
-    }
-  }
-  'drink.device.sync': {
-    methods: ["GET","HEAD"]
-    pattern: '/drink/device/sync'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/drink_controller').default['sync']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/drink_controller').default['sync']>>>
     }
   }
   'stats.index': {

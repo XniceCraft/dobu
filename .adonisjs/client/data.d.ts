@@ -8,6 +8,8 @@ import type { InferData, InferVariants } from '@adonisjs/core/types/transformers
 import type { InferSharedProps } from '@adonisjs/inertia/types'
 import type CharacterTransformer from '#transformers/character_transformer'
 import type DrinkTransformer from '#transformers/drink_transformer'
+import type UserDrinkTransformer from '#transformers/user_drink_transformer'
+import type UserProfileTransformer from '#transformers/user_profile_transformer'
 import type UserTransformer from '#transformers/user_transformer'
 import type InertiaMiddleware from '#middleware/inertia_middleware'
 
@@ -19,6 +21,14 @@ export namespace Data {
   export type Drink = InferData<DrinkTransformer>
   export namespace Drink {
     export type Variants = InferVariants<DrinkTransformer>
+  }
+  export type UserDrink = InferData<UserDrinkTransformer>
+  export namespace UserDrink {
+    export type Variants = InferVariants<UserDrinkTransformer>
+  }
+  export type UserProfile = InferData<UserProfileTransformer>
+  export namespace UserProfile {
+    export type Variants = InferVariants<UserProfileTransformer>
   }
   export type User = InferData<UserTransformer>
   export namespace User {

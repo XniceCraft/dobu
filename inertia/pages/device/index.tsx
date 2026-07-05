@@ -13,13 +13,19 @@ export default function DevicePage({
   todayDrinkMl,
   streak,
   calendar,
-  delta,
+  deltaMl,
+  targetPerInterval,
+  intervalMinutes,
+  drinkCount,
 }: InertiaProps<{
-  targetMl: number
+  deltaMl: number
   todayDrinkMl: number
+  targetMl: number
+  intervalMinutes: number
+  targetPerInterval: number
+  drinkCount: number
   streak: number
   calendar: Record<string, boolean>
-  delta: number
 }>) {
   const { connect, bottle, connected, initializeData } = useBottle()
 
@@ -52,7 +58,12 @@ export default function DevicePage({
         ) : (
           <section className="max-w-88 w-full h-full max-h-96 flex flex-col items-center justify-center rounded-lg bg-white">
             <p>Tidak ada botol yang tersimpan</p>
-            <Button variant="gradient" onClick={() => connect({ delta, targetMl })}>
+            <Button
+              variant="gradient"
+              onClick={() =>
+                connect({ deltaMl, targetMl, intervalMinutes, targetPerInterval, drinkCount })
+              }
+            >
               Hubungkan Botol
             </Button>
           </section>

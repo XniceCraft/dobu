@@ -31,7 +31,7 @@ export default function HeightSetting({
   const { control, handleSubmit, setError, formState } = useForm<HeightSchema>({
     resolver: zodResolver(heightSchema),
     defaultValues: {
-      height: user.height,
+      height: user.profile.height,
     },
   })
 

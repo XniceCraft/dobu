@@ -24,17 +24,15 @@ export interface ApiDefinition {
     join: typeof routes['family.join']
     leave: typeof routes['family.leave']
   }
-  device: typeof routes['device']
+  device: typeof routes['device'] & {
+    disconnect: typeof routes['device.disconnect']
+  }
   dress: typeof routes['dress'] & {
     update: typeof routes['dress.update']
   }
   drink: {
     create: typeof routes['drink.create']
     store: typeof routes['drink.store']
-    device: {
-      disconnect: typeof routes['drink.device.disconnect']
-      sync: typeof routes['drink.device.sync']
-    }
   }
   stats: {
     index: typeof routes['stats.index']

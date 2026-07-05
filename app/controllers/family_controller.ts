@@ -17,8 +17,8 @@ export default class FamilyController {
 
     return inertia.render('family/index', {
       drink: {
-        daily: UserTransformer.transform(daily).useVariant('toRanked') ?? [],
-        weekly: UserTransformer.transform(weekly).useVariant('toRanked') ?? [],
+        daily: UserTransformer.transform(daily).useVariant('toRanked'),
+        weekly: UserTransformer.transform(weekly).useVariant('toRanked'),
       },
       calendar,
     })

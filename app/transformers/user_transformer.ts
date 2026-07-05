@@ -14,18 +14,21 @@ export default class UserTransformer extends BaseTransformer<User> {
   }
 
   async detailed() {
+    const obj = await this.toObject()
+
     return {
-      ...this.toObject(),
+      ...obj,
       profile: UserProfileTransformer.transform(this.resource.profile),
       drinkPreference: UserDrinkTransformer.transform(this.resource.drinkPreference),
     }
   }
 
   async toRanked() {
+    const obj = await this.toObject()
     const totalMl = this.resource?.drink?.totalMl || Number(this.resource.$extras?.weekly_ml ?? 0)
 
     return {
-      ...this.toObject(),
+      ...obj,
       character: this.resource.character
         ? CharacterTransformer.transform(this.resource.character)
         : null,

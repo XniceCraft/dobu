@@ -15,6 +15,8 @@ export default class extends BaseSchema {
         .unique()
       table.integer('target_ml').unsigned().notNullable()
       table.integer('interval_minutes').unsigned().notNullable()
+      table.integer('drink_count').unsigned().notNullable()
+      table.integer('target_per_interval').unsigned().notNullable()
       table.integer('streak').notNullable().defaultTo(0)
       table.date('streak_start').nullable()
 

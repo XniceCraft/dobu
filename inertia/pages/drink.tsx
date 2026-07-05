@@ -1,5 +1,6 @@
 import { useRouter } from '@adonisjs/inertia/react'
 import { useCallback } from 'react'
+import { useBottle } from '@/providers/bottle-provider'
 import { Controller, useForm } from 'react-hook-form'
 import { Navbar } from '@/components/layout/navbar'
 import { CharacterBackground } from '@/components/background/character-background'
@@ -14,17 +15,7 @@ import { z } from 'zod/mini'
 import { generateValues } from '@/lib/utils/array'
 
 import type { WheelPickerOption } from '@/components/field/wheel-picker'
-import type { Data } from '@generated/data'
 import type { InertiaProps } from '@/types'
-import { useBottle } from '@/providers/bottle-provider'
-
-type PageProps = InertiaProps & {
-  drink: {
-    daily: Data.User.Variants['toRanked'][]
-    weekly: Data.User.Variants['toRanked'][]
-  }
-  calendar: Record<string, boolean>
-}
 
 const amounts: WheelPickerOption[] = generateValues(50, 2000, 50).map((amount) => ({
   value: amount.toString(),
@@ -37,7 +28,11 @@ const drinkSchema = z.object({
     .check(z.gte(50, 'Jumlah minimal adalah 50 ml'), z.lte(2000, 'Jumlah maksimal adalah 2000 ml')),
 })
 
-export default function Drink({ calendar }: PageProps) {
+export default function Drink({
+  calendar,
+}: InertiaProps<{
+  calendar: Record<string, boolean>
+}>) {
   const { connected, send } = useBottle()
   const router = useRouter()
   const { control, setError, handleSubmit, formState } = useForm<z.infer<typeof drinkSchema>>({

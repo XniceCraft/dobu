@@ -19,6 +19,7 @@ export default function DressPage({
   return (
     <>
       <Head title="Pakaian" />
+
       <div className="h-screen flex flex-col relative overflow-hidden">
         <CharacterBackground />
 

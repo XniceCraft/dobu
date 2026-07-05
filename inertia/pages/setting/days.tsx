@@ -14,10 +14,6 @@ import toast from 'react-hot-toast'
 import type { InertiaProps } from '@/types'
 import type { Data } from '@generated/data'
 
-type PageProps = InertiaProps<{
-  user: Data.User.Variants['detailed']
-}>
-
 const hourOptions = generateValues(0, 23, 1).map((value) => ({
   label: value.toString().padStart(2, '0'),
   value: value,
@@ -38,20 +34,24 @@ const daysSchema = z.object({
   }),
 })
 
-export default function WorkTypeSetting({ user }: PageProps) {
+export default function WorkTypeSetting({
+  user,
+}: InertiaProps<{
+  user: Data.User.Variants['detailed']
+}>) {
+  const router = useRouter()
   const defaultValues = useMemo(() => {
     return {
       dayStart: {
-        hour: Number.parseInt(user.dayStart.split(':')[0]),
-        minute: Number.parseInt(user.dayStart.split(':')[1]),
+        hour: Number.parseInt(user.profile.dayStart.split(':')[0]),
+        minute: Number.parseInt(user.profile.dayStart.split(':')[1]),
       },
       dayEnd: {
-        hour: Number.parseInt(user.dayEnd.split(':')[0]),
-        minute: Number.parseInt(user.dayEnd.split(':')[1]),
+        hour: Number.parseInt(user.profile.dayEnd.split(':')[0]),
+        minute: Number.parseInt(user.profile.dayEnd.split(':')[1]),
       },
     }
-  }, [user.dayStart, user.dayEnd])
-  const router = useRouter()
+  }, [user.profile.dayStart, user.profile.dayEnd])
   const { control, handleSubmit, setError, formState } = useForm<z.infer<typeof daysSchema>>({
     resolver: zodResolver(daysSchema),
     defaultValues,

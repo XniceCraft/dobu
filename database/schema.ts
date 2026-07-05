@@ -132,10 +132,12 @@ export class RememberMeTokenSchema extends BaseModel {
 }
 
 export class UserDrinkSchema extends BaseModel {
-  static $columns = ['createdAt', 'id', 'intervalMinutes', 'streak', 'streakStart', 'targetMl', 'updatedAt', 'userId'] as const
+  static $columns = ['createdAt', 'drinkCount', 'id', 'intervalMinutes', 'streak', 'streakStart', 'targetMl', 'targetPerInterval', 'updatedAt', 'userId'] as const
   $columns = UserDrinkSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
+  @column()
+  declare drinkCount: number
   @column({ isPrimary: true })
   declare id: number
   @column()
@@ -146,6 +148,8 @@ export class UserDrinkSchema extends BaseModel {
   declare streakStart: DateTime | null
   @column()
   declare targetMl: number
+  @column()
+  declare targetPerInterval: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
   @column()

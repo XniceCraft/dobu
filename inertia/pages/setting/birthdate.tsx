@@ -13,10 +13,6 @@ import toast from 'react-hot-toast'
 import type { InertiaProps } from '@/types'
 import type { Data } from '@generated/data'
 
-type PageProps = InertiaProps<{
-  user: Data.User.Variants['detailed']
-}>
-
 const currentYear = new Date().getFullYear()
 const minYear = currentYear - 100
 
@@ -52,12 +48,16 @@ const birthdateFormSchema = z
     )
   )
 
-export default function BirthDateSetting({ user }: PageProps) {
+export default function BirthDateSetting({
+  user,
+}: InertiaProps<{
+  user: Data.User.Variants['detailed']
+}>) {
   const router = useRouter()
 
   const getDefaultValues = () => {
-    if (user.birthdate) {
-      const dateStr = user.birthdate.toString()
+    if (user.profile.birthdate) {
+      const dateStr = user.profile.birthdate.toString()
       const match = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})/)
       if (match) {
         return {

@@ -7,17 +7,12 @@ import { Field } from '@/components/ui/field'
 import { WheelPicker, WheelPickerWrapper } from '@/components/field/wheel-picker'
 import { ChevronLeftIcon } from 'lucide-react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod/mini'
-import { signUpSchema } from '@/lib/validations/user'
+import { weightSchema, type WeightSchema } from '@/lib/validations/user'
+import { generateValues } from '@/lib/utils/array'
 import toast from 'react-hot-toast'
 
 import type { InertiaProps } from '@/types'
 import type { Data } from '@generated/data'
-import { generateValues } from '@/lib/utils/array'
-
-type PageProps = InertiaProps<{
-  user: Data.User.Variants['detailed']
-}>
 
 const weightOptions = generateValues(10, 500, 1).map((value) => {
   return {
@@ -26,19 +21,21 @@ const weightOptions = generateValues(10, 500, 1).map((value) => {
   }
 })
 
-const weightSchema = z.pick(z.object(signUpSchema.shape), { weight: true })
-
-export default function WeightSetting({ user }: PageProps) {
+export default function WeightSetting({
+  user,
+}: InertiaProps<{
+  user: Data.User.Variants['detailed']
+}>) {
   const router = useRouter()
-  const { control, handleSubmit, setError, formState } = useForm<z.infer<typeof weightSchema>>({
+  const { control, handleSubmit, setError, formState } = useForm<WeightSchema>({
     resolver: zodResolver(weightSchema),
     defaultValues: {
-      weight: user.weight,
+      weight: user.profile.weight,
     },
   })
 
   const onSubmit = useCallback(
-    (data: z.infer<typeof weightSchema>) => {
+    (data: WeightSchema) => {
       router.visit(
         {
           route: 'setting.account.update',
@@ -49,7 +46,7 @@ export default function WeightSetting({ user }: PageProps) {
           preserveState: true,
           onError: (errors) => {
             Object.entries(errors).forEach(([field, message]) => {
-              setError(field as keyof z.infer<typeof weightSchema>, {
+              setError(field as keyof WeightSchema, {
                 message,
               })
             })

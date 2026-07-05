@@ -30,23 +30,24 @@ const accountSettingLinks: {
   {
     icon: CalendarIcon,
     route: 'setting.birthdate',
-    value: (user: Data.User.Variants['detailed']) => user.birthdate && formatDate(user.birthdate),
+    value: (user: Data.User.Variants['detailed']) =>
+      user.profile.birthdate && formatDate(user.profile.birthdate),
   },
   {
     icon: WeightIcon,
     route: 'setting.weight',
-    value: (user: Data.User.Variants['detailed']) => `${user.weight} kg`,
+    value: (user: Data.User.Variants['detailed']) => `${user.profile.weight} kg`,
   },
   {
     icon: RulerIcon,
     route: 'setting.height',
-    value: (user: Data.User.Variants['detailed']) => `${user.height} cm`,
+    value: (user: Data.User.Variants['detailed']) => `${user.profile.height} cm`,
   },
   {
     icon: Clock2Icon,
     route: 'setting.days',
     value: (user: Data.User.Variants['detailed']) =>
-      `${user.dayStart.slice(0, 5)}—${user.dayEnd.slice(0, 5)}`,
+      `${user.profile.dayStart.slice(0, 5)}—${user.profile.dayEnd.slice(0, 5)}`,
   },
   {
     icon: BriefcaseBusinessIcon,
@@ -56,11 +57,11 @@ const accountSettingLinks: {
         'indoor': 'Indoor',
         'semi-outdoor': 'Semi Outdoor',
         'outdoor': 'Outdoor',
-      })[user.workType],
+      })[user.profile.workType],
   },
   {
     icon: TargetIcon,
-    value: (user: Data.User.Variants['detailed']) => `${user.milliliterTarget} ml`,
+    value: (user: Data.User.Variants['detailed']) => `${user.drinkPreference.targetMl} ml`,
     route: null,
   },
 ]
@@ -81,7 +82,7 @@ export default function AccountSetting({ user }: PageProps) {
         <section className="bg-white p-8 rounded-xl shadow space-y-4 text-gray-600">
           <div className="flex items-center flex-nowrap gap-3">
             <img
-              src={user?.avatar ?? 'https://placehold.co/100x100/webp'}
+              src={user.avatar ?? 'https://placehold.co/100x100/webp'}
               alt="Avatar"
               className="w-8 h-8 rounded-full object-cover border"
             />

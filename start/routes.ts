@@ -25,7 +25,7 @@ router
   .group(() => {
     router.post('logout', [controllers.auth.Session, 'destroy']).as('auth.logout')
 
-    router.get('/', [controllers.Page, 'home']).as('home')
+    router.get('/', [controllers.Home, 'index']).as('home')
 
     router.get('/family', [controllers.Family, 'index']).as('family.index')
     router.post('/family', [controllers.Family, 'store']).as('family.store')
@@ -33,7 +33,8 @@ router
     router.get('/family/:slug', [controllers.Family, 'join']).as('family.join')
     router.post('/family/leave', [controllers.Family, 'leave']).as('family.leave')
 
-    router.get('/device', [controllers.Page, 'device']).as('device')
+    router.get('/device', [controllers.Bottles, 'index']).as('device')
+    router.post('/device/disconnect', [controllers.Bottles, 'disconnect']).as('device.disconnect')
 
     router.get('/dress', [controllers.Characters, 'index']).as('dress')
     router.post('/dress', [controllers.Characters, 'update']).as('dress.update')
@@ -42,10 +43,6 @@ router
       .group(() => {
         router.get('/', [controllers.Drink, 'create']).as('drink.create')
         router.post('/', [controllers.Drink, 'store']).as('drink.store')
-        router
-          .post('/device/disconnect', [controllers.Drink, 'disconnect'])
-          .as('drink.device.disconnect')
-        router.get('/device/sync', [controllers.Drink, 'sync']).as('drink.device.sync')
       })
       .prefix('/drink')
 

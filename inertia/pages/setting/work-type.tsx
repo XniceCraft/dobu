@@ -11,16 +11,11 @@ import {
 } from '@/components/field/wheel-picker'
 import { ChevronLeftIcon } from 'lucide-react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod/mini'
-import { signUpSchema } from '@/lib/validations/user'
+import { workTypeSchema, type WorkTypeSchema } from '@/lib/validations/user'
 import toast from 'react-hot-toast'
 
 import type { InertiaProps } from '@/types'
 import type { Data } from '@generated/data'
-
-type PageProps = InertiaProps<{
-  user: Data.User.Variants['detailed']
-}>
 
 const workTypeOptions: WheelPickerOption[] = [
   { value: 'indoor', label: 'Indoor' },
@@ -28,19 +23,21 @@ const workTypeOptions: WheelPickerOption[] = [
   { value: 'outdoor', label: 'Outdoor' },
 ]
 
-const workTypeSchema = z.pick(z.object(signUpSchema.shape), { workType: true })
-
-export default function WorkTypeSetting({ user }: PageProps) {
+export default function WorkTypeSetting({
+  user,
+}: InertiaProps<{
+  user: Data.User.Variants['detailed']
+}>) {
   const router = useRouter()
-  const { control, setError, handleSubmit, formState } = useForm<z.infer<typeof workTypeSchema>>({
+  const { control, setError, handleSubmit, formState } = useForm<WorkTypeSchema>({
     resolver: zodResolver(workTypeSchema),
     defaultValues: {
-      workType: user.workType,
+      workType: user.profile.workType,
     },
   })
 
   const onSubmit = useCallback(
-    (data: z.infer<typeof workTypeSchema>) => {
+    (data: WorkTypeSchema) => {
       router.visit(
         {
           route: 'setting.account.update',
@@ -51,7 +48,7 @@ export default function WorkTypeSetting({ user }: PageProps) {
           preserveState: true,
           onError: (errors) => {
             Object.entries(errors).forEach(([field, message]) => {
-              setError(field as keyof z.infer<typeof workTypeSchema>, {
+              setError(field as keyof WorkTypeSchema, {
                 message,
               })
             })

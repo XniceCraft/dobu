@@ -3,6 +3,22 @@ import DrinkLog from '#models/drink_log'
 import { DateTime } from 'luxon'
 
 import type User from '#models/user'
+import type UserProfile from '#models/user_profile'
+
+interface CalculateMilliliterTargetType {
+  birthdate: DateTime
+  weight: number
+  height: number
+  gender: 'male' | 'female'
+  workType: 'indoor' | 'semi-outdoor' | 'outdoor'
+  climate: 'cold' | 'temperate' | 'hot' | 'tropical'
+}
+
+const INTERVAL_MINUTES_BY_WORK_TYPE: Record<UserProfile['workType'], number> = {
+  'indoor': 60,
+  'semi-outdoor': 45,
+  'outdoor': 30,
+}
 
 const BASE_ML_PER_KG = {
   male: 35,
@@ -114,14 +130,7 @@ export class DrinkService {
     return 0
   }
 
-  static calculateMilliliterTarget(params: {
-    birthdate: DateTime
-    weight: number
-    height: number
-    gender: 'male' | 'female'
-    workType: 'indoor' | 'semi-outdoor' | 'outdoor'
-    climate: 'cold' | 'temperate' | 'hot' | 'tropical'
-  }): number {
+  static calculateMilliliterTarget(params: CalculateMilliliterTargetType): number {
     const age = getAge(params.birthdate)
 
     const base = params.weight * BASE_ML_PER_KG[params.gender]
@@ -139,16 +148,35 @@ export class DrinkService {
     return Math.round(beverageTarget)
   }
 
-  static async calculateTargetPerInterval(user: User): Promise<number> {
-    await user.loadOnce('profile')
+  static async generateUserDrink(user: User, params?: CalculateMilliliterTargetType) {
+    if (!params) await user.loadOnce('profile')
     await user.loadOnce('drinkPreference')
 
+    const intervalMinutes = INTERVAL_MINUTES_BY_WORK_TYPE[user.profile.workType]
     const startMinutes = timeToMinutes(user.profile.dayStart)
     const endMinutes = timeToMinutes(user.profile.dayEnd)
     const duration = endMinutes - startMinutes
-    const drinkCount = Math.floor(duration / user.drinkPreference.intervalMinutes)
+    const drinkCount = Math.floor(duration / intervalMinutes)
+    const targetMl = this.calculateMilliliterTarget(params ?? user.profile)
+    const targetPerInterval = Math.round(targetMl / drinkCount)
 
-    return Math.round(user.drinkPreference.targetMl / drinkCount)
+    if (user.drinkPreference) {
+      user.drinkPreference.drinkCount = drinkCount
+      user.drinkPreference.targetPerInterval = targetPerInterval
+      user.drinkPreference.targetMl = targetMl
+      user.drinkPreference.intervalMinutes = intervalMinutes
+      await user.drinkPreference.save()
+      return
+    }
+
+    await user.related('drinkPreference').create({
+      targetMl,
+      intervalMinutes,
+      drinkCount,
+      targetPerInterval,
+      streak: 0,
+      streakStart: null,
+    })
   }
 
   static async logDrink(user: User, amount: number): Promise<Drink> {

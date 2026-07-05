@@ -1,9 +1,16 @@
 import { z } from 'zod/mini'
 
+const weightField = z.coerce
+  .number<number>()
+  .check(z.gte(1, 'Berat badan minimal 1 kg'))
+  .check(z.lte(1000, 'Berat badan maksimal 1000 kg'))
+
 const heightField = z.coerce
   .number<number>()
   .check(z.gte(100, 'Tinggi badan minimal 100 cm'))
   .check(z.lte(300, 'Tinggi badan maksimal 300 cm'))
+
+const workTypeField = z.enum(['indoor', 'semi-outdoor', 'outdoor'])
 
 export const signUpSchema = z
   .object({
@@ -24,16 +31,13 @@ export const signUpSchema = z
       .check(z.minLength(8, 'Password minimal 8 karakter'))
       .check(z.maxLength(32, 'Password maksimal 32 karakter')),
     passwordConfirmation: z.string(),
-    weight: z.coerce
-      .number<number>()
-      .check(z.gte(1, 'Berat badan minimal 1 kg'))
-      .check(z.lte(1000, 'Berat badan maksimal 1000 kg')),
+    weight: weightField,
     height: heightField,
     gender: z.enum(['male', 'female']),
     dayStart: z.iso.time(),
     dayEnd: z.iso.time(),
     climate: z.enum(['cold', 'temperate', 'hot', 'tropical']),
-    workType: z.enum(['indoor', 'semi-outdoor', 'outdoor']),
+    workType: workTypeField,
   })
   .check(
     z.refine((data) => data.password === data.passwordConfirmation, {
@@ -52,11 +56,21 @@ export const loginSchema = z.object({
   rememberMe: z.optional(z.boolean()),
 })
 
+export const weightSchema = z.object({
+  weight: weightField,
+})
+
 export const heightSchema = z.object({
   height: heightField,
+})
+
+export const workTypeSchema = z.object({
+  workType: workTypeField,
 })
 
 export type SignUpSchema = z.infer<typeof signUpSchema>
 export type LoginSchema = z.infer<typeof loginSchema>
 
+export type WeightSchema = z.infer<typeof weightSchema>
 export type HeightSchema = z.infer<typeof heightSchema>
+export type WorkTypeSchema = z.infer<typeof workTypeSchema>
