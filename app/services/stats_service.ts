@@ -45,20 +45,19 @@ export class StatsService {
         today.endOf('year').toISODate(),
       ])
 
-    // Weekly chart — aggregate by weekday for the selected month
     const monthStart = today.set({ month }).startOf('month')
     const monthEnd = today.set({ month }).endOf('month')
 
     const monthRows = await Drink.query()
       .where('userId', userId)
       .whereBetween('drinkDate', [monthStart.toISODate()!, monthEnd.toISODate()!])
-      .select('drinkDate', 'milliliter')
+      .select('drinkDate', 'totalMl')
 
     const totals = new Map<WeekdayName, number>()
     const calendarData: Record<string, boolean> = {}
     for (const row of monthRows) {
       const name = WEEKDAY_NAMES[row.drinkDate.weekday - 1]
-      totals.set(name, (totals.get(name) ?? 0) + row.milliliter)
+      totals.set(name, (totals.get(name) ?? 0) + row.totalMl)
       calendarData[row.drinkDate.toISODate()!] = true
     }
 
@@ -75,13 +74,13 @@ export class StatsService {
     const rawMonthlyData = (await db
       .from('drinks')
       .select(db.raw("DATE_FORMAT(drink_date, '%Y-%m') as month"))
-      .sum('milliliter as total_ml')
+      .sum('total_ml as month_ml')
       .where('user_id', userId)
       .whereBetween('drink_date', [yearStart, yearEnd])
-      .groupByRaw("DATE_FORMAT(drink_date, '%Y-%m')")) as Array<{ month: string; total_ml: number }>
+      .groupByRaw("DATE_FORMAT(drink_date, '%Y-%m')")) as Array<{ month: string; month_ml: number }>
 
     for (const row of rawMonthlyData) {
-      monthSkeleton.set(row.month, Number(row.total_ml))
+      monthSkeleton.set(row.month, Number(row.month_ml))
     }
 
     const monthlyChartData = Array.from(monthSkeleton, ([key, total_ml]) => ({

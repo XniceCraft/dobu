@@ -7,7 +7,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 export default class FamilyController {
   async index({ inertia, auth }: HttpContext) {
     const user = auth.use('web').user!
-    const calendar = await DrinkService.getWeekDrinkLogs(user.id)
+    const calendar = await DrinkService.getWeekDrinkLogs(user)
 
     if (!user.familyId) {
       return inertia.render('family/index', { drink: null, calendar })
@@ -44,7 +44,7 @@ export default class FamilyController {
       return response.forbidden()
     }
 
-    const calendar = await DrinkService.getWeekDrinkLogs(user.id)
+    const calendar = await DrinkService.getWeekDrinkLogs(user)
 
     return inertia.render('family/invite', { calendar, slug: user.family.slug })
   }

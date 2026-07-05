@@ -1,13 +1,17 @@
-import { createContext, use, useCallback, useEffect, useMemo, useState } from 'react'
+import { createContext, use, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useRouter } from '@adonisjs/inertia/react'
 import { useBLE } from '@/hooks/use-ble'
-import { useAsRef } from '@/hooks/use-as-ref'
-import { usePage } from '@inertiajs/react'
 import toast from 'react-hot-toast'
 
-import type { InertiaProps } from '@/types'
-import { useRouter } from '@adonisjs/inertia/react'
-
 const BOTTLE_CAPACITY_ML = 400
+
+type ConnectParams = {
+  delta: number
+  targetMl: number
+  intervalMinutes: number
+  drinkCount: number
+  targetPerInterval: number
+}
 
 type Bottle = {
   size: number
@@ -17,7 +21,7 @@ type Bottle = {
 type BottleContextType = {
   bottle: Bottle | null
   connected: boolean
-  connect: () => void
+  connect: (data: ConnectParams) => void
   send: (cmd: string, payload?: string) => Promise<string>
   sendNoWait: (cmd: string, payload?: string) => Promise<void>
   initializeData: () => Promise<void>
@@ -25,94 +29,73 @@ type BottleContextType = {
 
 const BottleContext = createContext<BottleContextType | null>(null)
 
-function timeToMinutes(time: string): number {
-  const [h, m, s] = time.split(':').map(Number)
-  return h * 60 + m + s / 60
-}
-
 export function BottleProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
-  const { user } = usePage<InertiaProps>().props
   const [bottle, setBottle] = useState<Bottle | null>(null)
   const { connected, connect, send, sendNoWait, subscribe, subscribeDisconnect } = useBLE()
 
-  const userRef = useAsRef(user)
-  const routerRef = useAsRef(router)
-  const sendNoWaitRef = useAsRef(sendNoWait)
+  const dataRef = useRef<ConnectParams | null>(null)
 
   const initializeData = useCallback(async () => {
     const remainingMl = await send('VOLUME')
     setBottle({ size: BOTTLE_CAPACITY_ML, remainingMl: Number.parseInt(remainingMl.split(':')[1]) })
   }, [send])
 
-  const connectWrapper = useCallback(async () => {
-    const result = await connect()
-    if (!result.success) {
-      toast.error('Gagal terhubung')
-      return
-    }
-    toast.success('Berhasil terhubung')
-    await initializeData()
+  const connectWrapper = useCallback(
+    async (data: ConnectParams) => {
+      dataRef.current = data
 
-    try {
-      const response = await fetch('/drink/device/sync')
-      if (response.ok) {
-        const data = await response.json()
-        const delta = data.delta
-        if (delta > 0) {
-          await sendNoWait('REQUEST_SYNC_DRINK', String(delta))
-        }
+      const result = await connect()
+      if (!result.success) {
+        toast.error('Gagal terhubung')
+        return
       }
-    } catch {
-      toast.error('Gagal sinkronisasi minum')
-    }
-  }, [connect, initializeData, sendNoWait])
 
-  const onIncomingMessage = useCallback(async (message: string) => {
-    if (message.startsWith('DRINK')) {
-      const user = userRef.current
-      if (!user) return
+      toast.success('Berhasil terhubung')
+      await initializeData()
 
-      const ml = Number.parseInt(message.split(':')[1])
-      setBottle((old) => (old ? { ...old, remainingMl: ml } : null))
+      if (data.delta > 0) {
+        await sendNoWait('REQUEST_SYNC_DRINK', String(data.delta))
+      }
+    },
+    [connect, initializeData, sendNoWait]
+  )
 
-      routerRef.current.visit(
-        { route: 'drink.store' },
-        {
-          method: 'post',
-          data: { amount: ml },
-          preserveState: true,
-          onError: () => {
-            toast.error('Gagal mencatat')
-          },
-          onSuccess: () => {
-            toast.success('Berhasil mencatat')
-          },
-        }
-      )
-    } else if (message.startsWith('REQUEST_SYNC_ALL')) {
-      const user = userRef.current
-      if (!user) return
+  const onIncomingMessage = useCallback(
+    async (message: string) => {
+      if (message.startsWith('DRINK')) {
+        const ml = Number.parseInt(message.split(':')[1])
+        setBottle((old) => (old ? { ...old, remainingMl: ml } : null))
 
-      const startMinutes = timeToMinutes(user.dayStart)
-      const endMinutes = timeToMinutes(user.dayEnd)
-      const duration = endMinutes - startMinutes
-      const drinkCount = Math.floor(duration / user.intervalMinutes)
-      const targetPerInterval = Math.floor(user.milliliterTarget / drinkCount)
-
-      try {
-        await sendNoWaitRef.current(
-          `SYNC:${user.milliliterTarget}:${targetPerInterval}:${user.intervalMinutes}:${drinkCount}`
+        router.visit(
+          { route: 'drink.store' },
+          {
+            method: 'post',
+            data: { amount: ml },
+            preserveState: true,
+            onError: () => {
+              toast.error('Gagal mencatat')
+            },
+            onSuccess: () => {
+              toast.success('Berhasil mencatat')
+            },
+          }
         )
-      } catch {
-        toast.error('Gagal sinkronisasi')
+      } else if (message.startsWith('REQUEST_SYNC_ALL')) {
+        try {
+          await sendNoWait(
+            `SYNC:${dataRef.current!.targetMl}:${dataRef.current!.targetPerInterval}:${dataRef.current!.intervalMinutes}:${dataRef.current!.drinkCount}`
+          )
+        } catch {
+          toast.error('Gagal sinkronisasi')
+        }
       }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    },
+    [router, sendNoWait]
+  )
 
   const onDisconnect = useCallback(() => {
-    routerRef.current.visit(
+    router.visit(
       { route: 'drink.device.disconnect' },
       {
         method: 'post',
@@ -120,8 +103,7 @@ export function BottleProvider({ children }: { children: React.ReactNode }) {
         preserveScroll: true,
       }
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [router])
 
   useEffect(() => {
     const unsubscribeIncoming = subscribe(onIncomingMessage)

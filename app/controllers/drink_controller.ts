@@ -5,7 +5,8 @@ import type { HttpContext } from '@adonisjs/core/http'
 
 export default class DrinksController {
   async create({ inertia, auth }: HttpContext) {
-    const calendar = await DrinkService.getWeekDrinkLogs(auth.use('web').user!.id)
+    const user = auth.use('web').user!
+    const calendar = await DrinkService.getWeekDrinkLogs(user)
 
     return inertia.render('drink', { calendar })
   }
@@ -18,17 +19,4 @@ export default class DrinksController {
 
     return response.redirect().back()
   }
-
-  async disconnect({ auth, response }: HttpContext) {
-    const user = auth.use('web').user!
-    await DrinkService.recordDisconnect(user)
-    return response.ok({ success: true })
-  }
-
-  async sync({ auth, response }: HttpContext) {
-    const user = auth.use('web').user!
-    const delta = await DrinkService.getSyncDelta(user)
-    return response.ok({ delta })
-  }
 }
-

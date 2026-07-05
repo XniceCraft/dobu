@@ -1,3 +1,4 @@
+import Bottle from '#models/bottle'
 import Character from '#models/character'
 import Drink from '#models/drink'
 import Family from '#models/family'
@@ -21,6 +22,9 @@ const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
 })
 
 export default class User extends compose(UserSchema, AuthFinder) {
+  @belongsTo(() => Bottle)
+  declare bottle: BelongsTo<typeof Bottle>
+
   @belongsTo(() => Character)
   declare character: BelongsTo<typeof Character>
 

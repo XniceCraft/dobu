@@ -9,9 +9,9 @@ export default class SignUpController {
   }
 
   async store({ request, response }: HttpContext) {
-    const { avatar, ...data } = await request.validateUsing(signupValidator)
+    const payload = await request.validateUsing(signupValidator)
 
-    await UserService.createUser(data, avatar)
+    await UserService.createUser(payload)
 
     response.redirect().toRoute('auth.login')
   }

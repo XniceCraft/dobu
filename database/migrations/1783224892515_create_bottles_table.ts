@@ -7,7 +7,8 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.integer('user_id').unsigned().references('users.id').onDelete('cascade').notNullable()
-      table.timestamp('device_disconnected_at').nullable()
+      table.integer('disconnected_ml').unsigned().nullable()
+      table.timestamp('disconnected_at').nullable()
 
       table.timestamp('created_at')
       table.timestamp('updated_at')

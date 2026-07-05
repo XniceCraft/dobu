@@ -7,15 +7,20 @@ import { CharacterBackground } from '@/components/background/character-backgroun
 import { clamp } from '@/lib/utils/math'
 
 import type { InertiaProps } from '@/types'
-import type { Data } from '@generated/data'
 
-type PageProps = InertiaProps & {
-  drink: Data.Drink
+export default function DevicePage({
+  targetMl,
+  todayDrinkMl,
+  streak,
+  calendar,
+  delta,
+}: InertiaProps<{
+  targetMl: number
+  todayDrinkMl: number
   streak: number
   calendar: Record<string, boolean>
-}
-
-export default function DevicePage({ user, drink, streak, calendar }: PageProps) {
+  delta: number
+}>) {
   const { connect, bottle, connected, initializeData } = useBottle()
 
   return (
@@ -47,22 +52,22 @@ export default function DevicePage({ user, drink, streak, calendar }: PageProps)
         ) : (
           <section className="max-w-88 w-full h-full max-h-96 flex flex-col items-center justify-center rounded-lg bg-white">
             <p>Tidak ada botol yang tersimpan</p>
-            <Button variant="gradient" onClick={connect}>
-              Hubungkan Botol{' '}
+            <Button variant="gradient" onClick={() => connect({ delta, targetMl })}>
+              Hubungkan Botol
             </Button>
           </section>
         )}
         <section className="max-w-88 w-full space-y-3">
           <div className="w-full max-w-xl bg-white rounded-full relative py-2 px-2">
             <p className="relative z-1 text-center text-sm text-gray-900 font-semibold">
-              {`${drink.milliliter}/${user!.milliliterTarget} ML`}
+              {`${todayDrinkMl}/${targetMl} ML`}
             </p>
             <div className="absolute top-0 left-0 w-full h-full p-1">
               <div className="bg-gray-100 rounded-full w-full h-full overflow-hidden">
                 <div
                   className="bg-sky-400 rounded-full w-full h-full origin-left"
                   style={{
-                    transform: `scaleX(${clamp(drink.milliliter / user!.milliliterTarget, 0, 1)})`,
+                    transform: `scaleX(${clamp(todayDrinkMl / targetMl, 0, 1)})`,
                   }}
                 />
               </div>

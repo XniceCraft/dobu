@@ -15,26 +15,24 @@ export default class UserTransformer extends BaseTransformer<User> {
 
   async detailed() {
     return {
-      ...this.pick(this.resource, ['id', 'name', 'email']),
-      avatar: this.resource.avatar ? await this.resource.avatar.getUrl('thumbnail') : null,
+      ...this.toObject(),
       profile: UserProfileTransformer.transform(this.resource.profile),
       drinkPreference: UserDrinkTransformer.transform(this.resource.drinkPreference),
     }
   }
 
   async toRanked() {
-    // const milliliter =
-    //   this.resource?.drink?.milliliter || Number(this.resource.$extras?.total_milliliter ?? 0)
+    const totalMl = this.resource?.drink?.totalMl || Number(this.resource.$extras?.weekly_ml ?? 0)
 
     return {
-      ...this.pick(this.resource, ['id', 'name']),
-      avatar: this.resource.avatar ? await this.resource.avatar.getUrl('thumbnail') : null,
+      ...this.toObject(),
       character: this.resource.character
         ? CharacterTransformer.transform(this.resource.character)
         : null,
       drinkPreference: UserDrinkTransformer.transform(this.resource.drinkPreference).useVariant(
         'toRanked'
       ),
+      totalMl,
     }
   }
 }

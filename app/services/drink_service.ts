@@ -1,7 +1,8 @@
 import Drink from '#models/drink'
 import DrinkLog from '#models/drink_log'
-import User from '#models/user'
 import { DateTime } from 'luxon'
+
+import type User from '#models/user'
 
 const BASE_ML_PER_KG = {
   male: 35,
@@ -49,21 +50,35 @@ function timeToMinutes(time: string): number {
 }
 
 export class DrinkService {
-  static async getWeekDrinkLogs(userId: number): Promise<Record<string, boolean>> {
-    const user = await User.findOrFail(userId)
-    const target = user.milliliterTarget
+  static async getTodayDrink(userId: number) {
+    const drink = await Drink.firstOrCreate(
+      {
+        userId,
+        drinkDate: DateTime.now().toSQLDate() as unknown as DateTime,
+      },
+      {
+        totalMl: 0,
+      }
+    )
+
+    return drink
+  }
+
+  static async getWeekDrinkLogs(user: User): Promise<Record<string, boolean>> {
+    await user.loadOnce('drinkPreference')
+    const target = user.drinkPreference.targetMl
 
     const today = DateTime.now()
     const monday = today.startOf('week')
 
     const rows = await Drink.query()
-      .where('userId', userId)
+      .where('userId', user.id)
       .whereBetween('drinkDate', [monday.toISODate()!, today.toISODate()!])
 
     const totalsByDate = new Map<string, number>()
     for (const row of rows) {
       const key = row.drinkDate.toISODate()!
-      totalsByDate.set(key, (totalsByDate.get(key) ?? 0) + row.milliliter)
+      totalsByDate.set(key, (totalsByDate.get(key) ?? 0) + row.totalMl)
     }
 
     return Object.fromEntries(
@@ -76,19 +91,25 @@ export class DrinkService {
   }
 
   static async getOrUpdateStreak(user: User): Promise<number> {
-    if (user.streak > 0 && user.streakStart) {
-      const lastCompletedDate = user.streakStart.plus({ days: user.streak - 1 })
+    await user.loadOnce('drinkPreference')
+
+    if (user.drinkPreference.streak > 0 && user.drinkPreference.streakStart) {
+      const lastCompletedDate = user.drinkPreference.streakStart.plus({
+        days: user.drinkPreference.streak - 1,
+      })
       const today = DateTime.now().startOf('day')
       const lastCompletedStart = lastCompletedDate.startOf('day')
       const diffDays = today.diff(lastCompletedStart, 'days').days
 
       if (diffDays > 1) {
-        user.streak = 0
-        user.streakStart = null
-        await user.save()
+        user.drinkPreference.streak = 0
+        user.drinkPreference.streakStart = null
+        await user.drinkPreference.save()
+
         return 0
       }
-      return user.streak
+
+      return user.drinkPreference.streak
     }
     return 0
   }
@@ -118,56 +139,63 @@ export class DrinkService {
     return Math.round(beverageTarget)
   }
 
-  static calculateTargetPerInterval(user: User): number {
-    const startMinutes = timeToMinutes(user.dayStart)
-    const endMinutes = timeToMinutes(user.dayEnd)
-    const duration = endMinutes - startMinutes
-    const drinkCount = Math.floor(duration / user.intervalMinutes)
+  static async calculateTargetPerInterval(user: User): Promise<number> {
+    await user.loadOnce('profile')
+    await user.loadOnce('drinkPreference')
 
-    return Math.round(user.milliliterTarget / drinkCount)
+    const startMinutes = timeToMinutes(user.profile.dayStart)
+    const endMinutes = timeToMinutes(user.profile.dayEnd)
+    const duration = endMinutes - startMinutes
+    const drinkCount = Math.floor(duration / user.drinkPreference.intervalMinutes)
+
+    return Math.round(user.drinkPreference.targetMl / drinkCount)
   }
 
   static async logDrink(user: User, amount: number): Promise<Drink> {
+    await user.loadOnce('drinkPreference')
+
     const drink = await Drink.firstOrCreate(
       {
         userId: user.id,
         drinkDate: DateTime.now().toSQLDate() as unknown as DateTime,
       },
       {
-        milliliter: 0,
+        totalMl: 0,
       }
     )
 
-    const oldMilliliter = drink.milliliter
-    drink.milliliter += amount
+    const oldMilliliter = drink.totalMl
+    drink.totalMl += amount
     await drink.save()
 
-    const newMilliliter = drink.milliliter
-    const targetMetBefore = oldMilliliter >= user.milliliterTarget
-    const targetMetToday = newMilliliter >= user.milliliterTarget
+    const newMilliliter = drink.totalMl
+    const targetMetBefore = oldMilliliter >= user.drinkPreference.targetMl
+    const targetMetToday = newMilliliter >= user.drinkPreference.targetMl
 
     if (targetMetToday && !targetMetBefore) {
-      if (user.streak > 0 && user.streakStart) {
-        const lastCompletedDate = user.streakStart.plus({ days: user.streak - 1 })
+      if (user.drinkPreference.streak > 0 && user.drinkPreference.streakStart) {
+        const lastCompletedDate = user.drinkPreference.streakStart.plus({
+          days: user.drinkPreference.streak - 1,
+        })
         const yesterday = DateTime.now().minus({ days: 1 }).startOf('day')
         const lastCompletedStart = lastCompletedDate.startOf('day')
         const diffDays = yesterday.diff(lastCompletedStart, 'days').days
 
         if (diffDays === 0) {
-          user.streak += 1
+          user.drinkPreference.streak += 1
         } else {
-          user.streak = 1
-          user.streakStart = DateTime.now()
+          user.drinkPreference.streak = 1
+          user.drinkPreference.streakStart = DateTime.now()
         }
       } else {
-        user.streak = 1
-        user.streakStart = DateTime.now()
+        user.drinkPreference.streak = 1
+        user.drinkPreference.streakStart = DateTime.now()
       }
-      await user.save()
+      await user.drinkPreference.save()
     }
 
     await DrinkLog.create({
-      drinkId: drink.id,
+      userId: user.id,
       amountMl: amount,
     })
 
@@ -175,27 +203,28 @@ export class DrinkService {
   }
 
   static async recordDisconnect(user: User): Promise<void> {
+    await user.loadOnce('drinkPreference')
+    await user.loadOnce('bottle')
+
     const todayStr = DateTime.now().toSQLDate()
 
     const drink = await Drink.query().where('userId', user.id).where('drinkDate', todayStr).first()
 
-    const currentMl = drink ? drink.milliliter : 0
+    const currentMl = drink ? drink.totalMl : 0
 
-    user.deviceDisconnectedAt = DateTime.now()
-    user.deviceDisconnectedMl = currentMl
+    user.bottle.disconnectedAt = DateTime.now()
+    user.bottle.disconnectedMl = currentMl
     await user.save()
   }
 
-  static async getSyncDelta(user: User): Promise<number> {
-    const todayStr = DateTime.now().toSQLDate()
+  static async getBottleDelta(user: User): Promise<number> {
+    await user.loadOnce('bottle')
 
-    const drink = await Drink.query().where('userId', user.id).where('drinkDate', todayStr).first()
+    const drink = await this.getTodayDrink(user.id)
 
-    const currentMl = drink ? drink.milliliter : 0
-
-    let delta = currentMl
-    if (user.deviceDisconnectedAt && user.deviceDisconnectedAt.hasSame(DateTime.now(), 'day')) {
-      delta = Math.max(0, currentMl - (user.deviceDisconnectedMl ?? 0))
+    let delta = drink.totalMl
+    if (user.bottle.disconnectedAt && user.bottle.disconnectedAt.hasSame(DateTime.now(), 'day')) {
+      delta = Math.max(0, drink.totalMl - (user.bottle.disconnectedMl ?? 0))
     }
 
     return delta

@@ -11,7 +11,7 @@ export class FamilyService {
     const daily = await User.query()
       .where('familyId', familyId)
       .preload('drink', (query) => {
-        query.select('milliliter')
+        query.select('total_ml')
       })
       .preload('character')
 
@@ -19,8 +19,8 @@ export class FamilyService {
       .where('familyId', familyId)
       .withAggregate('drinks', (query) => {
         query
-          .sum('milliliter')
-          .as('total_milliliter')
+          .sum('total_ml')
+          .as('weekly_ml')
           .whereBetween('drink_date', [
             DateTime.now().startOf('week').toSQLDate(),
             DateTime.now().endOf('week').toSQLDate(),
@@ -29,14 +29,14 @@ export class FamilyService {
       .preload('character')
 
     daily.sort((a, b) => {
-      const aMl = a.drink?.milliliter ?? 0
-      const bMl = b.drink?.milliliter ?? 0
+      const aMl = a.drink?.totalMl ?? 0
+      const bMl = b.drink?.totalMl ?? 0
       return bMl - aMl
     })
 
     weekly.sort((a, b) => {
-      const aMl = Number(a.$extras?.total_milliliter ?? 0)
-      const bMl = Number(b.$extras?.total_milliliter ?? 0)
+      const aMl = Number(a.$extras?.weekly_ml ?? 0)
+      const bMl = Number(b.$extras?.weekly_ml ?? 0)
       return bMl - aMl
     })
 

@@ -17,12 +17,6 @@ export default class PageController {
     })
   }
 
-  async device({ auth, inertia }: HttpContext) {
-    const data = await this.getData(auth.use('web').user!)
-
-    return inertia.render('device/index', data)
-  }
-
   private async getData(user: User) {
     const drink = await Drink.firstOrCreate(
       {
@@ -30,11 +24,11 @@ export default class PageController {
         drinkDate: DateTime.now().toSQLDate() as unknown as DateTime,
       },
       {
-        milliliter: 0,
+        totalMl: 0,
       }
     )
 
-    const calendar = await DrinkService.getWeekDrinkLogs(user.id)
+    const calendar = await DrinkService.getWeekDrinkLogs(user)
     const streak = await DrinkService.getOrUpdateStreak(user)
 
     return {

@@ -8,12 +8,14 @@ import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
 export class BottleSchema extends BaseModel {
-  static $columns = ['createdAt', 'deviceDisconnectedAt', 'id', 'updatedAt', 'userId'] as const
+  static $columns = ['createdAt', 'disconnectedAt', 'disconnectedMl', 'id', 'updatedAt', 'userId'] as const
   $columns = BottleSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
   @column.dateTime()
-  declare deviceDisconnectedAt: DateTime | null
+  declare disconnectedAt: DateTime | null
+  @column()
+  declare disconnectedMl: number | null
   @column({ isPrimary: true })
   declare id: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
