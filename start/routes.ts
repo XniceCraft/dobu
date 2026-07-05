@@ -50,7 +50,7 @@ router
 
     router
       .group(() => {
-        router.on('/').renderInertia('setting', {}).as('setting')
+        router.get('/', [controllers.Settings, 'index']).as('setting')
 
         router.get('/account', [controllers.Account, 'show']).as('setting.account')
         router.get('/birthdate', [controllers.Account, 'showBirthdate']).as('setting.birthdate')

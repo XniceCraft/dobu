@@ -14,6 +14,7 @@ import {
 } from 'lucide-react'
 
 import type { urlFor } from '@/client'
+import { SquaresFourIcon } from '@phosphor-icons/react'
 
 const menu: { label: string; icon: LucideIcon; route: Parameters<typeof urlFor>[0] }[] = [
   {
@@ -48,7 +49,7 @@ const menu: { label: string; icon: LucideIcon; route: Parameters<typeof urlFor>[
   },
 ]
 
-export default function Setting() {
+export default function Setting({ role }: { role: 'admin' | 'user' }) {
   return (
     <div className="h-screen flex flex-col relative overflow-hidden">
       <main className="flex-1 flex flex-col py-5 mx-auto w-full max-w-96">
@@ -71,6 +72,15 @@ export default function Setting() {
               </div>
             </Link>
           ))}
+          {role === 'admin' && (
+            <Link route="admin.dashboard" className="flex gap-2 items-center w-full">
+              <SquaresFourIcon className="size-4" />
+              <div className="w-full border-b flex items-center justify-between py-2">
+                <p className="text-sm font-medium">Panel Admin</p>
+                <ChevronRightIcon className="size-4" />
+              </div>
+            </Link>
+          )}
         </section>
       </main>
 

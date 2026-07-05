@@ -21,4 +21,5 @@ export const controllers = {
   Issues: () => import('#controllers/issues_controller'),
   Profile: () => import('#controllers/profile_controller'),
   Stats: () => import('#controllers/stats_controller'),
+  Settings: () => import('#controllers/settings_controller'),
 }
