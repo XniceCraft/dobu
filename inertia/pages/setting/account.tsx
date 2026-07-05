@@ -19,40 +19,40 @@ import type { urlFor } from '@/client'
 import { RulerIcon } from '@phosphor-icons/react'
 
 type PageProps = InertiaProps<{
-  user: Data.User.Variants['detailed']
+  user: Data.User.Variants['toDetailed']
 }>
 
 const accountSettingLinks: {
   icon: LucideIcon
   route: Parameters<typeof urlFor>[0] | null
-  value: (user: Data.User.Variants['detailed']) => string | null
+  value: (user: Data.User.Variants['toDetailed']) => string | null
 }[] = [
   {
     icon: CalendarIcon,
     route: 'setting.birthdate',
-    value: (user: Data.User.Variants['detailed']) =>
+    value: (user: Data.User.Variants['toDetailed']) =>
       user.profile.birthdate && formatDate(user.profile.birthdate),
   },
   {
     icon: WeightIcon,
     route: 'setting.weight',
-    value: (user: Data.User.Variants['detailed']) => `${user.profile.weight} kg`,
+    value: (user: Data.User.Variants['toDetailed']) => `${user.profile.weight} kg`,
   },
   {
     icon: RulerIcon,
     route: 'setting.height',
-    value: (user: Data.User.Variants['detailed']) => `${user.profile.height} cm`,
+    value: (user: Data.User.Variants['toDetailed']) => `${user.profile.height} cm`,
   },
   {
     icon: Clock2Icon,
     route: 'setting.days',
-    value: (user: Data.User.Variants['detailed']) =>
+    value: (user: Data.User.Variants['toDetailed']) =>
       `${user.profile.dayStart.slice(0, 5)}—${user.profile.dayEnd.slice(0, 5)}`,
   },
   {
     icon: BriefcaseBusinessIcon,
     route: 'setting.work-type',
-    value: (user: Data.User.Variants['detailed']) =>
+    value: (user: Data.User.Variants['toDetailed']) =>
       ({
         'indoor': 'Indoor',
         'semi-outdoor': 'Semi Outdoor',
@@ -61,7 +61,7 @@ const accountSettingLinks: {
   },
   {
     icon: TargetIcon,
-    value: (user: Data.User.Variants['detailed']) => `${user.drinkPreference.targetMl} ml`,
+    value: (user: Data.User.Variants['toDetailed']) => `${user.drinkPreference.targetMl} ml`,
     route: null,
   },
 ]

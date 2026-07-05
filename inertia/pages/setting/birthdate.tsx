@@ -51,7 +51,7 @@ const birthdateFormSchema = z
 export default function BirthDateSetting({
   user,
 }: InertiaProps<{
-  user: Data.User.Variants['detailed']
+  user: Data.User.Variants['toWithProfile']
 }>) {
   const router = useRouter()
 

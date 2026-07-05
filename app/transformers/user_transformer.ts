@@ -13,7 +13,16 @@ export default class UserTransformer extends BaseTransformer<User> {
     }
   }
 
-  async detailed() {
+  async toWithProfile() {
+    const obj = await this.toObject()
+
+    return {
+      ...obj,
+      profile: UserProfileTransformer.transform(this.resource.profile),
+    }
+  }
+
+  async toDetailed() {
     const obj = await this.toObject()
 
     return {

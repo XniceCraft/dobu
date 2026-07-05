@@ -25,7 +25,7 @@ const heightOptions = generateValues(100, 300, 1).map((value) => {
 export default function HeightSetting({
   user,
 }: InertiaProps<{
-  user: Data.User.Variants['detailed']
+  user: Data.User.Variants['toWithProfile']
 }>) {
   const router = useRouter()
   const { control, handleSubmit, setError, formState } = useForm<HeightSchema>({

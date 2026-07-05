@@ -24,7 +24,7 @@ const weightOptions = generateValues(10, 500, 1).map((value) => {
 export default function WeightSetting({
   user,
 }: InertiaProps<{
-  user: Data.User.Variants['detailed']
+  user: Data.User.Variants['toWithProfile']
 }>) {
   const router = useRouter()
   const { control, handleSubmit, setError, formState } = useForm<WeightSchema>({
