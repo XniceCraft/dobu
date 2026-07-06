@@ -11,8 +11,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { CharacterField } from '../field/character-field'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
+import { ImageField } from '@/components/field/image-field'
 import { Input } from '@/components/ui/input'
 import { PlusIcon } from '@phosphor-icons/react'
 import { upsertCharacterSchema, type UpsertCharacterSchema } from '@/lib/validations/character'
@@ -98,7 +98,7 @@ export function AddCharacterDialog() {
             name="image"
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <CharacterField onChange={field.onChange} />
+                <ImageField onChange={field.onChange} defaultAspectRatio={1} />
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
               </Field>
             )}

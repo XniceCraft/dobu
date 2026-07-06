@@ -10,8 +10,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { CharacterField } from '../field/character-field'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
+import { ImageField } from '@/components/field/image-field'
 import { Input } from '@/components/ui/input'
 import { updateCharacterSchema, type UpdateCharacterSchema } from '@/lib/validations/character'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -111,7 +111,11 @@ export function EditCharacterDialog({
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
                 {character && (
-                  <CharacterField onChange={field.onChange} existingImage={character.image} />
+                  <ImageField
+                    onChange={field.onChange}
+                    existingImage={character.image}
+                    defaultAspectRatio={1}
+                  />
                 )}
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
               </Field>

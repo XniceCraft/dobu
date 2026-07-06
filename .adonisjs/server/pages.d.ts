@@ -15,10 +15,9 @@ declare module '@adonisjs/inertia/types' {
     'admin/characters/_components/dialog/add-character-dialog': ExtractProps<(typeof import('../../inertia/pages/admin/characters/_components/dialog/add-character-dialog.tsx'))['default']>
     'admin/characters/_components/dialog/delete-character-dialog': ExtractProps<(typeof import('../../inertia/pages/admin/characters/_components/dialog/delete-character-dialog.tsx'))['default']>
     'admin/characters/_components/dialog/edit-character-dialog': ExtractProps<(typeof import('../../inertia/pages/admin/characters/_components/dialog/edit-character-dialog.tsx'))['default']>
-    'admin/characters/_components/field/character-field': ExtractProps<(typeof import('../../inertia/pages/admin/characters/_components/field/character-field.tsx'))['default']>
     'admin/characters/index': ExtractProps<(typeof import('../../inertia/pages/admin/characters/index.tsx'))['default']>
     'admin/dashboard/index': ExtractProps<(typeof import('../../inertia/pages/admin/dashboard/index.tsx'))['default']>
-    'auth/_components/field/avatar-field': ExtractProps<(typeof import('../../inertia/pages/auth/_components/field/avatar-field.tsx'))['default']>
+    'auth/_components/field/birthdate-field': ExtractProps<(typeof import('../../inertia/pages/auth/_components/field/birthdate-field.tsx'))['default']>
     'auth/login': ExtractProps<(typeof import('../../inertia/pages/auth/login.tsx'))['default']>
     'auth/signup': ExtractProps<(typeof import('../../inertia/pages/auth/signup.tsx'))['default']>
     'device/index': ExtractProps<(typeof import('../../inertia/pages/device/index.tsx'))['default']>

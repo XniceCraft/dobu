@@ -2,9 +2,9 @@ import { useCallback, useId } from 'react'
 import { Link, useRouter } from '@adonisjs/inertia/react'
 import { Controller, useForm } from 'react-hook-form'
 import { Head } from '@inertiajs/react'
-import { AvatarField } from './_components/field/avatar-field'
 import { BirthdateField } from './_components/field/birthdate-field'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
+import { ImageField } from '@/components/field/image-field'
 import { Input } from '@/components/ui/input'
 import { LoadingButton } from '@/components/ui/button'
 import { PasswordField } from '@/components/field/password-field'
@@ -71,7 +71,7 @@ export default function SignUp() {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel>Foto Profil</FieldLabel>
-                  <AvatarField onChange={field.onChange} />
+                  <ImageField onChange={field.onChange} defaultAspectRatio={1} />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
               )}
