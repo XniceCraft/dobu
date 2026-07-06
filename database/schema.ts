@@ -8,7 +8,14 @@ import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
 export class BottleSchema extends BaseModel {
-  static $columns = ['createdAt', 'disconnectedAt', 'disconnectedMl', 'id', 'updatedAt', 'userId'] as const
+  static $columns = [
+    'createdAt',
+    'disconnectedAt',
+    'disconnectedMl',
+    'id',
+    'updatedAt',
+    'userId',
+  ] as const
   $columns = BottleSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
@@ -56,7 +63,7 @@ export class DrinkLogSchema extends BaseModel {
   @column()
   declare amountMl: number
   @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime | null
+  declare createdAt: DateTime
   @column({ isPrimary: true })
   declare id: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
@@ -132,7 +139,18 @@ export class RememberMeTokenSchema extends BaseModel {
 }
 
 export class UserDrinkSchema extends BaseModel {
-  static $columns = ['createdAt', 'drinkCount', 'id', 'intervalMinutes', 'streak', 'streakStart', 'targetMl', 'targetPerInterval', 'updatedAt', 'userId'] as const
+  static $columns = [
+    'createdAt',
+    'drinkCount',
+    'id',
+    'intervalMinutes',
+    'streak',
+    'streakStart',
+    'targetMl',
+    'targetPerInterval',
+    'updatedAt',
+    'userId',
+  ] as const
   $columns = UserDrinkSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
@@ -157,7 +175,20 @@ export class UserDrinkSchema extends BaseModel {
 }
 
 export class UserProfileSchema extends BaseModel {
-  static $columns = ['birthdate', 'climate', 'createdAt', 'dayEnd', 'dayStart', 'gender', 'height', 'id', 'updatedAt', 'userId', 'weight', 'workType'] as const
+  static $columns = [
+    'birthdate',
+    'climate',
+    'createdAt',
+    'dayEnd',
+    'dayStart',
+    'gender',
+    'height',
+    'id',
+    'updatedAt',
+    'userId',
+    'weight',
+    'workType',
+  ] as const
   $columns = UserProfileSchema.$columns
   @column.date()
   declare birthdate: DateTime
@@ -186,7 +217,18 @@ export class UserProfileSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['avatar', 'characterId', 'createdAt', 'email', 'familyId', 'id', 'name', 'password', 'role', 'updatedAt'] as const
+  static $columns = [
+    'avatar',
+    'characterId',
+    'createdAt',
+    'email',
+    'familyId',
+    'id',
+    'name',
+    'password',
+    'role',
+    'updatedAt',
+  ] as const
   $columns = UserSchema.$columns
   @column()
   declare avatar: any | null

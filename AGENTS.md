@@ -369,6 +369,7 @@ export const updateUserValidator = vine.create(
 - No `any`. If a shape is genuinely unknown, use `unknown` and narrow.
 - Use `import type { X } from '...'` for type-only imports
 - Shared types live in `inertia/types/`
+- Prefer use function components instead of const
 
 ### B. Tailwind CSS
 

@@ -39,6 +39,8 @@ router
     router.get('/dress', [controllers.Characters, 'index']).as('dress')
     router.post('/dress', [controllers.Characters, 'update']).as('dress.update')
 
+    router.get('/share', [controllers.Shares, 'index']).as('share.index')
+
     router
       .group(() => {
         router.get('/', [controllers.Drink, 'create']).as('drink.create')

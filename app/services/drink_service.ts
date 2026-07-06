@@ -83,6 +83,16 @@ export class DrinkService {
     return drink
   }
 
+  static async getTodayDrinkLogs(userId: number): Promise<DrinkLog[]> {
+    const startOfToday = DateTime.now().startOf('day')
+    const endOfToday = DateTime.now().endOf('day')
+
+    return await DrinkLog.query()
+      .where('userId', userId)
+      .whereBetween('createdAt', [startOfToday.toSQL()!, endOfToday.toSQL()!])
+      .orderBy('createdAt', 'asc')
+  }
+
   static async getWeekDrinkLogs(user: User): Promise<Record<string, boolean>> {
     await user.loadOnce('drinkPreference')
     const target = user.drinkPreference.targetMl

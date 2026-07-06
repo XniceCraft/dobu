@@ -10,7 +10,7 @@ export default class extends BaseSchema {
       table.integer('amount_ml').unsigned().notNullable()
       table.index(['user_id', 'created_at'])
 
-      table.timestamp('created_at')
+      table.timestamp('created_at').notNullable().defaultTo(this.now())
       table.timestamp('updated_at')
     })
   }

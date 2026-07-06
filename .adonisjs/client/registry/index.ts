@@ -102,6 +102,12 @@ const routes = {
     tokens: [{"old":"/dress","type":0,"val":"dress","end":""}],
     types: placeholder as Registry['dress.update']['types'],
   },
+  'share.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/share',
+    tokens: [{"old":"/share","type":0,"val":"share","end":""}],
+    types: placeholder as Registry['share.index']['types'],
+  },
   'drink.create': {
     methods: ["GET","HEAD"],
     pattern: '/drink',

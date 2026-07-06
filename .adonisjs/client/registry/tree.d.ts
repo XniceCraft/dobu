@@ -30,6 +30,9 @@ export interface ApiDefinition {
   dress: typeof routes['dress'] & {
     update: typeof routes['dress.update']
   }
+  share: {
+    index: typeof routes['share.index']
+  }
   drink: {
     create: typeof routes['drink.create']
     store: typeof routes['drink.store']

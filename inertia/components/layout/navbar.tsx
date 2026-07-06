@@ -32,8 +32,10 @@ export function Navbar({ calendar }: NavbarProps) {
               <UsersRoundIcon />
             </Link>
           </Button>
-          <Button variant="ghost" size="icon">
-            <Share2Icon />
+          <Button variant="ghost" size="icon" asChild>
+            <Link route="share.index">
+              <Share2Icon />
+            </Link>
           </Button>
         </div>
       </section>

@@ -39,6 +39,11 @@ declare module '@adonisjs/inertia/types' {
     'setting/height': ExtractProps<(typeof import('../../inertia/pages/setting/height.tsx'))['default']>
     'setting/weight': ExtractProps<(typeof import('../../inertia/pages/setting/weight.tsx'))['default']>
     'setting/work-type': ExtractProps<(typeof import('../../inertia/pages/setting/work-type.tsx'))['default']>
+    'share/_components/drink-log-chart': ExtractProps<(typeof import('../../inertia/pages/share/_components/drink-log-chart.tsx'))['default']>
+    'share/_components/share-card': ExtractProps<(typeof import('../../inertia/pages/share/_components/share-card.tsx'))['default']>
+    'share/_components/thumbnail-scaler': ExtractProps<(typeof import('../../inertia/pages/share/_components/thumbnail-scaler.tsx'))['default']>
+    'share/_lib/card': ExtractProps<(typeof import('../../inertia/pages/share/_lib/card.ts'))['default']>
+    'share/index': ExtractProps<(typeof import('../../inertia/pages/share/index.tsx'))['default']>
     'stats/index': ExtractProps<(typeof import('../../inertia/pages/stats/index.tsx'))['default']>
   }
 }

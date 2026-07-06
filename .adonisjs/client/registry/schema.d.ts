@@ -199,6 +199,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/characters_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'share.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/share'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/shares_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/shares_controller').default['index']>>>
+    }
+  }
   'drink.create': {
     methods: ["GET","HEAD"]
     pattern: '/drink'
