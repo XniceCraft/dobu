@@ -132,6 +132,18 @@ const routes = {
     tokens: [{"old":"/setting","type":0,"val":"setting","end":""}],
     types: placeholder as Registry['setting']['types'],
   },
+  'setting.bug': {
+    methods: ["GET","HEAD"],
+    pattern: '/setting/bug',
+    tokens: [{"old":"/setting/bug","type":0,"val":"setting","end":""},{"old":"/setting/bug","type":0,"val":"bug","end":""}],
+    types: placeholder as Registry['setting.bug']['types'],
+  },
+  'setting.bug.store': {
+    methods: ["POST"],
+    pattern: '/setting/bug',
+    tokens: [{"old":"/setting/bug","type":0,"val":"setting","end":""},{"old":"/setting/bug","type":0,"val":"bug","end":""}],
+    types: placeholder as Registry['setting.bug.store']['types'],
+  },
   'setting.account': {
     methods: ["GET","HEAD"],
     pattern: '/setting/account',

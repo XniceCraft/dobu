@@ -41,6 +41,9 @@ export interface ApiDefinition {
     index: typeof routes['stats.index']
   }
   setting: typeof routes['setting'] & {
+    bug: typeof routes['setting.bug'] & {
+      store: typeof routes['setting.bug.store']
+    }
     account: typeof routes['setting.account'] & {
       update: typeof routes['setting.account.update']
     }

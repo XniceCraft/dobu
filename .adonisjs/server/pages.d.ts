@@ -35,6 +35,7 @@ declare module '@adonisjs/inertia/types' {
     'setting/_components/form/birthdate-form': ExtractProps<(typeof import('../../inertia/pages/setting/_components/form/birthdate-form.tsx'))['default']>
     'setting/account': ExtractProps<(typeof import('../../inertia/pages/setting/account.tsx'))['default']>
     'setting/birthdate': ExtractProps<(typeof import('../../inertia/pages/setting/birthdate.tsx'))['default']>
+    'setting/bug-report': ExtractProps<(typeof import('../../inertia/pages/setting/bug-report.tsx'))['default']>
     'setting/days': ExtractProps<(typeof import('../../inertia/pages/setting/days.tsx'))['default']>
     'setting/height': ExtractProps<(typeof import('../../inertia/pages/setting/height.tsx'))['default']>
     'setting/weight': ExtractProps<(typeof import('../../inertia/pages/setting/weight.tsx'))['default']>

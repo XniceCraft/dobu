@@ -34,7 +34,7 @@ const menu: { label: string; icon: LucideIcon; route: Parameters<typeof urlFor>[
   },
   {
     label: 'Laporkan Bug',
-    route: 'home',
+    route: 'setting.bug',
     icon: BugIcon,
   },
   {

@@ -259,6 +259,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/settings_controller').default['index']>>>
     }
   }
+  'setting.bug': {
+    methods: ["GET","HEAD"]
+    pattern: '/setting/bug'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/issues_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/issues_controller').default['index']>>>
+    }
+  }
+  'setting.bug.store': {
+    methods: ["POST"]
+    pattern: '/setting/bug'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/issue').createIssueValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/issue').createIssueValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/issues_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/issues_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'setting.account': {
     methods: ["GET","HEAD"]
     pattern: '/setting/account'

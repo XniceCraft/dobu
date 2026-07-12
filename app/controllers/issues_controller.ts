@@ -4,6 +4,10 @@ import { createIssueValidator } from '#validators/issue'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class IssuesController {
+  async index({ inertia }: HttpContext) {
+    return inertia.render('setting/bug-report', {})
+  }
+
   async store({ auth, request, response }: HttpContext) {
     const user = auth.use('web').user!
     const payload = await request.validateUsing(createIssueValidator)

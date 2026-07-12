@@ -1,6 +1,7 @@
 import { memo, useMemo } from 'react'
 import { getCurrentWeekDays, toDateKey } from '@/lib/utils/calendar'
 import { cn } from '@/lib/utils'
+import { Link } from '@adonisjs/inertia/react'
 
 interface WeekCalendarProps {
   logs?: Record<string, boolean>
@@ -11,7 +12,7 @@ export const WeekCalendar = memo(function ({ logs = {} }: WeekCalendarProps) {
   const todayKey = useMemo(() => toDateKey(new Date()), [])
 
   return (
-    <div className="bg-gray-100 flex justify-around p-2 rounded-xl">
+    <Link route="stats.index" className="bg-gray-100 flex justify-around p-2 rounded-xl">
       {days.map(({ label, date, dateKey }) => {
         const drank = logs[dateKey]
         const isLogged = dateKey in logs
@@ -42,6 +43,6 @@ export const WeekCalendar = memo(function ({ logs = {} }: WeekCalendarProps) {
           </div>
         )
       })}
-    </div>
+    </Link>
   )
 })

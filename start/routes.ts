@@ -53,6 +53,8 @@ router
     router
       .group(() => {
         router.get('/', [controllers.Settings, 'index']).as('setting')
+        router.get('/bug', [controllers.Issues, 'index']).as('setting.bug')
+        router.post('/bug', [controllers.Issues, 'store']).as('setting.bug.store')
 
         router.get('/account', [controllers.Account, 'show']).as('setting.account')
         router.get('/birthdate', [controllers.Account, 'showBirthdate']).as('setting.birthdate')
