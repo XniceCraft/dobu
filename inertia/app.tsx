@@ -1,5 +1,4 @@
 import './css/app.css'
-import 'react-day-picker/src/style.css'
 import { client } from './client'
 import { hydrateRoot } from 'react-dom/client'
 import { createInertiaApp } from '@inertiajs/react'

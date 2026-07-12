@@ -47,5 +47,6 @@ declare module '@adonisjs/inertia/types' {
     'stats/index': ExtractProps<(typeof import('../../inertia/pages/stats/index.tsx'))['default']>
     'dress/index': ExtractProps<(typeof import('../../inertia/pages/dress/index.tsx'))['default']>
     'setting/index': ExtractProps<(typeof import('../../inertia/pages/setting/index.tsx'))['default']>
+    'stats/_components/drink-calendar': ExtractProps<(typeof import('../../inertia/pages/stats/_components/drink-calendar.tsx'))['default']>
   }
 }
