@@ -211,6 +211,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/shares_controller').default['index']>>>
     }
   }
+  'leaderboard.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/leaderboard'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/leaderboard_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/leaderboard_controller').default['index']>>>
+    }
+  }
   'drink.create': {
     methods: ["GET","HEAD"]
     pattern: '/drink'

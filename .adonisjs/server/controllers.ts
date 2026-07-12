@@ -19,6 +19,7 @@ export const controllers = {
   Family: () => import('#controllers/family_controller'),
   Home: () => import('#controllers/home_controller'),
   Issues: () => import('#controllers/issues_controller'),
+  Leaderboard: () => import('#controllers/leaderboard_controller'),
   Profile: () => import('#controllers/profile_controller'),
   Settings: () => import('#controllers/settings_controller'),
   Shares: () => import('#controllers/shares_controller'),

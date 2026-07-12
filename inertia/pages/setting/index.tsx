@@ -19,7 +19,7 @@ import { SquaresFourIcon } from '@phosphor-icons/react'
 const menu: { label: string; icon: LucideIcon; route: Parameters<typeof urlFor>[0] }[] = [
   {
     label: 'Grafik dan Laporan',
-    route: 'home',
+    route: 'leaderboard.index',
     icon: ChartAreaIcon,
   },
   {

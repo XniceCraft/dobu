@@ -33,6 +33,9 @@ export interface ApiDefinition {
   share: {
     index: typeof routes['share.index']
   }
+  leaderboard: {
+    index: typeof routes['leaderboard.index']
+  }
   drink: {
     create: typeof routes['drink.create']
     store: typeof routes['drink.store']

@@ -1,11 +1,11 @@
 import { Head } from '@inertiajs/react'
 import { CharacterBackground } from '@/components/background/character-background'
+import { CharacterSelector } from './_components/character-selector'
 import { MobileNavigation } from '@/components/layout/mobile-navigation'
 import { Navbar } from '@/components/layout/navbar'
 
 import type { InertiaProps } from '@/types'
 import type { Data } from '@generated/data'
-import { CharacterSelector } from './dress/_components/character-selector'
 
 export default function DressPage({
   characters,

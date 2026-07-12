@@ -108,6 +108,12 @@ const routes = {
     tokens: [{"old":"/share","type":0,"val":"share","end":""}],
     types: placeholder as Registry['share.index']['types'],
   },
+  'leaderboard.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/leaderboard',
+    tokens: [{"old":"/leaderboard","type":0,"val":"leaderboard","end":""}],
+    types: placeholder as Registry['leaderboard.index']['types'],
+  },
   'drink.create': {
     methods: ["GET","HEAD"],
     pattern: '/drink',

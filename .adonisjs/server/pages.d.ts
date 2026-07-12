@@ -21,7 +21,6 @@ declare module '@adonisjs/inertia/types' {
     'auth/login': ExtractProps<(typeof import('../../inertia/pages/auth/login.tsx'))['default']>
     'auth/signup': ExtractProps<(typeof import('../../inertia/pages/auth/signup.tsx'))['default']>
     'device/index': ExtractProps<(typeof import('../../inertia/pages/device/index.tsx'))['default']>
-    'dress': ExtractProps<(typeof import('../../inertia/pages/dress.tsx'))['default']>
     'dress/_components/character-selector': ExtractProps<(typeof import('../../inertia/pages/dress/_components/character-selector.tsx'))['default']>
     'drink': ExtractProps<(typeof import('../../inertia/pages/drink.tsx'))['default']>
     'errors/forbidden': ExtractProps<(typeof import('../../inertia/pages/errors/forbidden.tsx'))['default']>
@@ -31,7 +30,7 @@ declare module '@adonisjs/inertia/types' {
     'family/index': ExtractProps<(typeof import('../../inertia/pages/family/index.tsx'))['default']>
     'family/invite': ExtractProps<(typeof import('../../inertia/pages/family/invite.tsx'))['default']>
     'home': ExtractProps<(typeof import('../../inertia/pages/home.tsx'))['default']>
-    'setting': ExtractProps<(typeof import('../../inertia/pages/setting.tsx'))['default']>
+    'leaderboard/index': ExtractProps<(typeof import('../../inertia/pages/leaderboard/index.tsx'))['default']>
     'setting/_components/form/birthdate-form': ExtractProps<(typeof import('../../inertia/pages/setting/_components/form/birthdate-form.tsx'))['default']>
     'setting/account': ExtractProps<(typeof import('../../inertia/pages/setting/account.tsx'))['default']>
     'setting/birthdate': ExtractProps<(typeof import('../../inertia/pages/setting/birthdate.tsx'))['default']>
@@ -46,5 +45,7 @@ declare module '@adonisjs/inertia/types' {
     'share/_lib/card': ExtractProps<(typeof import('../../inertia/pages/share/_lib/card.ts'))['default']>
     'share/index': ExtractProps<(typeof import('../../inertia/pages/share/index.tsx'))['default']>
     'stats/index': ExtractProps<(typeof import('../../inertia/pages/stats/index.tsx'))['default']>
+    'dress/index': ExtractProps<(typeof import('../../inertia/pages/dress/index.tsx'))['default']>
+    'setting/index': ExtractProps<(typeof import('../../inertia/pages/setting/index.tsx'))['default']>
   }
 }

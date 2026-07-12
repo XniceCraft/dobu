@@ -13,7 +13,7 @@ export default class CharactersController {
 
     const calendar = await DrinkService.getWeekDrinkLogs(user)
 
-    return inertia.render('dress', {
+    return inertia.render('dress/index', {
       characters: CharacterTransformer.transform(characters),
       calendar,
       userCharacter,

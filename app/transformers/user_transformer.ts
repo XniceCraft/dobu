@@ -22,6 +22,15 @@ export default class UserTransformer extends BaseTransformer<User> {
     }
   }
 
+  async toWithDrinkPreference() {
+    const obj = await this.toObject()
+
+    return {
+      ...obj,
+      drinkPreference: UserDrinkTransformer.transform(this.resource.drinkPreference),
+    }
+  }
+
   async toDetailed() {
     const obj = await this.toObject()
 

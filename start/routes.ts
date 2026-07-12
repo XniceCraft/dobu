@@ -41,6 +41,8 @@ router
 
     router.get('/share', [controllers.Shares, 'index']).as('share.index')
 
+    router.get('/leaderboard', [controllers.Leaderboard, 'index']).as('leaderboard.index')
+
     router
       .group(() => {
         router.get('/', [controllers.Drink, 'create']).as('drink.create')
