@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/chart'
 import { Card, CardContent } from '@/components/ui/card'
 import { DrinkCalendar } from './_components/drink-calendar'
+import { useQueryState, parseAsInteger } from 'nuqs'
 import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from 'recharts'
 
 import type { InertiaProps } from '@/types'
@@ -50,12 +51,10 @@ const chartConfig = {
 
 export default function StatsIndex({
   groupBy,
-  month,
   weeklyChartData,
   monthlyChartData,
   calendar,
 }: InertiaProps<{
-  month: number
   groupBy: 'month' | 'year'
   perMonthData: Data.Drink
   perYearData: Data.Drink
@@ -63,6 +62,11 @@ export default function StatsIndex({
   monthlyChartData: Array<{ month: string; total_ml: number }>
   calendar: Record<string, number>
 }>) {
+  const [month, setMonth] = useQueryState(
+    'month',
+    parseAsInteger.withDefault(new Date().getMonth() + 1)
+  )
+
   const weeklyData = weeklyChartData.map((d) => ({
     ...d,
     label: WEEKDAY_ID[d.day] ?? d.day,
@@ -72,11 +76,6 @@ export default function StatsIndex({
     ...d,
     label: MONTH_ID[d.month.slice(5)] ?? d.month,
   }))
-
-  const drinkDates = Object.keys(calendar).map((d) => new Date(d))
-
-  const now = new Date()
-  const calendarDefaultMonth = new Date(now.getFullYear(), month - 1, 1)
 
   return (
     <div className="h-screen flex flex-col relative overflow-hidden">
@@ -157,7 +156,7 @@ export default function StatsIndex({
             </TabsContent>
           </Tabs>
 
-          <DrinkCalendar drinkDates={drinkDates} defaultMonth={calendarDefaultMonth} />
+          <DrinkCalendar calendar={calendar} month={month} setMonth={setMonth} />
         </section>
       </main>
 

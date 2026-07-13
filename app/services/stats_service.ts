@@ -16,7 +16,6 @@ const WEEKDAY_NAMES = [
 type WeekdayName = (typeof WEEKDAY_NAMES)[number]
 
 export interface StatsData {
-  month: number
   groupBy: string
   perMonthData: ReturnType<typeof DrinkTransformer.transform>
   perYearData: ReturnType<typeof DrinkTransformer.transform>
@@ -25,7 +24,7 @@ export interface StatsData {
 }
 
 export class StatsService {
-  static async getStats(userId: number, month: number, groupBy: string): Promise<StatsData> {
+  static async getStats(userId: number, groupBy: string): Promise<StatsData> {
     const today = DateTime.now()
     const yearStart = today.startOf('year').toISODate()!
     const yearEnd = today.endOf('year').toISODate()!
@@ -73,7 +72,6 @@ export class StatsService {
     }))
 
     return {
-      month,
       groupBy,
       perMonthData: DrinkTransformer.transform(perMonthData),
       perYearData: DrinkTransformer.transform(perYearData),

@@ -14,8 +14,8 @@ export default class StatsController {
     const month = error || !result?.month ? today.month : result.month
     const groupBy = error || !result?.groupBy ? 'month' : result.groupBy
 
-    const stats = await StatsService.getStats(user.id, month, groupBy)
-    const calendar = await DrinkService.getCalendar(user)
+    const stats = await StatsService.getStats(user.id, groupBy)
+    const calendar = await DrinkService.getCalendar(user, month)
 
     return inertia.render('stats/index', {
       ...stats,

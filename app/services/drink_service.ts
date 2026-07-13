@@ -1,10 +1,10 @@
 import Drink from '#models/drink'
 import DrinkLog from '#models/drink_log'
+import logger from '@adonisjs/core/services/logger'
 import { DateTime } from 'luxon'
 
 import type User from '#models/user'
 import type UserProfile from '#models/user_profile'
-import app from '@adonisjs/core/services/app'
 
 interface CalculateMilliliterTargetType {
   birthdate: DateTime
@@ -101,12 +101,12 @@ export class DrinkService {
    *   - 1: Less than 100% of target
    *   - 2: 100% or more than target
    */
-  static async getCalendar(user: User): Promise<Record<string, number>> {
+  static async getCalendar(user: User, month?: number): Promise<Record<string, number>> {
     await user.loadOnce('drinkPreference')
     const target = user.drinkPreference.targetMl
 
     const today = DateTime.now()
-    const monday = today.startOf('week')
+    const monday = month ? DateTime.fromObject({ month }).startOf('month') : today.startOf('week')
 
     const rows = await Drink.query()
       .where('userId', user.id)
@@ -173,7 +173,6 @@ export class DrinkService {
     if (!params) await user.loadOnce('profile')
     await user.loadOnce('drinkPreference')
 
-    const logger = await app.container.make('logger')
     if (!params && !user.profile) {
       logger.error('Missing parameters to generate user drink: ', {
         params,
