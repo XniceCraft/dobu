@@ -31,7 +31,7 @@ const drinkSchema = z.object({
 export default function Drink({
   calendar,
 }: InertiaProps<{
-  calendar: Record<string, boolean>
+  calendar: Record<string, number>
 }>) {
   const { connected, send } = useBottle()
   const router = useRouter()

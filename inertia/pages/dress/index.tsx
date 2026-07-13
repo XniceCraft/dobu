@@ -14,7 +14,7 @@ export default function DressPage({
 }: InertiaProps<{
   characters: Data.Character[]
   userCharacter: number | null
-  calendar: Record<string, boolean>
+  calendar: Record<string, number>
 }>) {
   return (
     <>

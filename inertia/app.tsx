@@ -6,6 +6,7 @@ import { resolvePageComponent } from '@adonisjs/inertia/helpers'
 import { BottleProvider } from './providers/bottle-provider'
 import { TuyauProvider } from '@adonisjs/inertia/react'
 import { Toaster } from 'react-hot-toast'
+import { NuqsAdapter } from 'nuqs/adapters/react'
 
 const appName = import.meta.env.VITE_APP_NAME
 
@@ -24,7 +25,9 @@ createInertiaApp({
     hydrateRoot(
       el,
       <TuyauProvider client={client}>
-        <App {...props} />
+        <NuqsAdapter>
+          <App {...props} />
+        </NuqsAdapter>
         <Toaster position="top-right" />
       </TuyauProvider>
     )

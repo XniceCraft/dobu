@@ -6,7 +6,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 export default class DrinksController {
   async create({ inertia, auth }: HttpContext) {
     const user = auth.use('web').user!
-    const calendar = await DrinkService.getWeekDrinkLogs(user)
+    const calendar = await DrinkService.getCalendar(user)
 
     return inertia.render('drink', { calendar })
   }

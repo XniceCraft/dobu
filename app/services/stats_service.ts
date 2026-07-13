@@ -22,7 +22,6 @@ export interface StatsData {
   perYearData: ReturnType<typeof DrinkTransformer.transform>
   weeklyChartData: { day: WeekdayName; total_ml: number }[]
   monthlyChartData: { month: string; total_ml: number }[]
-  calendarData: Record<string, boolean>
 }
 
 export class StatsService {
@@ -45,28 +44,13 @@ export class StatsService {
         today.endOf('year').toISODate(),
       ])
 
-    const monthStart = today.set({ month }).startOf('month')
-    const monthEnd = today.set({ month }).endOf('month')
-
-    const monthRows = await Drink.query()
-      .where('userId', userId)
-      .whereBetween('drinkDate', [monthStart.toISODate()!, monthEnd.toISODate()!])
-      .select('drinkDate', 'totalMl')
-
     const totals = new Map<WeekdayName, number>()
-    const calendarData: Record<string, boolean> = {}
-    for (const row of monthRows) {
-      const name = WEEKDAY_NAMES[row.drinkDate.weekday - 1]
-      totals.set(name, (totals.get(name) ?? 0) + row.totalMl)
-      calendarData[row.drinkDate.toISODate()!] = true
-    }
 
     const weeklyChartData = WEEKDAY_NAMES.map((day) => ({
       day,
       total_ml: totals.get(day) ?? 0,
     }))
 
-    // Monthly chart — aggregate per calendar month for the year
     const monthSkeleton = new Map<string, number>(
       Array.from({ length: 12 }, (_, i) => [today.set({ month: i + 1 }).toFormat('yyyy-MM'), 0])
     )
@@ -95,7 +79,6 @@ export class StatsService {
       perYearData: DrinkTransformer.transform(perYearData),
       weeklyChartData,
       monthlyChartData,
-      calendarData,
     }
   }
 }

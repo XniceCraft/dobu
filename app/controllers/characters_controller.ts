@@ -11,7 +11,7 @@ export default class CharactersController {
     const characters = await Character.query().orderBy('createdAt', 'desc')
     const userCharacter = auth.use('web').user!.characterId
 
-    const calendar = await DrinkService.getWeekDrinkLogs(user)
+    const calendar = await DrinkService.getCalendar(user)
 
     return inertia.render('dress/index', {
       characters: CharacterTransformer.transform(characters),

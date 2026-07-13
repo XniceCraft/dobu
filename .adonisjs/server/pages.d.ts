@@ -22,6 +22,7 @@ declare module '@adonisjs/inertia/types' {
     'auth/signup': ExtractProps<(typeof import('../../inertia/pages/auth/signup.tsx'))['default']>
     'device/index': ExtractProps<(typeof import('../../inertia/pages/device/index.tsx'))['default']>
     'dress/_components/character-selector': ExtractProps<(typeof import('../../inertia/pages/dress/_components/character-selector.tsx'))['default']>
+    'dress/index': ExtractProps<(typeof import('../../inertia/pages/dress/index.tsx'))['default']>
     'drink': ExtractProps<(typeof import('../../inertia/pages/drink.tsx'))['default']>
     'errors/forbidden': ExtractProps<(typeof import('../../inertia/pages/errors/forbidden.tsx'))['default']>
     'errors/not-found': ExtractProps<(typeof import('../../inertia/pages/errors/not-found.tsx'))['default']>
@@ -37,6 +38,7 @@ declare module '@adonisjs/inertia/types' {
     'setting/bug-report': ExtractProps<(typeof import('../../inertia/pages/setting/bug-report.tsx'))['default']>
     'setting/days': ExtractProps<(typeof import('../../inertia/pages/setting/days.tsx'))['default']>
     'setting/height': ExtractProps<(typeof import('../../inertia/pages/setting/height.tsx'))['default']>
+    'setting/index': ExtractProps<(typeof import('../../inertia/pages/setting/index.tsx'))['default']>
     'setting/weight': ExtractProps<(typeof import('../../inertia/pages/setting/weight.tsx'))['default']>
     'setting/work-type': ExtractProps<(typeof import('../../inertia/pages/setting/work-type.tsx'))['default']>
     'share/_components/drink-log-chart': ExtractProps<(typeof import('../../inertia/pages/share/_components/drink-log-chart.tsx'))['default']>
@@ -44,9 +46,7 @@ declare module '@adonisjs/inertia/types' {
     'share/_components/thumbnail-scaler': ExtractProps<(typeof import('../../inertia/pages/share/_components/thumbnail-scaler.tsx'))['default']>
     'share/_lib/card': ExtractProps<(typeof import('../../inertia/pages/share/_lib/card.ts'))['default']>
     'share/index': ExtractProps<(typeof import('../../inertia/pages/share/index.tsx'))['default']>
-    'stats/index': ExtractProps<(typeof import('../../inertia/pages/stats/index.tsx'))['default']>
-    'dress/index': ExtractProps<(typeof import('../../inertia/pages/dress/index.tsx'))['default']>
-    'setting/index': ExtractProps<(typeof import('../../inertia/pages/setting/index.tsx'))['default']>
     'stats/_components/drink-calendar': ExtractProps<(typeof import('../../inertia/pages/stats/_components/drink-calendar.tsx'))['default']>
+    'stats/index': ExtractProps<(typeof import('../../inertia/pages/stats/index.tsx'))['default']>
   }
 }

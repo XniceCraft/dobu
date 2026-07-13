@@ -93,7 +93,15 @@ export class DrinkService {
       .orderBy('createdAt', 'asc')
   }
 
-  static async getWeekDrinkLogs(user: User): Promise<Record<string, boolean>> {
+  /**
+   * Generates a calendar of the user's drink totals for the current week.
+   * @param user The user to generate the calendar for.
+   * @returns Promise<Record<string, number>> A map of dates to drink totals.
+   *   - 0: No drink at all
+   *   - 1: Less than 100% of target
+   *   - 2: 100% or more than target
+   */
+  static async getCalendar(user: User): Promise<Record<string, number>> {
     await user.loadOnce('drinkPreference')
     const target = user.drinkPreference.targetMl
 
@@ -114,7 +122,7 @@ export class DrinkService {
       Array.from({ length: today.diff(monday, 'days').days + 1 }, (_, i) => {
         const dateKey = monday.plus({ days: i }).toISODate()!
         const total = totalsByDate.get(dateKey) ?? 0
-        return [dateKey, total >= target]
+        return [dateKey, +(0 < target) + +(target <= total)]
       })
     )
   }

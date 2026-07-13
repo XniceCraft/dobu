@@ -8,7 +8,7 @@ export default class HomeController {
     await user.load('drinkPreference')
 
     const drink = await DrinkService.getTodayDrink(user.id)
-    const calendar = await DrinkService.getWeekDrinkLogs(user)
+    const calendar = await DrinkService.getCalendar(user)
     const streak = await DrinkService.getOrUpdateStreak(user)
 
     return inertia.render('home', {

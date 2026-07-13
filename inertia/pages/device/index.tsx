@@ -25,7 +25,7 @@ export default function DevicePage({
   targetPerInterval: number
   drinkCount: number
   streak: number
-  calendar: Record<string, boolean>
+  calendar: Record<string, number>
 }>) {
   const { connect, bottle, connected, initializeData } = useBottle()
 

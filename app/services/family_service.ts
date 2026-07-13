@@ -64,7 +64,6 @@ export class FamilyService {
       return
     }
 
-    // Owner leaving: check member count, transfer ownership or delete family
     const members = await User.query().where('familyId', user.familyId!).count('* as total')
     await user.merge({ familyId: null }).save()
 

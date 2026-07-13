@@ -53,7 +53,7 @@ export default function StatsIndex({
   month,
   weeklyChartData,
   monthlyChartData,
-  calendarData,
+  calendar,
 }: InertiaProps<{
   month: number
   groupBy: 'month' | 'year'
@@ -61,7 +61,7 @@ export default function StatsIndex({
   perYearData: Data.Drink
   weeklyChartData: Array<{ day: string; total_ml: number }>
   monthlyChartData: Array<{ month: string; total_ml: number }>
-  calendarData: Record<string, boolean>
+  calendar: Record<string, number>
 }>) {
   const weeklyData = weeklyChartData.map((d) => ({
     ...d,
@@ -73,7 +73,7 @@ export default function StatsIndex({
     label: MONTH_ID[d.month.slice(5)] ?? d.month,
   }))
 
-  const drinkDates = Object.keys(calendarData).map((d) => new Date(d))
+  const drinkDates = Object.keys(calendar).map((d) => new Date(d))
 
   const now = new Date()
   const calendarDefaultMonth = new Date(now.getFullYear(), month - 1, 1)

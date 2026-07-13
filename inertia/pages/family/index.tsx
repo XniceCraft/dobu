@@ -19,7 +19,7 @@ export default function Family({
     daily: Data.User.Variants['toRanked'][]
     weekly: Data.User.Variants['toRanked'][]
   } | null
-  calendar: Record<string, boolean>
+  calendar: Record<string, number>
 }>) {
   return (
     <div className="h-screen flex flex-col relative overflow-hidden">

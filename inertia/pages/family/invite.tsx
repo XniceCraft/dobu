@@ -15,7 +15,7 @@ export default function InviteFamily({
   calendar,
   slug,
 }: InertiaProps<{
-  calendar: Record<string, boolean>
+  calendar: Record<string, number>
   slug: string
 }>) {
   const inviteLink = `${import.meta.env.VITE_APP_URL}${urlFor('family.join', { slug })}`

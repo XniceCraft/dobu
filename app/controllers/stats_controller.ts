@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
 import { queryStatsValidator } from '#validators/stats'
+import { DrinkService } from '#services/drink_service'
 import { StatsService } from '#services/stats_service'
 
 import type { HttpContext } from '@adonisjs/core/http'
@@ -14,7 +15,11 @@ export default class StatsController {
     const groupBy = error || !result?.groupBy ? 'month' : result.groupBy
 
     const stats = await StatsService.getStats(user.id, month, groupBy)
+    const calendar = await DrinkService.getCalendar(user)
 
-    return inertia.render('stats/index', stats)
+    return inertia.render('stats/index', {
+      ...stats,
+      calendar,
+    })
   }
 }

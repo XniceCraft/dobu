@@ -19,7 +19,7 @@ export default function Home({
   intervalMinutes,
 }: InertiaProps<{
   streak: number
-  calendar: Record<string, boolean>
+  calendar: Record<string, number>
   targetPerInterval: number
   targetMl: number
   todayDrinkMl: number

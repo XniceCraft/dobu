@@ -3,10 +3,11 @@ import { createInertiaApp } from '@inertiajs/react'
 import { resolvePageComponent } from '@adonisjs/inertia/helpers'
 import { TuyauProvider } from '@adonisjs/inertia/react'
 import { BottleProvider } from './providers/bottle-provider'
+import { NuqsAdapter } from 'nuqs/adapters/react'
 import { Toaster } from 'react-hot-toast'
 import ReactDOMServer from 'react-dom/server'
 
-export default function render(page: any) {
+export default function render(page: Parameters<typeof createInertiaApp>[0]['page']) {
   return createInertiaApp({
     page,
     render: ReactDOMServer.renderToString,
@@ -22,7 +23,9 @@ export default function render(page: any) {
     setup: ({ App, props }) => {
       return (
         <TuyauProvider client={client}>
-          <App {...props} />
+          <NuqsAdapter>
+            <App {...props} />
+          </NuqsAdapter>
           <Toaster position="top-right" />
         </TuyauProvider>
       )

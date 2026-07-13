@@ -4,8 +4,14 @@ import { cn } from '@/lib/utils'
 import { Link } from '@adonisjs/inertia/react'
 
 interface WeekCalendarProps {
-  logs?: Record<string, boolean>
+  logs?: Record<string, number>
 }
+
+const styles = [
+  'bg-red-200 text-red-900',
+  'bg-orange-200 text-orange-900',
+  'bg-blue-200 text-blue-900',
+]
 
 export const WeekCalendar = memo(function ({ logs = {} }: WeekCalendarProps) {
   const days = useMemo(() => getCurrentWeekDays(), [])
@@ -31,11 +37,7 @@ export const WeekCalendar = memo(function ({ logs = {} }: WeekCalendarProps) {
             <span
               className={cn(
                 'size-7 rounded-full flex items-center justify-center text-xs font-bold',
-                isLogged
-                  ? drank
-                    ? 'bg-blue-200 text-blue-900'
-                    : 'bg-red-200 text-red-900'
-                  : 'bg-gray-200 text-gray-400'
+                isLogged ? styles[drank] : 'bg-gray-200 text-gray-400'
               )}
             >
               {date.getDate()}

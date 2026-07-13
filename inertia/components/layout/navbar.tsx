@@ -7,7 +7,7 @@ import { WeekCalendar } from './week-calendar'
 import type { InertiaProps } from '@/types'
 
 interface NavbarProps {
-  calendar?: Record<string, boolean>
+  calendar?: Record<string, number>
 }
 
 export function Navbar({ calendar }: NavbarProps) {
